@@ -1,4 +1,5 @@
 """Views for calendar app."""
+from django.urls import reverse
 
 from .models import Event
 from .forms import EventCreateForm
@@ -16,6 +17,9 @@ class EventCreateView(CreateView):
     model = Event
     form_class = EventCreateForm
     template_name = 'event_form.html'
+
+    def get_success_url(self):
+        return reverse('index')
 
 
 class EventListView(ListView):
