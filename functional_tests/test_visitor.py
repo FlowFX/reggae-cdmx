@@ -22,7 +22,9 @@ def test_olivia_wants_to_know_where_the_party_is(live_server, browser):
 
     # It shows all the events and their titles
     assert len(rows) == 10
-    assert event.title in [row.text for row in rows]
+    # assert event.title in [row.text for row in rows]
+    assert event.title in browser.page_source
+    assert event.date.strftime("%d/%m") in browser.page_source
 
     # She clicks on the first event
     old_url = browser.current_url
@@ -37,4 +39,7 @@ def test_olivia_wants_to_know_where_the_party_is(live_server, browser):
 
     # The detail page shows title, data and more stuff of the event
     assert event.title in browser.page_source
-    assert event.date in browser.page_source
+    assert event.date.strftime("%d/%m") in browser.page_source
+
+    # Olivia clicks the 'back' button to return to the calendar view
+    browser.find_element_by_class_name('back-btn').click()
