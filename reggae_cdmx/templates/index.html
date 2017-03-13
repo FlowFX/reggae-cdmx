@@ -11,8 +11,8 @@
     {% for event in events %}
     <tr class="event">
       <th scope="row">{{ event.date|date:"d/m"  }}</th>
-      <td><a href="{{ event.get_absolute_url }}">{{ event.title }}</a></td>
-      <!--<td>Otto</td>-->
+      <td><a class="show_event" href="{{ event.get_absolute_url }}">{{ event.title }}</a></td>
+      <td><a class="delete_event" href="{% url 'delete' event.id %}">borrar</a></td>
       <!--<td>@mdo</td>-->
     </tr>
     {% endfor %}

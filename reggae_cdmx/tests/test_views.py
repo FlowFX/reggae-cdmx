@@ -6,7 +6,7 @@ from mock import patch
 
 from reggae_cdmx.factories import EventFactory
 
-from reggae_cdmx.views import EventCreateView, EventDetailView, EventListView
+from reggae_cdmx.views import EventCreateView, EventDeleteView, EventDetailView, EventListView
 
 
 def test_index_view_with_no_events(rf):
@@ -54,7 +54,13 @@ def test_index_view_displays_event_titles(rf):
         assert events[0].date.strftime("%d/%m") in content
         assert events[0].get_absolute_url() in content
 
+        create_url = reverse('create')
         assert 'add_event' in content
+        assert create_url in content
+
+        delete_url = reverse('delete', args=[str(events[0].id)])
+        assert 'delete_event' in content
+        assert delete_url in content
 
 
 def test_event_detail_view(rf):
@@ -85,3 +91,18 @@ def test_event_create_view(rf):
     response.render()
     assert 'submit' in response.rendered_content
 
+
+def test_event_delete_view(rf):
+    event = EventFactory.build()
+
+    with patch.object(EventDeleteView, 'get_object', return_value=event):
+
+        url = reverse('delete', args=[str(event.id)])
+        request = rf.get(url)
+
+        response = EventDeleteView.as_view()(request)
+
+        assert response.status_code == 200
+        assert response.template_name[0] == 'event_confirm_delete.html'
+
+        response.render()

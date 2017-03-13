@@ -24,4 +24,3 @@ class EventCreateForm(forms.ModelForm):
         self.helper = FormHelper()
 
         self.helper.add_input(Submit('submit', 'Submit'))
-
