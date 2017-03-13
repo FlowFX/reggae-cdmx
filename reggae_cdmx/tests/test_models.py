@@ -1,7 +1,8 @@
 """Unit tests for calendar models."""
 import pytest
 
-from reggae_cdmx.models import Event
+from ..models import Event
+from ..factories import EventFactory
 
 
 @pytest.mark.django_db
@@ -9,7 +10,7 @@ def test_event_factory():
     # GIVEN an empty database
     assert Event.objects.count() == 0
 
-    event = Event()
+    event = EventFactory.build()
     event.title = 'five'
     event.save()
 

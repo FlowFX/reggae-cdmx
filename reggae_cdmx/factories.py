@@ -1,11 +1,14 @@
-"""Model factories for calendar models."""
+"""Model factories for calendar app."""
 
 from reggae_cdmx.models import Event
 
+import factory
 from factory.django import DjangoModelFactory
-from faker import Faker
-fake = Faker()
 
+
+def faker(provider):
+    """Create localized factory.Faker function."""
+    return factory.Faker(provider, locale='es_MX')
 
 
 class EventFactory(DjangoModelFactory):
@@ -14,5 +17,6 @@ class EventFactory(DjangoModelFactory):
     class Meta:  # noqa
         model = Event
 
-    title = fake.sentence(nb_words=4, variable_nb_words=True)
+    id = factory.Sequence(lambda n: n+1)
+    title = faker('name')
 
