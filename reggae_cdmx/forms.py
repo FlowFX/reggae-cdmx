@@ -1,3 +1,4 @@
+"""Forms definitions."""
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
@@ -7,8 +8,9 @@ from django import forms
 
 
 class EventCreateForm(forms.ModelForm):
+    """Form for EventCreateView."""
 
-    class Meta:
+    class Meta:  # noqa
         model = Event
         fields = (
             'title',
@@ -20,6 +22,7 @@ class EventCreateForm(forms.ModelForm):
     }
 
     def __init__(self, *args, **kwargs):
+        """Add Crispy Forms FormHelper."""
         super(EventCreateForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
 

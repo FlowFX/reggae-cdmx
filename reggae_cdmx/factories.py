@@ -21,4 +21,3 @@ class EventFactory(DjangoModelFactory):
     # title = faker('name')
     title = faker('sentence', nb_words=4)
     date = faker('date_object')
-

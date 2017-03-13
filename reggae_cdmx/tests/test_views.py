@@ -1,12 +1,12 @@
 """Unit tests for calendar views."""
 from django.urls import reverse
 
-from reggae_cdmx.utils import assertRegex
 from mock import patch
 
 from reggae_cdmx.factories import EventFactory
 
-from reggae_cdmx.views import EventCreateView, EventDeleteView, EventDetailView, EventListView
+from reggae_cdmx.views import (EventCreateView, EventDeleteView,
+                               EventDetailView, EventListView)
 
 
 def test_index_view_with_no_events(rf):
