@@ -35,4 +35,6 @@ def test_olivia_wants_to_know_where_the_party_is(live_server, browser):
     assert old_url != new_url
     # assertRegex(current_url, '')
 
+    # The detail page shows title, data and more stuff of the event
     assert event.title in browser.page_source
+    assert event.date in browser.page_source

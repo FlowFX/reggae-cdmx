@@ -8,7 +8,7 @@
   <tbody>
     {% for event in events %}
     <tr class="event">
-      <!--<th scope="row">1</th>-->
+      <th scope="row">{{ event.date }}</th>
       <td><a href="{{ event.get_absolute_url }}">{{ event.title }}</a></td>
       <!--<td>Otto</td>-->
       <!--<td>@mdo</td>-->

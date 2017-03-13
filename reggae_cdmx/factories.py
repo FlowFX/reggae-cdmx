@@ -19,4 +19,5 @@ class EventFactory(DjangoModelFactory):
 
     id = factory.Sequence(lambda n: n+1)
     title = faker('name')
+    date = faker('date_object')
 
