@@ -6,9 +6,9 @@ import factory
 from factory.django import DjangoModelFactory
 
 
-def faker(provider):
+def faker(provider, **kwargs):
     """Create localized factory.Faker function."""
-    return factory.Faker(provider, locale='es_MX')
+    return factory.Faker(provider, locale='es_MX', **kwargs)
 
 
 class EventFactory(DjangoModelFactory):
@@ -18,6 +18,7 @@ class EventFactory(DjangoModelFactory):
         model = Event
 
     id = factory.Sequence(lambda n: n+1)
-    title = faker('name')
+    # title = faker('name')
+    title = faker('sentence', nb_words=4)
     date = faker('date_object')
 
