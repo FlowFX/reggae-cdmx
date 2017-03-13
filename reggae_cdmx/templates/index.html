@@ -4,6 +4,8 @@
 
 <h1>Reggae CDMX</h1>
 
+<a href="{% url 'create' %}"><button id="add_event" type="button" class="btn btn-secondary">Agregar evento</button></a>
+
 <table id="events" class="table">
   <tbody>
     {% for event in events %}

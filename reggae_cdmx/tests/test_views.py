@@ -6,7 +6,7 @@ from mock import patch
 
 from reggae_cdmx.factories import EventFactory
 
-from reggae_cdmx.views import EventDetailView, EventListView
+from reggae_cdmx.views import EventCreateView, EventDetailView, EventListView
 
 
 def test_index_view_with_no_events(rf):
@@ -54,6 +54,8 @@ def test_index_view_displays_event_titles(rf):
         assert events[0].date.strftime("%d/%m") in content
         assert events[0].get_absolute_url() in content
 
+        assert 'add_event' in content
+
 
 def test_event_detail_view(rf):
     event = EventFactory.build()
@@ -70,3 +72,16 @@ def test_event_detail_view(rf):
 
         content = response.rendered_content
         assert event.title in content
+
+
+def test_event_create_view(rf):
+
+    url = reverse('create')
+
+    request = rf.get(url)
+    response = EventCreateView.as_view()(request)
+    assert response.template_name[0] == 'event_form.html'
+
+    response.render()
+    assert 'submit' in response.rendered_content
+
