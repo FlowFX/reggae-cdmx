@@ -1,0 +1,10 @@
+[run]
+source = reggae_cdmx
+branch = True
+omit = 
+	# omit all tests
+	*/tests/*
+	# omit functional tests
+	functional_tests/*
+	# omit migrations
+	*/migrations/*
