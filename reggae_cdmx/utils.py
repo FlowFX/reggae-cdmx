@@ -1,4 +1,4 @@
-"""Utility functions for the calendar app."""
+"""Utility functions."""
 
 import re
 
@@ -9,4 +9,4 @@ def assertRegex(text, regex):
     p = re.compile(regex)
     m = p.match(text)
 
-    assert m is not None, text + " does not match " + regex
+    assert m is not None, '{0} does not match {1}'.format(text, regex)
