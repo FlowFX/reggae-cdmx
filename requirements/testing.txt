@@ -1,14 +1,5 @@
-# Django
-Django==1.10.6
-django-crispy-forms==1.6.1
-django-extensions==1.7.7
-bpython==0.16
-django-debug-toolbar==1.7
-
-# Frontend
-django-compressor==2.1.1
-django-libsass==0.7
-csscompressor==0.9.4
+# Testing requirements
+-r common.txt
 
 # pytest
 pytest==3.0.7

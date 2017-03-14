@@ -1,0 +1,11 @@
+# Common requirements
+
+# Django
+Django==1.10.6
+django-crispy-forms==1.6.1
+django-extensions==1.7.7
+
+# Frontend
+django-compressor==2.1.1
+django-libsass==0.7
+csscompressor==0.9.4
