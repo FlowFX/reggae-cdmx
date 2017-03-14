@@ -2,9 +2,9 @@
 from django.urls import reverse
 
 from .models import Event
-from .forms import EventCreateForm
+from .forms import EventForm
 
-from django.views.generic import CreateView, DeleteView, DetailView, ListView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 
 class EventDetailView(DetailView):
@@ -19,7 +19,19 @@ class EventCreateView(CreateView):
     """CreateView for the Event model."""
 
     model = Event
-    form_class = EventCreateForm
+    form_class = EventForm
+    template_name = 'event_form.html'
+
+    def get_success_url(self):
+        """Return the home page."""
+        return reverse('index')
+
+
+class EventUpdateView(UpdateView):
+    """UpdateView for the Event model."""
+
+    model = Event
+    form_class = EventForm
     template_name = 'event_form.html'
 
     def get_success_url(self):

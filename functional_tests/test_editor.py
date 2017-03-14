@@ -47,3 +47,31 @@ def test_jahshua_deletes_an_event(live_server, browser):
     table = browser.find_element_by_id('events')
     rows = table.find_elements_by_tag_name('tr')
     assert len(rows) == 0
+
+
+def test_jahshua_edits_an_event(live_server, browser):
+    """Test editing an existing event."""
+
+    # GIVEN one event in the database
+    event = EventFactory.create()
+
+    # WHEN loading the home page
+    browser.get(live_server.url)
+    assert event.title in browser.page_source
+
+    # AND clicking the "edit" button of the first event
+    browser.find_element_by_class_name('edit_event').click()
+
+    # THEN 
+    browser.find_element_by_id('id_title').clear()
+    browser.find_element_by_id('id_title').send_keys('Xochimilco goes Large')
+
+    browser.find_element_by_id('submit-id-submit').click()
+
+    # And gets back to the calendar view
+    assertRegex(browser.current_url, '.+/$')
+
+    assert event.title not in browser.page_source
+    assert 'Xochimilco' in browser.page_source
+
+

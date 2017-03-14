@@ -1,6 +1,6 @@
 import pytest
 
-from ..forms import EventCreateForm
+from ..forms import EventForm
 
 from datetime import date
 
@@ -13,7 +13,7 @@ from datetime import date
     ])
 def test_event_create_form(title, date, validity):
     """Test form validation for RentForm."""
-    form = EventCreateForm(data={
+    form = EventForm(data={
         'title': title,
         'date': date,
     })

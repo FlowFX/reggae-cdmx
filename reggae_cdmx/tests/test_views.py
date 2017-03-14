@@ -6,7 +6,8 @@ from mock import patch
 from reggae_cdmx.factories import EventFactory
 
 from reggae_cdmx.views import (EventCreateView, EventDeleteView,
-                               EventDetailView, EventListView)
+                               EventDetailView, EventListView,
+                               EventUpdateView)
 
 
 def test_index_view_with_no_events(rf):
@@ -90,6 +91,22 @@ def test_event_create_view(rf):
 
     response.render()
     assert 'submit' in response.rendered_content
+
+
+def test_event_update_view(rf):
+    event = EventFactory.build()
+
+    with patch.object(EventUpdateView, 'get_object', return_value=event):
+
+        url = reverse('update', args=[str(event.id)])
+        request = rf.get(url)
+
+        response = EventUpdateView.as_view()(request)
+
+        assert response.status_code == 200
+        assert response.template_name[0] == 'event_form.html'
+
+        response.render()
 
 
 def test_event_delete_view(rf):
