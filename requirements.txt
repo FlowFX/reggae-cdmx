@@ -19,6 +19,11 @@ factory-boy==2.8.1
 mock==2.0.0
 selenium==3.3.0
 
+# coverage
+coverage==4.0.3
+pytest-cov==2.4.0
+python-coveralls==2.9.0
+
 # Flake8
 flake8==3.3.0
 flake8-docstrings==1.0.3
