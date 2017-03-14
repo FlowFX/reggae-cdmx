@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'debug_toolbar',
+    'compressor',
     'crispy_forms',
     'reggae_cdmx',
 ]
@@ -91,8 +92,23 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+]
+
+COMPRESS_PRECOMPILERS = (
+    ('text/x-scss', 'django_libsass.SassCompiler'),
+)
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '.static'))
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, '.media'))
+
+
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

@@ -93,3 +93,7 @@ db.sqlite3
 
 # PyCharm
 .idea
+
+# Static and media files
+.static
+.media
