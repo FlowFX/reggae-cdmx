@@ -38,7 +38,7 @@ def test_index_view_with_events(rf):
         assert response.template_name[0] == 'index.html'
 
 
-def test_index_view_displays_event_titles(rf):
+def test_index_view_displays_event_titles_and_venues(rf):
     events = EventFactory.build_batch(5)
 
     with patch.object(EventListView, 'get_queryset', return_value=events):
@@ -52,6 +52,7 @@ def test_index_view_displays_event_titles(rf):
 
         # AND the event titles are shown and linked
         assert events[0].title in content
+        assert events[0].venue in content
         assert events[0].date.strftime("%d/%m") in content
         assert events[0].get_absolute_url() in content
 

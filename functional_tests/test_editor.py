@@ -18,7 +18,8 @@ def test_jahshua_wants_to_add_an_event(live_server, browser):
     assertRegex(browser.current_url, '.+/new$')
 
     # He enters the data
-    browser.find_element_by_id('id_title').send_keys('Hot and wet in Xochimilco')
+    browser.find_element_by_id('id_title').send_keys('Hot and loud in Xochimilco')
+    browser.find_element_by_id('id_venue').send_keys('Kaliman Bar')
     # browser.find_element_by_id('id_date').send_keys('30/08/2017')
     browser.find_element_by_id('submit-id-submit').click()
 
@@ -31,8 +32,11 @@ def test_jahshua_wants_to_add_an_event(live_server, browser):
     rows = table.find_elements_by_tag_name('tr')
     assert len(rows) == 1
 
+    assert 'Xochimilco' in browser.page_source
+    assert 'Kaliman' in browser.page_source
 
-def test_jahshua_deletes_an_event(live_server, browser):
+
+def test_jahshua_deletes_an_event_from_the_home_page(live_server, browser):
 
     event = EventFactory.create()
 
@@ -49,7 +53,7 @@ def test_jahshua_deletes_an_event(live_server, browser):
     assert len(rows) == 0
 
 
-def test_jahshua_edits_an_event(live_server, browser):
+def test_jahshua_edits_an_event_from_the_home_page(live_server, browser):
     """Test editing an existing event."""
 
     # GIVEN one event in the database

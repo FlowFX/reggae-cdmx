@@ -15,6 +15,7 @@ class EventForm(forms.ModelForm):
         fields = (
             'title',
             'date',
+            'venue',
         )
 
     widgets = {

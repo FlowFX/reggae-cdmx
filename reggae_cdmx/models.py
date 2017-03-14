@@ -12,6 +12,7 @@ class Event(models.Model):
 
     title = models.CharField(max_length=255)
     date = models.DateField(default=datetime.date.today)
+    venue = models.CharField(max_length=255)
 
     def get_absolute_url(self):
         """Return the event's detail page URL."""

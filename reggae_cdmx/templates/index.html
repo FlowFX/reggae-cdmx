@@ -11,7 +11,9 @@
     {% for event in events %}
     <tr class="event">
       <th scope="row">{{ event.date|date:"d/m"  }}</th>
-      <td><a class="show_event" href="{{ event.get_absolute_url }}">{{ event.title }}</a></td>
+      <td><a class="show_event" href="{{ event.get_absolute_url }}">{{ event.title }}</a>,
+          {{ event.venue }}
+      </td>
       <td>
         <a class="edit_event" href="{% url 'update' event.id %}">
           <button class="btn btn-info btn-sm">Editar</button>
