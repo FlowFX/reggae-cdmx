@@ -5,4 +5,6 @@ python:
 # Install dependencies
 install: "pip install -r requirements.txt"
 # Run tests
-script: pytest
+script:
+  - pytest
+  - pytest functional_tests
