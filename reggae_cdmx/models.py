@@ -17,3 +17,8 @@ class Event(models.Model):
     def get_absolute_url(self):
         """Return the event's detail page URL."""
         return reverse('detail', args=[str(self.id)])
+
+
+class Venue(models.Model):
+
+    name = models.CharField(max_length=255)

@@ -1,7 +1,7 @@
 """Views for calendar app."""
 from django.urls import reverse
 
-from .models import Event
+from .models import Event, Venue
 from .forms import EventForm
 
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
@@ -56,3 +56,11 @@ class EventListView(ListView):
     model = Event
     template_name = 'index.html'
     context_object_name = 'events'
+
+
+class VenueListView(ListView):
+    """ListView for the Venue model."""
+
+    model = Venue
+    template_name = 'venue_list.html'
+    context_object_name = 'venues'

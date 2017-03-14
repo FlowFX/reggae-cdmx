@@ -13,7 +13,7 @@ from datetime import date
     ('Bungalo Dub ft. Jahshua Soundman', '', '20/08/2017', False),      # empty venue
     ])
 def test_event_create_form(title, date, venue, validity):
-    """Test form validation for RentForm."""
+    """Test form validation for EventForm."""
     form = EventForm(data={
         'title': title,
         'date': date,
