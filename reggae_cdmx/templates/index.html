@@ -12,7 +12,7 @@
     <tr class="event">
       <th scope="row">{{ event.date|date:"d/m"  }}</th>
       <td><a class="show_event" href="{{ event.get_absolute_url }}">{{ event.title }}</a>,
-          {{ event.venue }}
+          {{ event.venue.name }}
       </td>
       <td>
         <a class="edit_event" href="{% url 'update' event.id %}">

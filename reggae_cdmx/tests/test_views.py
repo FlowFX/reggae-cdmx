@@ -54,7 +54,7 @@ def test_index_view_displays_event_titles_and_venues(rf):
 
         # AND the event titles are shown and linked
         assert events[0].title in content
-        assert events[0].venue in content
+        assert events[0].venue.name in content
         assert events[0].date.strftime("%d/%m") in content
         assert events[0].get_absolute_url() in content
 

@@ -11,6 +11,16 @@ def faker(provider, **kwargs):
     return factory.Faker(provider, locale='es_MX', **kwargs)
 
 
+class VenueFactory(DjangoModelFactory):
+    """ModelFactory for the Venue object."""
+
+    class Meta:  # noqa
+        model = Venue
+
+    id = factory.Sequence(lambda n: n+1)
+    name = faker('name_female')
+
+
 class EventFactory(DjangoModelFactory):
     """ModelFactory for the Event object."""
 
@@ -20,14 +30,4 @@ class EventFactory(DjangoModelFactory):
     id = factory.Sequence(lambda n: n+1)
     title = faker('sentence', nb_words=4)
     date = faker('date_object')
-    venue = faker('city')
-
-
-class VenueFactory(DjangoModelFactory):
-    """ModelFactory for the Venue object."""
-
-    class Meta:  # noqa
-        model = Venue
-
-    id = factory.Sequence(lambda n: n+1)
-    name = faker('name_female')
+    venue = factory.SubFactory(VenueFactory)
