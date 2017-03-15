@@ -19,6 +19,7 @@ class Event(models.Model):
     date = models.DateField(default=datetime.date.today)
     venue = models.ForeignKey(
         'Venue',
+        null=True,
         blank=True,
     )
 
