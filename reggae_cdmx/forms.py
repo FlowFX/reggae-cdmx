@@ -28,3 +28,10 @@ class EventForm(forms.ModelForm):
         self.helper = FormHelper()
 
         self.helper.add_input(Submit('submit', 'Submit'))
+        self.helper.add_input(Submit(
+            'cancel',
+            'Cancel',
+            css_class='btn-danger',
+            formnovalidate='formnovalidate',
+            )
+        )

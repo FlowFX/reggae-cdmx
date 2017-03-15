@@ -11,7 +11,7 @@ $green:  #005825;
 
 // Settings for the `<body>` element.
 
-$body-bg:       $black;
+$body-bg:       $gray-light;
 $body-color:    $white;
 
 
@@ -50,7 +50,23 @@ $btn-secondary-color:            $gray-dark;
 $btn-secondary-bg:               $white;
 $btn-secondary-border:           #ccc;
 
-// Navbar
+// // Navbar
 
-$navbar-toggler-bg:            rgba($white,1);
-$navbar-toggler-border:        rgba($white,1);
+// $navbar-toggler-bg:            rgba($white,1);
+// $navbar-toggler-border:        rgba($white,1);
+
+
+
+
+
+// // Form states and alerts
+
+// $state-success-text:             $green;
+// $state-success-bg:               $red;
+// // $state-success-border:           darken($state-success-bg, 5%) !default;
+
+// // Alerts
+
+// $alert-success-bg:            $red;
+// $alert-success-text:          $yellow;
+// // $alert-success-border:        $state-success-border !default;

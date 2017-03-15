@@ -1,3 +1,4 @@
+"""Unit tests for form validation."""
 import pytest
 
 from ..models import Venue
@@ -21,9 +22,3 @@ def test_event_create_form(title, date, validity):
     })
 
     assert form.is_valid() is validity
-
-
-
-    # event = EventFactory.build()
-
-    # with patch.object(EventUpdateView, 'get_object', return_value=event):

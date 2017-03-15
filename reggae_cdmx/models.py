@@ -8,6 +8,7 @@ import datetime
 
 
 class Venue(models.Model):
+    """The venue model."""
 
     name = models.CharField(max_length=255)
 

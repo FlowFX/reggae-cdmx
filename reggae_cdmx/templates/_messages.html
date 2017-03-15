@@ -1,0 +1,10 @@
+{# templates/_messages.html #}
+{% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div id="message_{{ forloop.counter }}" class="alert alert-success{% if message.tags %} {{ message.tags }}{% endif %}" role="alert">
+                <strong>Éxito!</strong> {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
