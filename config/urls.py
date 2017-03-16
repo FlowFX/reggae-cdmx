@@ -17,6 +17,7 @@ urlpatterns = [
     # Venues
     url(r'^venues/$', views.VenueListView.as_view(), name='venue_list'),
     url(r'^venues/new$', views.VenueCreateView.as_view(), name='venue_create'),
+    url(r'^venues/(?P<pk>[0-9]+)/edit$', views.VenueUpdateView.as_view(), name='venue_update'),
 ]
 
 if settings.DEBUG:

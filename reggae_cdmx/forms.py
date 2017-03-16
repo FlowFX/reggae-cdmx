@@ -37,8 +37,6 @@ class EventForm(SubmitButtonsMixin, forms.ModelForm):
             'venue',
         )
 
-    # venue = forms.ModelChoiceField(queryset=Venue.objects.all())
-
 
 class VenueForm(SubmitButtonsMixin, forms.ModelForm):
     """Form for VenueCreateView."""

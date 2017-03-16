@@ -10,6 +10,7 @@ from reggae_cdmx.views import (IndexView,
                                EventDetailView, EventListView,
                                EventUpdateView,
                                VenueCreateView, VenueListView,
+                               VenueUpdateView,
                                )
 
 
@@ -179,52 +180,17 @@ def test_venue_create_view(rf):  # noqa: D103
     assert 'submit' in response.rendered_content
 
 
-# def test_event_detail_view(rf):
-#     event = EventFactory.build()
+def test_venue_update_view(rf):  # noqa: D103
 
-#     with patch.object(EventDetailView, 'get_object', return_value=event):
+    venue = VenueFactory.build()
 
-#         url = reverse('detail', args=[str(event.id)])
+    with patch.object(VenueUpdateView, 'get_object', return_value=venue):
 
-#         request = rf.get(url)
-#         response = EventDetailView.as_view()(request)
+        url = reverse('venue_update', args=[str(venue.id)])
+        request = rf.get(url)
+        response = VenueUpdateView.as_view()(request)
 
-#         assert response.status_code == 200
-#         assert response.template_name[0] == 'event_detail.html'
+        assert response.status_code == 200
+        assert response.template_name[0] == 'model_form.html'
 
-#         content = response.rendered_content
-#         assert event.title in content
-
-
-
-
-# def test_event_update_view(rf):
-#     event = EventFactory.build()
-
-#     with patch.object(EventUpdateView, 'get_object', return_value=event):
-
-#         url = reverse('update', args=[str(event.id)])
-#         request = rf.get(url)
-
-#         response = EventUpdateView.as_view()(request)
-
-#         assert response.status_code == 200
-#         assert response.template_name[0] == 'model_form.html'
-
-#         response.render()
-
-
-# def test_event_delete_view(rf):
-#     event = EventFactory.build()
-
-#     with patch.object(EventDeleteView, 'get_object', return_value=event):
-
-#         url = reverse('delete', args=[str(event.id)])
-#         request = rf.get(url)
-
-#         response = EventDeleteView.as_view()(request)
-
-#         assert response.status_code == 200
-#         assert response.template_name[0] == 'event_confirm_delete.html'
-
-#         response.render()
+        response.render()

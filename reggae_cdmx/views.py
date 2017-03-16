@@ -119,5 +119,18 @@ class VenueCreateView(CreateView):
     success_msg = 'Venue created'
 
     def get_success_url(self):
-        """Return the home page."""
+        """Return the venue list."""
+        return reverse('venue_list')
+
+
+class VenueUpdateView(CreateView):
+    """UpdateView for the Venue model."""
+
+    model = Venue
+    form_class = VenueForm
+    template_name = 'model_form.html'
+    success_msg = 'Venue updated'
+
+    def get_success_url(self):
+        """Return the venue list."""
         return reverse('venue_list')
