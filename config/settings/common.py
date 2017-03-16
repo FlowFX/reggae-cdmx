@@ -23,7 +23,9 @@ INSTALLED_APPS = [
     'django_extensions',
     'compressor',
     'crispy_forms',
-    'reggae_cdmx',
+    'reggae',
+    'reggae.events',
+    'reggae.venues',
 ]
 
 MIDDLEWARE = [

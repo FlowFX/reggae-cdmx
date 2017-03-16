@@ -2,9 +2,9 @@
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
-from .models import Event, Venue
-
 from django import forms
+
+from reggae.events.models import Event
 
 
 class SubmitButtonsMixin(object):
@@ -34,14 +34,4 @@ class EventForm(SubmitButtonsMixin, forms.ModelForm):
             'title',
             'date',
             'venue',
-        )
-
-
-class VenueForm(SubmitButtonsMixin, forms.ModelForm):
-    """Form for VenueCreateView."""
-
-    class Meta:  # noqa
-        model = Venue
-        fields = (
-            'name',
         )

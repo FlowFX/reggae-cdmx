@@ -1,8 +1,8 @@
 """Unit tests for utility functions."""
 
-from ..utils import assertRegex
-
 import pytest
+
+from reggae.events.utils import assertRegex
 
 
 @pytest.mark.parametrize('text, regex, assertion', [

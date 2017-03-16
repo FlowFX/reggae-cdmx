@@ -1,11 +1,9 @@
 """Unit tests for form validation."""
+from datetime import date
+
 import pytest
 
-from ..models import Venue
-from ..factories import VenueFactory
-from ..forms import EventForm
-
-from datetime import date
+from reggae.events.forms import EventForm
 
 
 @pytest.mark.parametrize('title, date, validity', [

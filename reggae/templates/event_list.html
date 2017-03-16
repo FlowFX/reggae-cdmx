@@ -4,7 +4,7 @@
 
 <h1>Upcoming</h1>
 
-<a id="add_event" href="{% url 'event_create' %}"><button type="button" class="btn btn-primary">Agregar evento</button></a>
+<a id="add_event" href="{% url 'events:create' %}"><button type="button" class="btn btn-primary">Agregar evento</button></a>
 
 <table id="events" class="table table-responsive">
   <tbody>
@@ -15,11 +15,11 @@
           {{ event.venue.name }}
       </td>
       <td>
-        <a class="edit_event" href="{% url 'event_update' event.id %}">
+        <a class="edit_event" href="{% url 'events:update' event.id %}">
           <button class="btn btn-info btn-sm">Editar</button>
         </a>
       <td>
-        <a class="delete_event" href="{% url 'event_delete' event.id %}">
+        <a class="delete_event" href="{% url 'events:delete' event.id %}">
           <button class="btn btn-danger btn-sm">Borrar</button>
         </a>
       </td>
