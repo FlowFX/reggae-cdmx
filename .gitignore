@@ -91,8 +91,9 @@ ENV/
 # Database
 db.sqlite3
 
-# PyCharm
+# IDEs
 .idea
+.vscode
 
 # Static and media files
 .static

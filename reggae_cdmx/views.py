@@ -35,6 +35,14 @@ class FormActionMixin(object):
             return super(FormActionMixin, self).post(request, *args, **kwargs)
 
 
+class IndexView(ListView):
+    """View for home page."""
+
+    model = Event
+    template_name = 'index.html'
+    context_object_name = 'events'
+
+
 class EventDetailView(DetailView):
     """DetailView for the Event model."""
 
@@ -90,7 +98,7 @@ class EventListView(ListView):
     """ListView for the Event model."""
 
     model = Event
-    template_name = 'index.html'
+    template_name = 'event_list.html'
     context_object_name = 'events'
 
 

@@ -7,18 +7,18 @@ from reggae_cdmx.factories import EventFactory, VenueFactory
 
 from reggae_cdmx.views import (EventCreateView, EventDeleteView,
                                EventDetailView, EventListView,
-                               EventUpdateView,
+                               EventUpdateView, IndexView,
                                VenueListView,)
 
 
 """ EVENT VIEWS """
-def test_index_view_with_no_events(rf):
+def test_index_view_with_no_events(rf): # noqa
     # GIVEN the home page
     url = reverse('index')
 
     # WHEN calling
     request = rf.get(url)
-    response = EventListView.as_view()(request)
+    response = IndexView.as_view()(request)
 
     # THEN it's there,
     assert response.status_code == 200
@@ -30,11 +30,11 @@ def test_index_view_with_events(rf):
     # GIVEN a couple mock events
     events = EventFactory.build_batch(5)
 
-    with patch.object(EventListView, 'get_queryset', return_value=events):
+    with patch.object(IndexView, 'get_queryset', return_value=events):
 
         url = reverse('index')
         request = rf.get(url)
-        response = EventListView.as_view()(request)
+        response = IndexView.as_view()(request)
 
         assert response.status_code == 200
         assert response.template_name[0] == 'index.html'
@@ -43,11 +43,11 @@ def test_index_view_with_events(rf):
 def test_index_view_displays_event_titles_and_venues(rf):
     events = EventFactory.build_batch(5)
 
-    with patch.object(EventListView, 'get_queryset', return_value=events):
+    with patch.object(IndexView, 'get_queryset', return_value=events):
 
         url = reverse('index')
         request = rf.get(url)
-        response = EventListView.as_view()(request)
+        response = IndexView.as_view()(request)
 
         response.render()
         content = response.rendered_content
@@ -126,6 +126,19 @@ def test_event_delete_view(rf):
         assert response.template_name[0] == 'event_confirm_delete.html'
 
         response.render()
+
+
+def test_event_list_view(rf):
+    events = EventFactory.build_batch(5)
+
+    with patch.object(EventListView, 'get_queryset', return_value=events):
+
+        url = reverse('event_list')
+        request = rf.get(url)
+        response = EventListView.as_view()(request)
+
+        assert response.status_code == 200
+        assert response.template_name[0] == 'event_list.html'
 
 
 """ VENUE VIEWS """
