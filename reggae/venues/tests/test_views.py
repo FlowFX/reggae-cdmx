@@ -1,11 +1,13 @@
 from django.urls import reverse
-from mock import patch
+from mock import patch, MagicMock
 
 from reggae.venues.factories import VenueFactory
 from reggae.venues.views import (VenueCreateView, VenueDeleteView,
                                  VenueListView,
                                  VenueUpdateView,
                                  )
+
+import pytest
 
 
 def test_venue_list_view(rf):  # noqa: D103, E302
@@ -28,7 +30,7 @@ def test_venue_list_view(rf):  # noqa: D103, E302
             assert venue.name in content
 
 
-def test_venue_create_view(rf):  # noqa: D103
+def test_venue_create_view_GET(rf):  # noqa: D103
 
     url = reverse('venues:create')
 
@@ -38,6 +40,19 @@ def test_venue_create_view(rf):  # noqa: D103
 
     response.render()
     assert 'submit' in response.rendered_content
+
+
+@patch('reggae.venues.models.Venue.save', MagicMock(name="save"))
+def test_venue_create_view_POST(rf):  # noqa: D103
+    # GIVEN any state
+    # WHEN creating a new venue
+    url = reverse('venues:create')
+    request = rf.post(url, data={'name': 'Kaliman Bar'})
+    response = VenueCreateView.as_view()(request)
+
+    # THEN we get redirected to the venues list
+    assert response.status_code == 302
+    assert response.url == reverse('venues:list')
 
 
 def test_venue_update_view(rf):  # noqa: D103
