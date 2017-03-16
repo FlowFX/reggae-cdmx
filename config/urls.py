@@ -10,10 +10,10 @@ urlpatterns = [
     # Events
     url(r'^$', views.IndexView.as_view(), name='index'),
     url(r'^events/$', views.EventListView.as_view(), name='event_list'),
-    url(r'^events/new$', views.EventCreateView.as_view(), name='create'),
-    url(r'^events/(?P<pk>[0-9]+)/edit$', views.EventUpdateView.as_view(), name='update'),
-    url(r'^events/(?P<pk>[0-9]+)/delete$', views.EventDeleteView.as_view(), name='delete'),
-    url(r'^events/(?P<pk>[0-9]+)/$', views.EventDetailView.as_view(), name='detail'),
+    url(r'^events/new$', views.EventCreateView.as_view(), name='event_create'),
+    url(r'^events/(?P<pk>[0-9]+)/edit$', views.EventUpdateView.as_view(), name='event_update'),
+    url(r'^events/(?P<pk>[0-9]+)/delete$', views.EventDeleteView.as_view(), name='event_delete'),
+    url(r'^events/(?P<pk>[0-9]+)/$', views.EventDetailView.as_view(), name='event_detail'),
     # Venues
     url(r'^venues/$', views.VenueListView.as_view(), name='venue_list'),
     url(r'^venues/new$', views.VenueCreateView.as_view(), name='venue_create'),

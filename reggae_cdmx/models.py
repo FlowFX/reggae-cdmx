@@ -29,7 +29,7 @@ class Event(models.Model):
 
     def get_absolute_url(self):
         """Return the event's detail page URL."""
-        return reverse('detail', args=[str(self.id)])
+        return reverse('event_detail', args=[str(self.id)])
 
     def __str__(self):
         return '{0} - {1}'.format(self.title, self.date)

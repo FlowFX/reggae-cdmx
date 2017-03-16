@@ -4,7 +4,6 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from .models import Event, Venue
 
-from django.forms import ModelForm
 from django import forms
 
 

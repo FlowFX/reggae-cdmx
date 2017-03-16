@@ -61,11 +61,11 @@ def test_index_view_displays_event_titles_and_venues(rf):
         assert events[0].date.strftime("%d/%m") in content
         assert events[0].get_absolute_url() in content
 
-        create_url = reverse('create')
+        create_url = reverse('event_create')
         assert 'add_event' in content
         assert create_url in content
 
-        delete_url = reverse('delete', args=[str(events[0].id)])
+        delete_url = reverse('event_delete', args=[str(events[0].id)])
         assert 'delete_event' in content
         assert delete_url in content
 
@@ -75,7 +75,7 @@ def test_event_detail_view(rf):
 
     with patch.object(EventDetailView, 'get_object', return_value=event):
 
-        url = reverse('detail', args=[str(event.id)])
+        url = reverse('event_detail', args=[str(event.id)])
 
         request = rf.get(url)
         response = EventDetailView.as_view()(request)
@@ -89,7 +89,7 @@ def test_event_detail_view(rf):
 
 def test_event_create_view(rf):
 
-    url = reverse('create')
+    url = reverse('event_create')
 
     request = rf.get(url)
     response = EventCreateView.as_view()(request)
@@ -104,7 +104,7 @@ def test_event_update_view(rf):
 
     with patch.object(EventUpdateView, 'get_object', return_value=event):
 
-        url = reverse('update', args=[str(event.id)])
+        url = reverse('event_update', args=[str(event.id)])
         request = rf.get(url)
 
         response = EventUpdateView.as_view()(request)
@@ -120,7 +120,7 @@ def test_event_delete_view(rf):
 
     with patch.object(EventDeleteView, 'get_object', return_value=event):
 
-        url = reverse('delete', args=[str(event.id)])
+        url = reverse('event_delete', args=[str(event.id)])
         request = rf.get(url)
 
         response = EventDeleteView.as_view()(request)
