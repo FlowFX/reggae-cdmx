@@ -7,8 +7,6 @@ from reggae.venues.views import (VenueCreateView, VenueDeleteView,
                                  VenueUpdateView,
                                  )
 
-import pytest
-
 
 def test_venue_list_view(rf):  # noqa: D103, E302
     venues = VenueFactory.build_batch(5)

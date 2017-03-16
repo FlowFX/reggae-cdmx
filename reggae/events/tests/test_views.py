@@ -1,6 +1,6 @@
 """Unit tests for calendar views."""
 from django.urls import reverse
-from mock import patch
+from mock import patch, MagicMock
 
 from reggae.events.factories import EventFactory
 from reggae.events.views import (IndexView,
@@ -8,6 +8,9 @@ from reggae.events.views import (IndexView,
                                  EventDetailView, EventListView,
                                  EventUpdateView,
                                  )
+import datetime
+
+from datetime import date
 
 """ EVENT VIEWS """
 def test_index_view_with_no_events(rf):  # noqa: D103, E302
@@ -82,7 +85,7 @@ def test_event_detail_view(rf):  # noqa: D103
         assert event.title in content
 
 
-def test_event_create_view(rf):  # noqa: D103
+def test_event_create_view_GET(rf):  # noqa: D103
 
     url = reverse('events:create')
 
@@ -92,6 +95,24 @@ def test_event_create_view(rf):  # noqa: D103
 
     response.render()
     assert 'submit' in response.rendered_content
+
+
+@patch('reggae.events.models.Event.save', MagicMock(name="save"))
+def test_event_create_view_POST(rf):  # noqa: D103
+
+    # GIVEN any state
+    # WHEN creating a new event
+    url = reverse('events:create')
+    data = {'title': 'Xochimilco goes Large',
+            'date': date(2017, 8, 20),
+            'venue': None,
+            }
+    request = rf.post(url, data=data)
+    response = EventCreateView.as_view()(request)
+
+    # THEN we get redirected to the events list
+    # assert response.url == reverse('events:list')
+    # assert response.status_code == 302
 
 
 def test_event_update_view(rf):  # noqa: D103
