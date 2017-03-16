@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^events/(?P<pk>[0-9]+)/$', views.EventDetailView.as_view(), name='detail'),
     # Venues
     url(r'^venues/$', views.VenueListView.as_view(), name='venue_list'),
+    url(r'^venues/new$', views.VenueCreateView.as_view(), name='venue_create'),
 ]
 
 if settings.DEBUG:

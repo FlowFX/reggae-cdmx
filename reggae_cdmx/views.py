@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 
 from .models import Event, Venue
-from .forms import EventForm
+from .forms import EventForm, VenueForm
 
 from django.views.generic import (CreateView, DeleteView,
                                   DetailView, ListView, UpdateView)
@@ -56,7 +56,7 @@ class EventCreateView(FormActionMixin, CreateView):
 
     model = Event
     form_class = EventForm
-    template_name = 'event_form.html'
+    template_name = 'model_form.html'
     success_msg = 'Event created'
 
     def get_success_url(self):
@@ -69,7 +69,7 @@ class EventUpdateView(FormActionMixin, UpdateView):
 
     model = Event
     form_class = EventForm
-    template_name = 'event_form.html'
+    template_name = 'model_form.html'
     success_msg = 'Event updated'
 
     def get_success_url(self):
@@ -108,3 +108,16 @@ class VenueListView(ListView):
     model = Venue
     template_name = 'venue_list.html'
     context_object_name = 'venues'
+
+
+class VenueCreateView(CreateView):
+    """CreateView for the Venue model."""
+
+    model = Venue
+    form_class = VenueForm
+    template_name = 'model_form.html'
+    success_msg = 'Venue created'
+
+    def get_success_url(self):
+        """Return the home page."""
+        return reverse('venue_list')

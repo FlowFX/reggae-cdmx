@@ -5,10 +5,12 @@ from mock import patch
 
 from reggae_cdmx.factories import EventFactory, VenueFactory
 
-from reggae_cdmx.views import (EventCreateView, EventDeleteView,
+from reggae_cdmx.views import (IndexView,
+                               EventCreateView, EventDeleteView,
                                EventDetailView, EventListView,
-                               EventUpdateView, IndexView,
-                               VenueListView,)
+                               EventUpdateView,
+                               VenueCreateView, VenueListView,
+                               )
 
 
 """ EVENT VIEWS """
@@ -90,7 +92,7 @@ def test_event_create_view(rf):
 
     request = rf.get(url)
     response = EventCreateView.as_view()(request)
-    assert response.template_name[0] == 'event_form.html'
+    assert response.template_name[0] == 'model_form.html'
 
     response.render()
     assert 'submit' in response.rendered_content
@@ -107,7 +109,7 @@ def test_event_update_view(rf):
         response = EventUpdateView.as_view()(request)
 
         assert response.status_code == 200
-        assert response.template_name[0] == 'event_form.html'
+        assert response.template_name[0] == 'model_form.html'
 
         response.render()
 
@@ -142,7 +144,9 @@ def test_event_list_view(rf):
 
 
 """ VENUE VIEWS """
-def test_venue_list_view(rf):
+
+
+def test_venue_list_view(rf):  # noqa: D103
 
     # GIVEN a couple mock venues
     venues = VenueFactory.build_batch(5)
@@ -157,33 +161,22 @@ def test_venue_list_view(rf):
         assert response.template_name[0] == 'venue_list.html'
 
         response.render()
+        content = response.rendered_content
+
+        for venue in venues:
+            assert venue.name in content
 
 
-# def test_index_view_displays_event_titles_and_venues(rf):
-#     events = EventFactory.build_batch(5)
+def test_venue_create_view(rf):  # noqa: D103
 
-#     with patch.object(EventListView, 'get_queryset', return_value=events):
+    url = reverse('venue_create')
 
-#         url = reverse('index')
-#         request = rf.get(url)
-#         response = EventListView.as_view()(request)
+    request = rf.get(url)
+    response = VenueCreateView.as_view()(request)
+    assert response.template_name[0] == 'model_form.html'
 
-#         response.render()
-#         content = response.rendered_content
-
-#         # AND the event titles are shown and linked
-#         assert events[0].title in content
-#         assert events[0].venue in content
-#         assert events[0].date.strftime("%d/%m") in content
-#         assert events[0].get_absolute_url() in content
-
-#         create_url = reverse('create')
-#         assert 'add_event' in content
-#         assert create_url in content
-
-#         delete_url = reverse('delete', args=[str(events[0].id)])
-#         assert 'delete_event' in content
-#         assert delete_url in content
+    response.render()
+    assert 'submit' in response.rendered_content
 
 
 # def test_event_detail_view(rf):
@@ -203,16 +196,6 @@ def test_venue_list_view(rf):
 #         assert event.title in content
 
 
-# def test_event_create_view(rf):
-
-#     url = reverse('create')
-
-#     request = rf.get(url)
-#     response = EventCreateView.as_view()(request)
-#     assert response.template_name[0] == 'event_form.html'
-
-#     response.render()
-#     assert 'submit' in response.rendered_content
 
 
 # def test_event_update_view(rf):
@@ -226,7 +209,7 @@ def test_venue_list_view(rf):
 #         response = EventUpdateView.as_view()(request)
 
 #         assert response.status_code == 200
-#         assert response.template_name[0] == 'event_form.html'
+#         assert response.template_name[0] == 'model_form.html'
 
 #         response.render()
 
