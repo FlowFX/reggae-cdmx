@@ -79,7 +79,7 @@ def test_event_detail_view(rf):  # noqa: D103
         response = EventDetailView.as_view()(request)
 
         assert response.status_code == 200
-        assert response.template_name[0] == 'event_detail.html'
+        assert response.template_name[0] == 'events/event_detail.html'
 
         content = response.rendered_content
         assert event.title in content
@@ -175,6 +175,6 @@ def test_event_list_view(rf):  # noqa: D103
         response = EventListView.as_view()(request)
 
         assert response.status_code == 200
-        assert response.template_name[0] == 'event_list.html'
+        assert response.template_name[0] == 'events/event_list.html'
 
         response.render()

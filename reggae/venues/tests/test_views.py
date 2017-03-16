@@ -19,7 +19,7 @@ def test_venue_list_view(rf):  # noqa: D103, E302
         response = VenueListView.as_view()(request)
 
         assert response.status_code == 200
-        assert response.template_name[0] == 'venue_list.html'
+        assert response.template_name[0] == 'venues/venue_list.html'
 
         response.render()
         content = response.rendered_content

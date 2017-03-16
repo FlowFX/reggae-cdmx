@@ -46,7 +46,7 @@ class EventDetailView(DetailView):
     """DetailView for the Event model."""
 
     model = Event
-    template_name = 'event_detail.html'
+    template_name = 'events/event_detail.html'
     context_object_name = 'event'
 
 
@@ -97,6 +97,6 @@ class EventListView(ListView):
     """ListView for the Event model."""
 
     model = Event
-    template_name = 'event_list.html'
+    template_name = 'events/event_list.html'
     context_object_name = 'events'
 

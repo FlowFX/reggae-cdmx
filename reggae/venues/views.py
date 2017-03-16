@@ -38,7 +38,7 @@ class VenueListView(ListView):
     """ListView for the Venue model."""
 
     model = Venue
-    template_name = 'venue_list.html'
+    template_name = 'venues/venue_list.html'
     context_object_name = 'venues'
 
 
