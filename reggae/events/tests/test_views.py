@@ -98,7 +98,7 @@ def test_event_create_view_GET(rf):  # noqa: D103
 
 
 @patch('reggae.events.models.Event.save', MagicMock(name="save"))
-def test_event_create_view_POST(rf):  # noqa: D103
+def test_event_create_view_POST(client):  # noqa: D103
 
     # GIVEN any state
     # WHEN creating a new event
@@ -107,8 +107,8 @@ def test_event_create_view_POST(rf):  # noqa: D103
             'date': date(2017, 8, 20),
             'venue': None,
             }
-    request = rf.post(url, data=data)
-    response = EventCreateView.as_view()(request)
+    response = client.post(url, data=data)
+    # response = EventCreateView.as_view()(request)
 
     # THEN we get redirected to the events list
     # assert response.url == reverse('events:list')

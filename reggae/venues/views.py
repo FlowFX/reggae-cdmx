@@ -42,7 +42,15 @@ class VenueListView(ListView):
     context_object_name = 'venues'
 
 
-class VenueCreateView(CreateView):
+class VenueDetailView(DetailView):
+    """DetailView for the Venue model."""
+
+    model = Venue
+    # template_name = 'venue_list.html'
+    context_object_name = 'venue'
+
+
+class VenueCreateView(FormActionMixin, CreateView):
     """CreateView for the Venue model."""
 
     model = Venue
@@ -55,7 +63,7 @@ class VenueCreateView(CreateView):
         return reverse('venues:list')
 
 
-class VenueUpdateView(UpdateView):
+class VenueUpdateView(FormActionMixin, UpdateView):
     """UpdateView for the Venue model."""
 
     model = Venue
@@ -68,7 +76,7 @@ class VenueUpdateView(UpdateView):
         return reverse('venues:list')
 
 
-class VenueDeleteView(DeleteView):
+class VenueDeleteView(FormActionMixin, DeleteView):
     """DeleteView for the Venue model."""
 
     model = Venue
