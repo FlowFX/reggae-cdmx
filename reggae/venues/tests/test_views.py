@@ -71,7 +71,7 @@ def test_venue_update_view(rf):  # noqa: D103
         response.render()
 
 
-def test_venue_delete_view(rf):  # noqa: D103
+def test_venue_delete_view_GET(rf):  # noqa: D103
     venue = VenueFactory.build()
 
     with patch.object(VenueDeleteView, 'get_object', return_value=venue):
@@ -85,6 +85,19 @@ def test_venue_delete_view(rf):  # noqa: D103
         assert response.template_name[0] == 'model_delete.html'
 
         response.render()
+
+
+@patch('reggae.venues.models.Venue.delete', MagicMock(name="delete"))
+def test_venue_delete_view_POST(client):  # noqa: D103
+    venue = VenueFactory.build()
+
+    with patch.object(VenueDeleteView, 'get_object', return_value=venue):
+
+        url = reverse('venues:delete', args=[0])
+        response = client.post(url)
+
+        assert response.status_code == 302
+        assert response.url == reverse('venues:list')
 
 
 def test_venue_detail_view(rf):  # noqa: D103
