@@ -5,6 +5,7 @@ from crispy_forms.layout import Submit
 from .models import Event, Venue
 
 from django.forms import ModelForm
+from django import forms
 
 
 class SubmitButtonsMixin(object):
@@ -25,7 +26,7 @@ class SubmitButtonsMixin(object):
         )
 
 
-class EventForm(SubmitButtonsMixin, ModelForm):
+class EventForm(SubmitButtonsMixin, forms.ModelForm):
     """Form for EventCreateView."""
 
     class Meta:  # noqa
@@ -36,8 +37,10 @@ class EventForm(SubmitButtonsMixin, ModelForm):
             'venue',
         )
 
+    # venue = forms.ModelChoiceField(queryset=Venue.objects.all())
 
-class VenueForm(SubmitButtonsMixin, ModelForm):
+
+class VenueForm(SubmitButtonsMixin, forms.ModelForm):
     """Form for VenueCreateView."""
 
     class Meta:  # noqa

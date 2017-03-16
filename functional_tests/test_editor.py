@@ -6,8 +6,8 @@ from reggae_cdmx.utils import assertRegex
 from selenium.webdriver.common.keys import Keys
 
 
-def test_jahshua_wants_to_add_an_event(live_server, browser):
-    # We need two existing locations
+def test_jahshua_wants_to_add_an_event(live_server, browser):  # noqa: D103
+    # We need one or more existing locations
     VenueFactory.create(name='Kaliman Bar')
     VenueFactory.create(name='Tacuba 64')
 

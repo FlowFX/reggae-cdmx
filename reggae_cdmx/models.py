@@ -12,6 +12,9 @@ class Venue(models.Model):
 
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return '{0}'.format(self.name)
+
 
 class Event(models.Model):
     """The event model. The main model in this project."""
@@ -27,3 +30,6 @@ class Event(models.Model):
     def get_absolute_url(self):
         """Return the event's detail page URL."""
         return reverse('detail', args=[str(self.id)])
+
+    def __str__(self):
+        return '{0} - {1}'.format(self.title, self.date)
