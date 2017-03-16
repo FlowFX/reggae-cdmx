@@ -81,12 +81,12 @@ class EventDeleteView(FormActionMixin, DeleteView):
     """DeleteView for the Event model."""
 
     model = Event
-    template_name = 'event_confirm_delete.html'
+    template_name = 'model_delete.html'
     success_msg = 'Event deleted'
 
     def get_success_url(self):
         """Return the home page."""
-        return reverse('index')
+        return reverse('event_list')
 
     def delete(self, request, *args, **kwargs):
         """Display success message on delete."""
@@ -134,3 +134,20 @@ class VenueUpdateView(CreateView):
     def get_success_url(self):
         """Return the venue list."""
         return reverse('venue_list')
+
+
+class VenueDeleteView(DeleteView):
+    """DeleteView for the Venue model."""
+
+    model = Venue
+    template_name = 'model_delete.html'
+    success_msg = 'Venue deleted'
+
+    def get_success_url(self):
+        """Return the home page."""
+        return reverse('venue_list')
+
+    def delete(self, request, *args, **kwargs):
+        """Display success message on delete."""
+        messages.success(self.request, self.success_msg)
+        return super(VenueDeleteView, self).delete(request, *args, **kwargs)

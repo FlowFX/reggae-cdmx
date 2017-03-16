@@ -9,13 +9,14 @@ from reggae_cdmx.views import (IndexView,
                                EventCreateView, EventDeleteView,
                                EventDetailView, EventListView,
                                EventUpdateView,
-                               VenueCreateView, VenueListView,
+                               VenueCreateView, VenueDeleteView,
+                               VenueListView,
                                VenueUpdateView,
                                )
 
 
 """ EVENT VIEWS """
-def test_index_view_with_no_events(rf): # noqa
+def test_index_view_with_no_events(rf):  # noqa: D103, E302
     # GIVEN the home page
     url = reverse('index')
 
@@ -29,7 +30,7 @@ def test_index_view_with_no_events(rf): # noqa
     assert response.is_rendered is False
 
 
-def test_index_view_with_events(rf):
+def test_index_view_with_events(rf):  # noqa: D103
     # GIVEN a couple mock events
     events = EventFactory.build_batch(5)
 
@@ -43,7 +44,7 @@ def test_index_view_with_events(rf):
         assert response.template_name[0] == 'index.html'
 
 
-def test_index_view_displays_event_titles_and_venues(rf):
+def test_index_view_displays_event_titles_and_venues(rf):  # noqa: D103
     events = EventFactory.build_batch(5)
 
     with patch.object(IndexView, 'get_queryset', return_value=events):
@@ -70,7 +71,7 @@ def test_index_view_displays_event_titles_and_venues(rf):
         assert delete_url in content
 
 
-def test_event_detail_view(rf):
+def test_event_detail_view(rf):  # noqa: D103
     event = EventFactory.build()
 
     with patch.object(EventDetailView, 'get_object', return_value=event):
@@ -87,7 +88,7 @@ def test_event_detail_view(rf):
         assert event.title in content
 
 
-def test_event_create_view(rf):
+def test_event_create_view(rf):  # noqa: D103
 
     url = reverse('event_create')
 
@@ -99,7 +100,7 @@ def test_event_create_view(rf):
     assert 'submit' in response.rendered_content
 
 
-def test_event_update_view(rf):
+def test_event_update_view(rf):  # noqa: D103
     event = EventFactory.build()
 
     with patch.object(EventUpdateView, 'get_object', return_value=event):
@@ -115,7 +116,7 @@ def test_event_update_view(rf):
         response.render()
 
 
-def test_event_delete_view(rf):
+def test_event_delete_view(rf):  # noqa: D103
     event = EventFactory.build()
 
     with patch.object(EventDeleteView, 'get_object', return_value=event):
@@ -126,14 +127,15 @@ def test_event_delete_view(rf):
         response = EventDeleteView.as_view()(request)
 
         assert response.status_code == 200
-        assert response.template_name[0] == 'event_confirm_delete.html'
+        assert response.template_name[0] == 'model_delete.html'
 
         response.render()
 
 
-def test_event_list_view(rf):
+def test_event_list_view(rf):  # noqa: D103
     events = EventFactory.build_batch(5)
 
+    # GIVEN a couple mock events
     with patch.object(EventListView, 'get_queryset', return_value=events):
 
         url = reverse('event_list')
@@ -145,13 +147,10 @@ def test_event_list_view(rf):
 
 
 """ VENUE VIEWS """
-
-
-def test_venue_list_view(rf):  # noqa: D103
-
-    # GIVEN a couple mock venues
+def test_venue_list_view(rf):  # noqa: D103, E302
     venues = VenueFactory.build_batch(5)
 
+    # GIVEN a couple mock venues
     with patch.object(VenueListView, 'get_queryset', return_value=venues):
 
         url = reverse('venue_list')
@@ -181,7 +180,6 @@ def test_venue_create_view(rf):  # noqa: D103
 
 
 def test_venue_update_view(rf):  # noqa: D103
-
     venue = VenueFactory.build()
 
     with patch.object(VenueUpdateView, 'get_object', return_value=venue):
@@ -192,5 +190,21 @@ def test_venue_update_view(rf):  # noqa: D103
 
         assert response.status_code == 200
         assert response.template_name[0] == 'model_form.html'
+
+        response.render()
+
+
+def test_venue_delete_view(rf):  # noqa: D103
+    venue = VenueFactory.build()
+
+    with patch.object(VenueDeleteView, 'get_object', return_value=venue):
+
+        url = reverse('venue_delete', args=[0])
+        request = rf.get(url)
+
+        response = VenueDeleteView.as_view()(request)
+
+        assert response.status_code == 200
+        assert response.template_name[0] == 'model_delete.html'
 
         response.render()
