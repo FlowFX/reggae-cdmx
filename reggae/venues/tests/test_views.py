@@ -34,7 +34,9 @@ def test_venue_create_view_GET(rf):  # noqa: D103
 
     request = rf.get(url)
     response = VenueCreateView.as_view()(request)
+
     assert response.template_name[0] == 'model_form.html'
+    assert response.status_code == 200
 
     response.render()
     assert 'submit' in response.rendered_content

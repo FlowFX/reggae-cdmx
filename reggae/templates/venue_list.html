@@ -4,7 +4,7 @@
 
 <h1>Venues</h1>
 
-<a id="add_venue" href="{ % url 'venues:create' %}"><button type="button" class="btn btn-primary">Agregar lugar</button></a>
+<a id="add_venue" href="{% url 'venues:create' %}"><button type="button" class="btn btn-primary">Agregar lugar</button></a>
 
 <table id="venues" class="table table-responsive">
   <tbody>
@@ -13,11 +13,11 @@
       <th scope="row">{{ venue.id }}</th>
       <td>{{ venue.name }}</td>
       <td>
-        <a class="edit_venue" href="{ % url 'venues:update' venue.id %}">
+        <a class="edit_venue" href="{% url 'venues:update' venue.id %}">
           <button class="btn btn-info btn-sm">Editar</button>
         </a>
       <td>
-        <a class="delete_venue" href="{ % url 'venues:delete' venue.id %}">
+        <a class="delete_venue" href="{% url 'venues:delete' venue.id %}">
           <button class="btn btn-danger btn-sm">Borrar</button>
         </a>
       </td>

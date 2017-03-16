@@ -1,5 +1,5 @@
 [run]
-source = reggae_cdmx
+source = reggae
 branch = True
 omit = 
 	# omit all tests

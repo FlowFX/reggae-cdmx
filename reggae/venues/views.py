@@ -55,7 +55,7 @@ class VenueCreateView(CreateView):
         return reverse('venues:list')
 
 
-class VenueUpdateView(CreateView):
+class VenueUpdateView(UpdateView):
     """UpdateView for the Venue model."""
 
     model = Venue
