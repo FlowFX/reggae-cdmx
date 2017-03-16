@@ -4,22 +4,28 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from .models import Event, Venue
 
-from django import forms
+from django.forms import ModelForm
 
 
-# class SubmitButtonsMixin(object):
+class SubmitButtonsMixin(object):
+    """Add submit and cancel buttons to form layout."""
 
-#     def post(self, request, *args, **kwargs):
-#         """Add 'Cancel' button redirect."""
-#         if "cancel" in request.POST:
-#             url = reverse('index')     # or e.g. reverse(self.get_success_url())
-#             return HttpResponseRedirect(url)
-#         else:
-#         return 
-#         super(FormActionMixin, self).post(request, *args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        """Add Crispy Forms FormHelper."""
+        super(SubmitButtonsMixin, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+
+        self.helper.add_input(Submit('submit', 'Submit'))
+        self.helper.add_input(Submit(
+            'cancel',
+            'Cancel',
+            css_class='btn-danger',
+            formnovalidate='formnovalidate',
+            )
+        )
 
 
-class EventForm(forms.ModelForm):
+class EventForm(SubmitButtonsMixin, ModelForm):
     """Form for EventCreateView."""
 
     class Meta:  # noqa
@@ -30,44 +36,12 @@ class EventForm(forms.ModelForm):
             'venue',
         )
 
-    # widgets = {
-    #     'date': forms.DateInput(format=['%d/%m/%y']),
-    # }
 
-    def __init__(self, *args, **kwargs):
-        """Add Crispy Forms FormHelper."""
-        super(EventForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-
-        self.helper.add_input(Submit('submit', 'Submit'))
-        self.helper.add_input(Submit(
-            'cancel',
-            'Cancel',
-            css_class='btn-danger',
-            formnovalidate='formnovalidate',
-            )
-        )
-
-
-class VenueForm(forms.ModelForm):
+class VenueForm(SubmitButtonsMixin, ModelForm):
     """Form for VenueCreateView."""
 
     class Meta:  # noqa
         model = Venue
         fields = (
             'name',
-        )
-
-    def __init__(self, *args, **kwargs):
-        """Add Crispy Forms FormHelper."""
-        super(VenueForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-
-        self.helper.add_input(Submit('submit', 'Submit'))
-        self.helper.add_input(Submit(
-            'cancel',
-            'Cancel',
-            css_class='btn-danger',
-            formnovalidate='formnovalidate',
-            )
         )
