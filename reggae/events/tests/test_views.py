@@ -131,7 +131,7 @@ def test_event_update_view(rf):  # noqa: D103
         response.render()
 
 
-def test_event_delete_view(rf):  # noqa: D103
+def test_event_delete_view_GET(rf):  # noqa: D103
     event = EventFactory.build()
 
     with patch.object(EventDeleteView, 'get_object', return_value=event):
@@ -147,6 +147,23 @@ def test_event_delete_view(rf):  # noqa: D103
         response.render()
 
 
+@patch('reggae.events.models.Event.delete', MagicMock(name="delete"))
+def test_event_delete_view_POST(client, rf):  # noqa: D103
+    event = EventFactory.build()
+
+    with patch.object(EventDeleteView, 'get_object', return_value=event):
+
+        url = reverse('events:delete', args=[0])
+        response = client.post(url)
+
+        # TODO: add messages middleware to request factory
+        # request = rf.post(url)
+        # response = EventDeleteView.as_view()(request)
+
+        assert response.status_code == 302
+        assert response.url == reverse('events:list')
+
+
 def test_event_list_view(rf):  # noqa: D103
     events = EventFactory.build_batch(5)
 
@@ -160,4 +177,4 @@ def test_event_list_view(rf):  # noqa: D103
         assert response.status_code == 200
         assert response.template_name[0] == 'event_list.html'
 
-
+        response.render()

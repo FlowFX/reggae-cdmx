@@ -88,13 +88,17 @@ def test_venue_delete_view_GET(rf):  # noqa: D103
 
 
 @patch('reggae.venues.models.Venue.delete', MagicMock(name="delete"))
-def test_venue_delete_view_POST(client):  # noqa: D103
+def test_venue_delete_view_POST(client, rf):  # noqa: D103
     venue = VenueFactory.build()
 
     with patch.object(VenueDeleteView, 'get_object', return_value=venue):
 
         url = reverse('venues:delete', args=[0])
         response = client.post(url)
+
+        # TODO: add messages middleware to request factory
+        # request = rf.post(url)
+        # response = VenueDeleteView.as_view()(request)
 
         assert response.status_code == 302
         assert response.url == reverse('venues:list')
