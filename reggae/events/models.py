@@ -1,13 +1,9 @@
 """Models for calendar app."""
 
 from django.db import models
-
 from django.urls import reverse
 
 import datetime
-
-
-# from reggae.venues.models import Venue
 
 
 class Event(models.Model):
@@ -26,4 +22,8 @@ class Event(models.Model):
         return reverse('events:detail', args=[str(self.id)])
 
     def __str__(self):
+        """Return string representation of event.
+
+        event_title - event_date
+        """
         return '{0} - {1}'.format(self.title, self.date)

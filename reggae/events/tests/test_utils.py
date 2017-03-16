@@ -13,11 +13,8 @@ from reggae.events.utils import assertRegex
     ])
 def test_assertregex(text, regex, assertion):
     """Unit test the assertRegex function."""
-
     if assertion is True:
         assertRegex(text, regex)
     elif assertion is False:
         with pytest.raises(AssertionError):
             assertRegex(text, regex)
-
-

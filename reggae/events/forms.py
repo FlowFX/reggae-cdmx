@@ -4,7 +4,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django import forms
 
-from reggae.events.models import Event
+from .models import Event
 
 
 class SubmitButtonsMixin(object):

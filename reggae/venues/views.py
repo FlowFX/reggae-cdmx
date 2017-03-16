@@ -6,8 +6,8 @@ from django.urls import reverse
 from django.views.generic import (CreateView, DeleteView,
                                   DetailView, ListView, UpdateView)
 
-from reggae.venues.forms import VenueForm
-from reggae.venues.models import Venue
+from .forms import VenueForm
+from .models import Venue
 
 
 class FormActionMixin(object):

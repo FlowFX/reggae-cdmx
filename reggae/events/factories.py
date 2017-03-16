@@ -3,8 +3,8 @@
 import factory
 from factory.django import DjangoModelFactory
 
-from reggae.events.models import Event
-from reggae.venues.factories import VenueFactory
+from .models import Event
+from ..venues.factories import VenueFactory
 
 
 def faker(provider, **kwargs):

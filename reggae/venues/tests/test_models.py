@@ -1,14 +1,13 @@
+"""Unit tests for venues.models."""
+
+from reggae.venues.factories import VenueFactory
+from reggae.venues.models import Venue
+
 import pytest
 
 
-
-from reggae.venues.factories import VenueFactory
-
-from reggae.venues.models import Venue
-
-
 @pytest.mark.django_db
-def test_venue_factory():
+def test_venue_factory():  # noqa: D103
     # GIVEN an empty database
     assert Venue.objects.count() == 0
 

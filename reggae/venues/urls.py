@@ -1,4 +1,4 @@
-
+"""URL definitions for the venues app."""
 from django.conf.urls import url
 
 from .views import (VenueCreateView, VenueDeleteView, VenueDetailView,
@@ -12,6 +12,3 @@ urlpatterns = [
     url(r'^(?P<pk>[0-9]+)/edit$', VenueUpdateView.as_view(), name='update'),
     url(r'^(?P<pk>[0-9]+)/delete$', VenueDeleteView.as_view(), name='delete'),
 ]
-
-
-

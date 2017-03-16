@@ -6,8 +6,8 @@ from django.urls import reverse
 from django.views.generic import (CreateView, DeleteView,
                                   DetailView, ListView, UpdateView)
 
-from reggae.events.forms import EventForm
-from reggae.events.models import Event
+from .forms import EventForm
+from .models import Event
 
 
 class FormActionMixin(object):
@@ -99,4 +99,3 @@ class EventListView(ListView):
     model = Event
     template_name = 'events/event_list.html'
     context_object_name = 'events'
-

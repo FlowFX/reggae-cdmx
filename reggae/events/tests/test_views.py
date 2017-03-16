@@ -8,7 +8,6 @@ from reggae.events.views import (IndexView,
                                  EventDetailView, EventListView,
                                  EventUpdateView,
                                  )
-import datetime
 
 from datetime import date
 

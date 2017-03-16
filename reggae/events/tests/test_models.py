@@ -6,7 +6,7 @@ from reggae.events.models import Event
 
 
 @pytest.mark.django_db
-def test_event_factory():
+def test_event_factory():  # noqa: D103
     # GIVEN an empty database
     assert Event.objects.count() == 0
 
@@ -18,4 +18,3 @@ def test_event_factory():
 
     event = Event.objects.first()
     assert event.title == 'five'
-

@@ -1,3 +1,4 @@
+"""Unit tests for venues.views."""
 from django.urls import reverse
 from mock import patch, MagicMock
 
