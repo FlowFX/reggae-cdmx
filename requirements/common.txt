@@ -1,7 +1,7 @@
 # Common requirements
 
 # Django
-Django==1.10.6
+Django==1.10.7
 django-crispy-forms==1.6.1
 django-extensions==1.7.7
 
