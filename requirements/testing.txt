@@ -11,7 +11,7 @@ mock==2.0.0
 selenium==3.4.1
 
 # coverage
-coverage==4.3.4
+coverage==4.4.1
 pytest-cov==2.5.1
 python-coveralls==2.9.1
 
