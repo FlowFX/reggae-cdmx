@@ -1,5 +1,4 @@
 """Functional tests for editor's capabilities."""
-
 from selenium.webdriver.common.keys import Keys
 
 from reggae.events.factories import EventFactory, VenueFactory
@@ -22,6 +21,7 @@ def test_jahshua_wants_to_add_an_event(live_server, browser):  # noqa: D103
     # Because he is awesome, he sees the 'add event' link
     browser.find_element_by_id('add_event').click()
 
+    # It redirects to the EventCreateView
     assertRegex(browser.current_url, '.+/new$')
 
     # He enters the data
@@ -31,7 +31,6 @@ def test_jahshua_wants_to_add_an_event(live_server, browser):  # noqa: D103
     browser.find_element_by_id('id_venue').send_keys('Kali')
     browser.find_element_by_id('id_venue').send_keys(Keys.ENTER)
     browser.find_element_by_id('submit-id-submit').click()
-
 
     # And gets back to the calendar view
     assertRegex(browser.current_url, '.+/$')
@@ -45,26 +44,27 @@ def test_jahshua_wants_to_add_an_event(live_server, browser):  # noqa: D103
     assert 'Kaliman' in browser.page_source
 
 
-def test_jahshua_deletes_an_event_from_the_home_page(live_server, browser):
-
+def test_jahshua_deletes_an_event_from_the_home_page(live_server, browser):  # noqa: D103
+    # There is one event in the list
     event = EventFactory.create()
 
     browser.get(live_server.url)
     assert event.title in browser.page_source
 
-    browser.find_element_by_class_name('delete_event').click()
+    # Jahshua clicks the delete button of that first event
+    browser.find_elements_by_class_name('delete_event')[0].click()
 
+    # The confirmation page has a submit button
     browser.find_element_by_id('submit-id-submit').click()
 
-    # The entry is gone
+    # He gets redirected to the home page, and the entry is gone
     table = browser.find_element_by_id('events')
     rows = table.find_elements_by_tag_name('tr')
     assert len(rows) == 0
 
 
-def test_jahshua_edits_an_event_from_the_home_page(live_server, browser):
+def test_jahshua_edits_an_event_from_the_home_page(live_server, browser):  # noqa: D103
     """Test editing an existing event."""
-
     # GIVEN one event in the database
     event = EventFactory.create()
 
@@ -73,18 +73,17 @@ def test_jahshua_edits_an_event_from_the_home_page(live_server, browser):
     assert event.title in browser.page_source
 
     # AND clicking the "edit" button of the first event
-    browser.find_element_by_class_name('edit_event').click()
+    browser.find_elements_by_class_name('edit_event')[0].click()
 
-    # THEN 
+    # THEN Jahshua gets to the EventUpdateView
     browser.find_element_by_id('id_title').clear()
-    browser.find_element_by_id('id_title').send_keys('Xochimilco goes Large')
 
+    # He updates the event title
+    browser.find_element_by_id('id_title').send_keys('Xochimilco goes Large')
     browser.find_element_by_id('submit-id-submit').click()
 
-    # And gets back to the calendar view
+    # and gets back to the calendar view
     assertRegex(browser.current_url, '.+/$')
 
     assert event.title not in browser.page_source
     assert 'Xochimilco' in browser.page_source
-
-

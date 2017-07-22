@@ -1,3 +1,4 @@
+"""Functional tests for a simple site visitor."""
 from reggae.events.factories import EventFactory
 from reggae.events.models import Event
 
