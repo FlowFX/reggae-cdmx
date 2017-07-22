@@ -1,7 +1,7 @@
 """Unit tests for venues.models."""
 
-from reggae.venues.factories import VenueFactory
-from reggae.venues.models import Venue
+from app.venues.factories import VenueFactory
+from app.venues.models import Venue
 
 import pytest
 

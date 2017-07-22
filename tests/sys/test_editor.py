@@ -1,8 +1,8 @@
 """Functional tests for editor's capabilities."""
 from selenium.webdriver.common.keys import Keys
 
-from reggae.events.factories import EventFactory, VenueFactory
-from reggae.events.utils import assertRegex
+from app.events.factories import EventFactory, VenueFactory
+from app.events.utils import assertRegex
 
 
 def test_jahshua_wants_to_add_an_event(live_server, browser):  # noqa: D103

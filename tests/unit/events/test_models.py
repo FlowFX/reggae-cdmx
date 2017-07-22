@@ -1,8 +1,8 @@
 """Unit tests for calendar models."""
 import pytest
 
-from reggae.events.factories import EventFactory
-from reggae.events.models import Event
+from app.events.factories import EventFactory
+from app.events.models import Event
 
 
 @pytest.mark.django_db

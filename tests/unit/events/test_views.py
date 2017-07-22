@@ -2,14 +2,10 @@
 from django.urls import reverse
 from mock import patch, MagicMock
 
-from reggae.events.factories import EventFactory
-from reggae.events.views import (IndexView,
-                                 EventCreateView, EventDeleteView,
-                                 EventDetailView, EventListView,
-                                 EventUpdateView,
-                                 )
+from app.events import factories, views
 
 from datetime import date
+
 
 """ EVENT VIEWS """
 def test_index_view_with_no_events(rf):  # noqa: D103, E302
@@ -18,7 +14,7 @@ def test_index_view_with_no_events(rf):  # noqa: D103, E302
 
     # WHEN calling
     request = rf.get(url)
-    response = IndexView.as_view()(request)
+    response = views.IndexView.as_view()(request)
 
     # THEN it's there,
     assert response.status_code == 200
@@ -28,26 +24,26 @@ def test_index_view_with_no_events(rf):  # noqa: D103, E302
 
 def test_index_view_with_events(rf):  # noqa: D103
     # GIVEN a couple mock events
-    events = EventFactory.build_batch(5)
+    events = factories.EventFactory.build_batch(5)
 
-    with patch.object(IndexView, 'get_queryset', return_value=events):
+    with patch.object(views.IndexView, 'get_queryset', return_value=events):
 
         url = reverse('index')
         request = rf.get(url)
-        response = IndexView.as_view()(request)
+        response = views.IndexView.as_view()(request)
 
         assert response.status_code == 200
         assert response.template_name[0] == 'index.html'
 
 
 def test_index_view_displays_event_titles_and_venues(rf):  # noqa: D103
-    events = EventFactory.build_batch(5)
+    events = factories.EventFactory.build_batch(5)
 
-    with patch.object(IndexView, 'get_queryset', return_value=events):
+    with patch.object(views.IndexView, 'get_queryset', return_value=events):
 
         url = reverse('index')
         request = rf.get(url)
-        response = IndexView.as_view()(request)
+        response = views.IndexView.as_view()(request)
 
         response.render()
         content = response.rendered_content
@@ -68,14 +64,14 @@ def test_index_view_displays_event_titles_and_venues(rf):  # noqa: D103
 
 
 def test_event_detail_view(rf):  # noqa: D103
-    event = EventFactory.build()
+    event = factories.EventFactory.build()
 
-    with patch.object(EventDetailView, 'get_object', return_value=event):
+    with patch.object(views.EventDetailView, 'get_object', return_value=event):
 
         url = reverse('events:detail', args=[str(event.id)])
 
         request = rf.get(url)
-        response = EventDetailView.as_view()(request)
+        response = views.EventDetailView.as_view()(request)
 
         assert response.status_code == 200
         assert response.template_name[0] == 'events/event_detail.html'
@@ -89,14 +85,14 @@ def test_event_create_view_GET(rf):  # noqa: D103
     url = reverse('events:create')
 
     request = rf.get(url)
-    response = EventCreateView.as_view()(request)
+    response = views.EventCreateView.as_view()(request)
     assert response.template_name[0] == 'model_form.html'
 
     response.render()
     assert 'submit' in response.rendered_content
 
 
-@patch('reggae.events.models.Event.save', MagicMock(name="save"))
+@patch('app.events.models.Event.save', MagicMock(name="save"))
 def test_event_create_view_POST(client):  # noqa: D103
 
     # GIVEN any state
@@ -106,8 +102,8 @@ def test_event_create_view_POST(client):  # noqa: D103
             'date': date(2017, 8, 20),
             'venue': None,
             }
-    response = client.post(url, data=data)
-    # response = EventCreateView.as_view()(request)
+    response = client.post(url, data=data)  # noqa
+    # response = views.EventCreateView.as_view()(request)
 
     # THEN we get redirected to the events list
     # assert response.url == reverse('events:list')
@@ -115,14 +111,14 @@ def test_event_create_view_POST(client):  # noqa: D103
 
 
 def test_event_update_view(rf):  # noqa: D103
-    event = EventFactory.build()
+    event = factories.EventFactory.build()
 
-    with patch.object(EventUpdateView, 'get_object', return_value=event):
+    with patch.object(views.EventUpdateView, 'get_object', return_value=event):
 
         url = reverse('events:update', args=[str(event.id)])
         request = rf.get(url)
 
-        response = EventUpdateView.as_view()(request)
+        response = views.EventUpdateView.as_view()(request)
 
         assert response.status_code == 200
         assert response.template_name[0] == 'model_form.html'
@@ -131,14 +127,14 @@ def test_event_update_view(rf):  # noqa: D103
 
 
 def test_event_delete_view_GET(rf):  # noqa: D103
-    event = EventFactory.build()
+    event = factories.EventFactory.build()
 
-    with patch.object(EventDeleteView, 'get_object', return_value=event):
+    with patch.object(views.EventDeleteView, 'get_object', return_value=event):
 
         url = reverse('events:delete', args=[str(event.id)])
         request = rf.get(url)
 
-        response = EventDeleteView.as_view()(request)
+        response = views.EventDeleteView.as_view()(request)
 
         assert response.status_code == 200
         assert response.template_name[0] == 'model_delete.html'
@@ -146,32 +142,32 @@ def test_event_delete_view_GET(rf):  # noqa: D103
         response.render()
 
 
-@patch('reggae.events.models.Event.delete', MagicMock(name="delete"))
+@patch('app.events.models.Event.delete', MagicMock(name="delete"))
 def test_event_delete_view_POST(client, rf):  # noqa: D103
-    event = EventFactory.build()
+    event = factories.EventFactory.build()
 
-    with patch.object(EventDeleteView, 'get_object', return_value=event):
+    with patch.object(views.EventDeleteView, 'get_object', return_value=event):
 
         url = reverse('events:delete', args=[0])
         response = client.post(url)
 
         # TODO: add messages middleware to request factory
         # request = rf.post(url)
-        # response = EventDeleteView.as_view()(request)
+        # response = views.EventDeleteView.as_view()(request)
 
         assert response.status_code == 302
         assert response.url == reverse('events:list')
 
 
 def test_event_list_view(rf):  # noqa: D103
-    events = EventFactory.build_batch(5)
+    events = factories.EventFactory.build_batch(5)
 
     # GIVEN a couple mock events
-    with patch.object(EventListView, 'get_queryset', return_value=events):
+    with patch.object(views.EventListView, 'get_queryset', return_value=events):
 
         url = reverse('events:list')
         request = rf.get(url)
-        response = EventListView.as_view()(request)
+        response = views.EventListView.as_view()(request)
 
         assert response.status_code == 200
         assert response.template_name[0] == 'events/event_list.html'

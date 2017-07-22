@@ -1,9 +1,9 @@
 """Functional tests for a simple site visitor."""
-from reggae.events.factories import EventFactory
-from reggae.events.models import Event
+from app.events.factories import EventFactory
+from app.events.models import Event
 
 
-def test_olivia_wants_to_know_where_the_party_is(live_server, browser):
+def test_olivia_wants_to_know_where_the_party_is(live_server, browser):  # noqa: D103
     # to have something to show for, the database is filled with sample data
     EventFactory.create_batch(10)
     event = Event.objects.first()
