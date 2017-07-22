@@ -18,3 +18,6 @@ python-coveralls==2.9.1
 # Flake8
 flake8==3.3.0
 flake8-docstrings==1.1.0
+
+# Misc
+mypy==0.520
