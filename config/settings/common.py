@@ -8,7 +8,7 @@ SECRET_KEY = 'extremely-secure-secret-key'
 
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS: list = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -91,6 +91,14 @@ USE_L10N = True
 USE_TZ = True
 
 
+# default CACHE backend
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    },
+}
+
+
 # Static files (CSS, JavaScript, Images)
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -98,14 +106,28 @@ STATICFILES_FINDERS = [
     'compressor.finders.CompressorFinder',
 ]
 
-COMPRESS_PRECOMPILERS = (
-    # ('text/x-scss', 'django_libsass.SassCompiler'),
-)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'app/static'),
+]
+
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'app/static'))
+STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '.static'))
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'app/media'))
+MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, '.media'))
 
 INTERNAL_IPS = ['127.0.0.1']
+
+
+# compressor
+COMPRESS_ENABLED = True
+COMPRESS_OFFLINE = False
+COMPRESS_CACHE_BACKEND = 'default'
+
+COMPRESS_CSS_FILTERS = [
+    'compressor.filters.cssmin.CSSCompressorFilter',
+]
+COMPRESS_JS_FILTERS = [
+    'compressor.filters.jsmin.JSMinFilter',
+]
