@@ -153,6 +153,22 @@ def test_event_update_view_GET(db, client, mocker):  # noqa: D103
     assert event.title in content
 
 
+def test_event_update_view_POST_redirects_to_event_list(db, client, mocker):  # noqa: D103
+    # TODO: why do we need the databse here?!
+    # GIVEN an existing event
+    event = factories.EventFactory.build(title='Here We Go Again')
+    mocker.patch.object(views.EventUpdateView, 'get_object', return_value=event)
+
+    # WHEN updating the event via POST request
+    url = reverse('events:update', args=[str(event.id)])
+    data = {'title': event.title, 'date': date(2019, 8, 5)}
+    response = client.post(url, data)
+
+    # THEN it redirects to the events list
+    assert response.status_code == 302
+    assert response.url == reverse('events:list')
+
+
 def test_event_delete_view_GET(client, mocker):  # noqa: D103
     # GIVEN an existing event
     event = factories.EventFactory.build()
@@ -167,7 +183,7 @@ def test_event_delete_view_GET(client, mocker):  # noqa: D103
     assert response.template_name[0] == 'model_delete.html'
 
 
-def test_event_delete_view_POST(client, mocker):  # noqa: D103
+def test_event_delete_view_POST_redirects_to_events_list(client, mocker):  # noqa: D103
     # GIVEN an existing event
     event = factories.EventFactory.build()
     mocker.patch.object(views.EventDeleteView, 'get_object', return_value=event)
@@ -176,6 +192,21 @@ def test_event_delete_view_POST(client, mocker):  # noqa: D103
     # WHEN calling the delete view via POST request
     url = reverse('events:delete', args=[str(event.id)])
     response = client.post(url)
+
+    # THEN we get redirected to the events list
+    # TODO: check for success message
+    assert response.status_code == 302
+    assert response.url == reverse('events:list')
+
+
+def test_event_delete_view_POST_cancel_button_works(client, mocker):  # noqa: D103
+    # GIVEN an existing event
+    event = factories.EventFactory.build()
+    mocker.patch.object(views.EventDeleteView, 'get_object', return_value=event)
+
+    # WHEN calling the delete view via POST request, without db or mocks
+    url = reverse('events:delete', args=[str(event.id)])
+    response = client.post(url, data={'cancel': 'Cancel'})
 
     # THEN we get redirected to the events list
     # TODO: check for success message

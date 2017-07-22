@@ -73,7 +73,7 @@ class EventUpdateView(FormActionMixin, UpdateView):
 
     def get_success_url(self):
         """Return the home page."""
-        return reverse('index')
+        return reverse('events:list')
 
 
 class EventDeleteView(FormActionMixin, DeleteView):
