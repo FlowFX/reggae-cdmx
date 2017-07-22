@@ -2,10 +2,13 @@
 
 from django.conf import settings
 from django.conf.urls import include, url
+from django.contrib import admin
 
 from app.events.views import IndexView
 
 urlpatterns = [
+    url(r'^admin/', admin.site.urls),
+    url(r'^', include('django.contrib.auth.urls')),
     url(r'^$', IndexView.as_view(), name='index'),
     # Events
     url(r'^events/', include('app.events.urls', namespace='events')),
