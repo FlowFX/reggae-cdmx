@@ -5,4 +5,4 @@ omit =
 	# omit all tests
 	tests/*
 	# omit migrations
-	*/migrations
+	*/migrations/*
