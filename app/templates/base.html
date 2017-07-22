@@ -21,12 +21,8 @@
          integrity="sha256-Ro/wP8uUi8LR71kwIdilf78atpu8bTEwrK5ZotZo+Zc="
          crossorigin="anonymous" />
 
-    {% compress css inline %}
-    <style>
-        body {
-            background-color: lightgrey;
-        }
-    </style>
+    {% compress css %}
+    <link rel="stylesheet" href={% static "css/style.css" %} type="text/css" />
     {% endcompress %}
     
 </head>
