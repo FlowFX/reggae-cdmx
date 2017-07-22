@@ -1,7 +1,8 @@
-import pytest
 from selenium import webdriver
 
 from reggae.events.factories import EventFactory
+
+import pytest
 
 
 @pytest.fixture(scope="session")
