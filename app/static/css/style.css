@@ -9,6 +9,14 @@ a {
     color: #ffb505;
 }
 
+/* header */
+a h1 {
+    color: #fff;
+}
+a h1:hover {
+    color: #606c76;
+}
+
 /* buttons */
 input[type="submit"],
 .button {
@@ -34,7 +42,7 @@ input[type="tel"], input[type="text"], input[type="url"], textarea, select {
 /* sticky footer */
 .content {
   min-height: calc(100vh - 70px);
-  padding-top: 20px;
+  /* padding-top: 20px; */
 }
 .footer {
   height: 50px;

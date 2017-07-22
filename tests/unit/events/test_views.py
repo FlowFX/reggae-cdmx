@@ -40,16 +40,6 @@ def test_index_view_with_events(client, mocker):  # noqa: D103
     assert events[0].date.strftime("%d/%m") in content
     assert events[0].get_absolute_url() in content
 
-    # AND there is a 'new event' button
-    create_url = reverse('events:create')
-    assert 'add_event' in content
-    assert create_url in content
-
-    # AND a delete button for the first event
-    delete_url = reverse('events:delete', args=[str(events[0].id)])
-    assert 'delete_event' in content
-    assert delete_url in content
-
 
 def test_event_list_view(client, mocker):  # noqa: D103
     # GIVEN a couple mock events
@@ -70,16 +60,6 @@ def test_event_list_view(client, mocker):  # noqa: D103
     assert events[0].venue.name in content
     assert events[0].date.strftime("%d/%m") in content
     assert events[0].get_absolute_url() in content
-
-    # AND there is a 'new event' button
-    create_url = reverse('events:create')
-    assert 'add_event' in content
-    assert create_url in content
-
-    # AND a delete button for the first event
-    delete_url = reverse('events:delete', args=[str(events[0].id)])
-    assert 'delete_event' in content
-    assert delete_url in content
 
 
 def test_event_detail_view(client, mocker):  # noqa: D103
