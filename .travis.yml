@@ -6,8 +6,8 @@ python:
 install: "pip install -r requirements/testing.txt"
 # Run tests
 script:
-  - pytest --cov
-  - pytest functional_tests
+  - pytest -k sys -x
+  - pytest -k unit -x --cov -n auto
 after_success:
   - coveralls
 notifications:
