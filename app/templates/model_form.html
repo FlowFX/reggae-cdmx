@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
 
 {% block content %}
 
-{% crispy form %}
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input id="submit-id-submit" type="submit" value="Confirm" />
+</form>
 
 {% endblock content %}

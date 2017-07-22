@@ -19,7 +19,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'compressor',
-    'crispy_forms',
     'app.events',
     'app.venues',
 ]
@@ -108,7 +107,5 @@ STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'app/static'))
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'app/media'))
-
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 INTERNAL_IPS = ['127.0.0.1']

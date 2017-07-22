@@ -2,10 +2,8 @@
 
 # Django
 Django==1.11.3
-django-crispy-forms==1.6.1
 django-extensions==1.8.0
 
 # Frontend
 django-compressor==2.1.1
-django-libsass==0.7
 csscompressor==0.9.4
