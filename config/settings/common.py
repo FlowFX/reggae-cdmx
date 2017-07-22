@@ -20,9 +20,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'compressor',
     'crispy_forms',
-    'reggae',
-    'reggae.events',
-    'reggae.venues',
+    'app.events',
+    'app.venues',
 ]
 
 MIDDLEWARE = [
@@ -40,7 +39,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'app/templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,7 +76,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = 'es-mx'
+LANGUAGES = (
+    ('es-mx', 'Español'),
+)
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'app/templates/locale'),
+]
 
 TIME_ZONE = 'America/Mexico_City'
 
@@ -96,16 +100,14 @@ STATICFILES_FINDERS = [
 ]
 
 COMPRESS_PRECOMPILERS = (
-    ('text/x-scss', 'django_libsass.SassCompiler'),
+    # ('text/x-scss', 'django_libsass.SassCompiler'),
 )
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '.static'))
+STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'app/static'))
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, '.media'))
-
-
+MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'app/media'))
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

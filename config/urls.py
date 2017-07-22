@@ -3,14 +3,14 @@
 from django.conf import settings
 from django.conf.urls import include, url
 
-from reggae.events.views import IndexView
+from app.events.views import IndexView
 
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
     # Events
-    url(r'^events/', include('reggae.events.urls', namespace='events')),
-    url(r'^venues/', include('reggae.venues.urls', namespace='venues')),
+    url(r'^events/', include('app.events.urls', namespace='events')),
     # Venues
+    url(r'^venues/', include('app.venues.urls', namespace='venues')),
 ]
 
 if settings.DEBUG:

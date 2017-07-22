@@ -2,15 +2,15 @@
 
 import pytest
 
-from reggae.events.utils import assertRegex
+from app.events.utils import assertRegex
 
 
-@pytest.mark.parametrize('text, regex, assertion', [
-    ('Bungalo Dub', '^Bungalo.+', True),
-    ('Bungalo Dub', '.+Dub$', True),
-    ('Bungalo Dub', 'Bungalo Dub', True),
-    ('Bungalo Dub', '^Bngalo.+', False),
-    ])
+@pytest.mark.parametrize('text, regex, assertion',
+                         [('Bungalo Dub', '^Bungalo.+', True),
+                          ('Bungalo Dub', '.+Dub$', True),
+                          ('Bungalo Dub', 'Bungalo Dub', True),
+                          ('Bungalo Dub', '^Bngalo.+', False),
+                          ])
 def test_assertregex(text, regex, assertion):
     """Unit test the assertRegex function."""
     if assertion is True:

@@ -2,22 +2,18 @@
 from django.urls import reverse
 from mock import patch, MagicMock
 
-from reggae.venues.factories import VenueFactory
-from reggae.venues.views import (VenueCreateView, VenueDeleteView,
-                                 VenueDetailView, VenueListView,
-                                 VenueUpdateView,
-                                 )
+from app.venues import factories, views
 
 
 def test_venue_list_view(rf):  # noqa: D103, E302
-    venues = VenueFactory.build_batch(5)
+    venues = factories.VenueFactory.build_batch(5)
 
     # GIVEN a couple mock venues
-    with patch.object(VenueListView, 'get_queryset', return_value=venues):
+    with patch.object(views.VenueListView, 'get_queryset', return_value=venues):
 
         url = reverse('venues:list')
         request = rf.get(url)
-        response = VenueListView.as_view()(request)
+        response = views.VenueListView.as_view()(request)
 
         assert response.status_code == 200
         assert response.template_name[0] == 'venues/venue_list.html'
@@ -34,7 +30,7 @@ def test_venue_create_view_GET(rf):  # noqa: D103
     url = reverse('venues:create')
 
     request = rf.get(url)
-    response = VenueCreateView.as_view()(request)
+    response = views.VenueCreateView.as_view()(request)
 
     assert response.template_name[0] == 'model_form.html'
     assert response.status_code == 200
@@ -43,14 +39,14 @@ def test_venue_create_view_GET(rf):  # noqa: D103
     assert 'submit' in response.rendered_content
 
 
-@patch('reggae.venues.models.Venue.save', MagicMock(name="save"))
+@patch('app.venues.models.Venue.save', MagicMock(name="save"))
 def test_venue_create_view_POST(client):  # noqa: D103
     # GIVEN any state
     # use the client for the messages middleware that rf does not provide
     # WHEN creating a new venue
     url = reverse('venues:create')
     response = client.post(url, data={'name': 'Kaliman Bar'})
-    # response = VenueCreateView.as_view()(request)
+    # response = views.VenueCreateView.as_view()(request)
 
     # THEN we get redirected to the venues list
     assert response.status_code == 302
@@ -58,13 +54,13 @@ def test_venue_create_view_POST(client):  # noqa: D103
 
 
 def test_venue_update_view_GET(rf):  # noqa: D103
-    venue = VenueFactory.build()
+    venue = factories.VenueFactory.build()
 
-    with patch.object(VenueUpdateView, 'get_object', return_value=venue):
+    with patch.object(views.VenueUpdateView, 'get_object', return_value=venue):
 
         url = reverse('venues:update', args=[str(venue.id)])
         request = rf.get(url)
-        response = VenueUpdateView.as_view()(request)
+        response = views.VenueUpdateView.as_view()(request)
 
         assert response.status_code == 200
         assert response.template_name[0] == 'model_form.html'
@@ -72,15 +68,15 @@ def test_venue_update_view_GET(rf):  # noqa: D103
         response.render()
 
 
-# @patch('reggae.venues.models.Venue.save', MagicMock(name="save"))
+# @patch('app.venues.models.Venue.save', MagicMock(name="save"))
 def test_venue_update_view_POST(client, rf):  # noqa: D103
-    venue = VenueFactory.build()
+    venue = factories.VenueFactory.build()
 
-    with patch.object(VenueDeleteView, 'get_object', return_value=venue):
+    with patch.object(views.VenueDeleteView, 'get_object', return_value=venue):
 
         url = reverse('venues:update', args=[str(venue.id)])
-        request = rf.post(url)
-        # response = VenueUpdateView.as_view()(request)
+        request = rf.post(url)  # noqa
+        # response = views.VenueUpdateView.as_view()(request)
         # TODO: finish update view POST test
 
         # assert response.status_code == 302
@@ -88,14 +84,14 @@ def test_venue_update_view_POST(client, rf):  # noqa: D103
 
 
 def test_venue_delete_view_GET(rf):  # noqa: D103
-    venue = VenueFactory.build()
+    venue = factories.VenueFactory.build()
 
-    with patch.object(VenueDeleteView, 'get_object', return_value=venue):
+    with patch.object(views.VenueDeleteView, 'get_object', return_value=venue):
 
         url = reverse('venues:delete', args=[0])
         request = rf.get(url)
 
-        response = VenueDeleteView.as_view()(request)
+        response = views.VenueDeleteView.as_view()(request)
 
         assert response.status_code == 200
         assert response.template_name[0] == 'model_delete.html'
@@ -103,31 +99,31 @@ def test_venue_delete_view_GET(rf):  # noqa: D103
         response.render()
 
 
-@patch('reggae.venues.models.Venue.delete', MagicMock(name="delete"))
+@patch('app.venues.models.Venue.delete', MagicMock(name="delete"))
 def test_venue_delete_view_POST(client, rf):  # noqa: D103
-    venue = VenueFactory.build()
+    venue = factories.VenueFactory.build()
 
-    with patch.object(VenueDeleteView, 'get_object', return_value=venue):
+    with patch.object(views.VenueDeleteView, 'get_object', return_value=venue):
 
         url = reverse('venues:delete', args=[0])
         response = client.post(url)
 
         # TODO: add messages middleware to request factory
         # request = rf.post(url)
-        # response = VenueDeleteView.as_view()(request)
+        # response = views.VenueDeleteView.as_view()(request)
 
         assert response.status_code == 302
         assert response.url == reverse('venues:list')
 
 
 def test_venue_detail_view(rf):  # noqa: D103
-    venue = VenueFactory.build()
+    venue = factories.VenueFactory.build()
 
-    with patch.object(VenueDetailView, 'get_object', return_value=venue):
+    with patch.object(views.VenueDetailView, 'get_object', return_value=venue):
         url = reverse('venues:detail', args=[0])
         request = rf.get(url)
 
-        response = VenueDetailView.as_view()(request)
+        response = views.VenueDetailView.as_view()(request)
 
         assert response.status_code == 200
         assert response.template_name[0] == 'venues/venue_detail.html'
