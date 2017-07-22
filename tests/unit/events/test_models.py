@@ -1,20 +1,14 @@
-"""Unit tests for calendar models."""
-import pytest
-
+"""Unit tests for events models."""
 from app.events.factories import EventFactory
 from app.events.models import Event
 
 
-@pytest.mark.django_db
-def test_event_factory():  # noqa: D103
+def test_event_factory(db):  # noqa: D103
     # GIVEN an empty database
     assert Event.objects.count() == 0
 
-    event = EventFactory.build()
-    event.title = 'five'
-    event.save()
+    # WHEN saving a new event instance to the database
+    EventFactory.create(title='five')
 
+    # THEN it's there
     assert Event.objects.count() == 1
-
-    event = Event.objects.first()
-    assert event.title == 'five'

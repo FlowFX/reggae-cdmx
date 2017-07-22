@@ -3,10 +3,11 @@
 {% block content %}
 
 
-<a href="{% url 'index' %}"><button type="button" class="btn btn-secondary back-btn">Regresar</button></a>
+<a class="button back-btn" href="{% url 'index' %}">Regresar</a>
 
 
 <h1>{{ event.title }}</h1>
 <h2>{{ event.date|date:"d/m" }}</h2>
+<p>{{ event.venue.name }}</p>
 
 {% endblock content %}

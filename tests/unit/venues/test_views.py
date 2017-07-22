@@ -34,7 +34,7 @@ def test_venue_create_view_GET(client):  # noqa: D103
     assert response.template_name[0] == 'model_form.html'
 
     # AND there is a submit button
-    assert 'submit' in response.rendered_content
+    assert 'submit' in response.content.decode()
 
 
 def test_venue_create_view_POST_redirects_to_venue_list(client, mocker):  # noqa: D103
