@@ -10,15 +10,16 @@
     {% for event in events %}
     <tr class="event">
       <th scope="row">{{ event.date|date:"d/m"  }}</th>
-      <td><a class="show_event" href="{{ event.get_absolute_url }}">{{ event.title }}</a>,
-          {{ event.venue.name }}
+      <td>
+        <a class="show_event" href="{{ event.get_absolute_url }}">
+          {{ event.title }}
+        </a>{% if event.venue.name %}, {{ event.venue.name }} {% endif %}
       </td>
       <td>
         <a class="button edit_event" href="{% url 'events:update' event.id %}">Editar</a>
       <td>
         <a class="button button-outline delete_event" href="{% url 'events:delete' event.id %}">Borrar</a>
       </td>
-      <!--<td>@mdo</td>-->
     </tr>
     {% endfor %}
   </tbody>
