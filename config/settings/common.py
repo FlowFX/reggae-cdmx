@@ -1,7 +1,4 @@
-"""
-Django settings for sturdy-potato project.
-"""
-
+"""Django settings for Reggae CDMX."""
 import os
 
 
