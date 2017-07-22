@@ -1,134 +1,139 @@
 """Unit tests for venues.views."""
 from django.urls import reverse
-from mock import patch, MagicMock
+from mock import MagicMock
 
-from app.venues import factories, views
+from app.venues import factories, models, views
 
 
-def test_venue_list_view(rf):  # noqa: D103, E302
+def test_venue_list_view(client, mocker):  # noqa: D103
+    # GIVEN a number of venues
     venues = factories.VenueFactory.build_batch(5)
+    mocker.patch.object(views.VenueListView, 'get_queryset', return_value=venues)
 
-    # GIVEN a couple mock venues
-    with patch.object(views.VenueListView, 'get_queryset', return_value=venues):
+    # WHEN opening the venues list
+    url = reverse('venues:list')
+    response = client.get(url)
 
-        url = reverse('venues:list')
-        request = rf.get(url)
-        response = views.VenueListView.as_view()(request)
-
-        assert response.status_code == 200
-        assert response.template_name[0] == 'venues/venue_list.html'
-
-        response.render()
-        content = response.rendered_content
-
-        for venue in venues:
-            assert venue.name in content
-
-
-def test_venue_create_view_GET(rf):  # noqa: D103
-
-    url = reverse('venues:create')
-
-    request = rf.get(url)
-    response = views.VenueCreateView.as_view()(request)
-
-    assert response.template_name[0] == 'model_form.html'
+    # THEN it's there
     assert response.status_code == 200
+    assert response.template_name[0] == 'venues/venue_list.html'
 
-    response.render()
+    # AND shows all existing venues
+    for venue in venues:
+        assert venue.name in response.content.decode()
+
+
+def test_venue_create_view_GET(client):  # noqa: D103
+    # GIVEN any state
+    # WHEN calling the venue create view via GET request
+    url = reverse('venues:create')
+    response = client.get(url)
+
+    # THEN it's there
+    assert response.status_code == 200
+    assert response.template_name[0] == 'model_form.html'
+
+    # AND there is a submit button
     assert 'submit' in response.rendered_content
 
 
-@patch('app.venues.models.Venue.save', MagicMock(name="save"))
-def test_venue_create_view_POST(client):  # noqa: D103
+def test_venue_create_view_POST_redirects_to_venue_list(client, mocker):  # noqa: D103
     # GIVEN any state
-    # use the client for the messages middleware that rf does not provide
-    # WHEN creating a new venue
+    mocker.patch('app.venues.models.Venue.save', MagicMock(name="save"))
+
+    # WHEN creating a new venue via POST request
     url = reverse('venues:create')
     response = client.post(url, data={'name': 'Kaliman Bar'})
-    # response = views.VenueCreateView.as_view()(request)
 
     # THEN we get redirected to the venues list
     assert response.status_code == 302
     assert response.url == reverse('venues:list')
 
 
-def test_venue_update_view_GET(rf):  # noqa: D103
+def test_venue_create_view_POST_creates_new_venue(db, client):  # noqa: D103
+    # GIVEN an empty database
+    assert models.Venue.objects.count() == 0
+
+    # WHEN creating a new venue via POST request
+    url = reverse('venues:create')
+    client.post(url, data={'name': 'Roxy Bar'})
+
+    # THEN it gets saved to the database
+    assert models.Venue.objects.count() == 1
+
+
+def test_venue_update_view_GET(client, mocker):  # noqa: D103
+    # GIVEN an existing venue
     venue = factories.VenueFactory.build()
+    mocker.patch.object(views.VenueUpdateView, 'get_object', return_value=venue)
 
-    with patch.object(views.VenueUpdateView, 'get_object', return_value=venue):
+    # WHEN calling the venue update view via GET
+    url = reverse('venues:update', args=[str(venue.id)])
+    response = client.get(url)
 
-        url = reverse('venues:update', args=[str(venue.id)])
-        request = rf.get(url)
-        response = views.VenueUpdateView.as_view()(request)
-
-        assert response.status_code == 200
-        assert response.template_name[0] == 'model_form.html'
-
-        response.render()
+    # THEN it's there
+    assert response.status_code == 200
+    assert response.template_name[0] == 'model_form.html'
 
 
-# @patch('app.venues.models.Venue.save', MagicMock(name="save"))
-def test_venue_update_view_POST(client, rf):  # noqa: D103
+def test_venue_update_view_POST_redirects_to_list_view(client, mocker):  # noqa: D103
+    # GIVEN an existing venue
     venue = factories.VenueFactory.build()
+    mocker.patch.object(views.VenueUpdateView, 'get_object', return_value=venue)
+    mocker.patch('app.venues.models.Venue.save', MagicMock(name="save"))
 
-    with patch.object(views.VenueDeleteView, 'get_object', return_value=venue):
+    # WHEN updating the venue via POST request
+    url = reverse('venues:update', args=[str(venue.id)])
+    response = client.post(url, data={'name': 'Roxy Bar'})
 
-        url = reverse('venues:update', args=[str(venue.id)])
-        request = rf.post(url)  # noqa
-        # response = views.VenueUpdateView.as_view()(request)
-        # TODO: finish update view POST test
-
-        # assert response.status_code == 302
-        # assert response.url == reverse('venues:list')
+    # THEN it redirects to the venues list
+    assert response.status_code == 302
+    assert response.url == reverse('venues:list')
 
 
-def test_venue_delete_view_GET(rf):  # noqa: D103
+def test_venue_delete_view_GET(client, mocker):  # noqa: D103
+    # GIVEN an existing venue
     venue = factories.VenueFactory.build()
+    mocker.patch.object(views.VenueDeleteView, 'get_object', return_value=venue)
 
-    with patch.object(views.VenueDeleteView, 'get_object', return_value=venue):
+    # WHEN calling the delete view via GET
+    url = reverse('venues:delete', args=[str(venue.id)])
+    response = client.get(url)
 
-        url = reverse('venues:delete', args=[0])
-        request = rf.get(url)
-
-        response = views.VenueDeleteView.as_view()(request)
-
-        assert response.status_code == 200
-        assert response.template_name[0] == 'model_delete.html'
-
-        response.render()
+    # THEN it's there
+    assert response.status_code == 200
+    assert response.template_name[0] == 'model_delete.html'
 
 
-@patch('app.venues.models.Venue.delete', MagicMock(name="delete"))
-def test_venue_delete_view_POST(client, rf):  # noqa: D103
+def test_venue_delete_view_POST_redirects_to_venues_list(client, mocker):  # noqa: D103
+    # GIVEN an existing venue
     venue = factories.VenueFactory.build()
+    mocker.patch.object(views.VenueDeleteView, 'get_object', return_value=venue)
+    mocker.patch('app.venues.models.Venue.delete', MagicMock(name="delete"))
 
-    with patch.object(views.VenueDeleteView, 'get_object', return_value=venue):
+    # WHEN deleting the venue via POST request
+    url = reverse('venues:delete', args=[str(venue.id)])
+    response = client.post(url)
 
-        url = reverse('venues:delete', args=[0])
-        response = client.post(url)
-
-        # TODO: add messages middleware to request factory
-        # request = rf.post(url)
-        # response = views.VenueDeleteView.as_view()(request)
-
-        assert response.status_code == 302
-        assert response.url == reverse('venues:list')
+    # THEN we get redirected to the venues list
+    assert response.status_code == 302
+    assert response.url == reverse('venues:list')
 
 
-def test_venue_detail_view(rf):  # noqa: D103
+def test_venue_detail_view(client, mocker):  # noqa: D103
+    # GIVEN an existing venue
     venue = factories.VenueFactory.build()
+    mocker.patch.object(views.VenueDetailView, 'get_object', return_value=venue)
 
-    with patch.object(views.VenueDetailView, 'get_object', return_value=venue):
-        url = reverse('venues:detail', args=[0])
-        request = rf.get(url)
+    # WHEN calling the detail view via GET
+    url = reverse('venues:detail', args=[str(venue.id)])
+    response = client.get(url)
 
-        response = views.VenueDetailView.as_view()(request)
+    # THEN it's there
+    assert response.status_code == 200
 
-        assert response.status_code == 200
-        assert response.template_name[0] == 'venues/venue_detail.html'
+    # AND uses the correct template
+    assert response.template_name[0] == 'venues/venue_detail.html'
 
-        response.render()
-        content = response.rendered_content
-
-        assert venue.name in content
+    # AND shows the venue details
+    assert venue.name in response.content.decode()

@@ -1,21 +1,14 @@
-"""Unit tests for venues.models."""
-
+"""Unit and integration tests for venues.models."""
 from app.venues.factories import VenueFactory
 from app.venues.models import Venue
 
-import pytest
 
-
-@pytest.mark.django_db
-def test_venue_factory():  # noqa: D103
+def test_venue_factory(db):  # noqa: D103
     # GIVEN an empty database
     assert Venue.objects.count() == 0
 
-    venue = VenueFactory.build()
-    venue.name = 'five'
-    venue.save()
+    # WHEN saving a new venue instance to the database
+    VenueFactory.create(name='five')
 
+    # THEN it's there
     assert Venue.objects.count() == 1
-
-    venue = Venue.objects.first()
-    assert venue.name == 'five'
