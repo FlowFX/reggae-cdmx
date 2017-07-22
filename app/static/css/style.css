@@ -1,0 +1,41 @@
+/* style.css for Reggae CDMX */
+
+body {
+    background-color: #000;
+    color: #fff;
+}
+
+a {
+    color: #ffb505;
+}
+
+/* buttons */
+input[type="submit"],
+.button {
+    background-color: #ffb505;
+    border-color: #ffb505;
+}
+.button.button-outline {
+    color: #fff;
+}
+
+/* table cells */
+td, th {
+    border: none;
+    padding: 0 1.5rem;;
+}
+
+/* forms */
+input[type="email"], input[type="number"], input[type="password"], input[type="search"],
+input[type="tel"], input[type="text"], input[type="url"], textarea, select {
+    background-color: #fff;
+}
+
+/* sticky footer */
+.content {
+  min-height: calc(100vh - 70px);
+  padding-top: 20px;
+}
+.footer {
+  height: 50px;
+}

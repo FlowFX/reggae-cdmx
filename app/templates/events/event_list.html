@@ -2,14 +2,14 @@
 
 {% block content %}
 
-<h1>Upcoming</h1>
+<h2>Todos eventos</h1>
 <a class="button" id="add_event" href="{% url 'events:create' %}">Nuevo evento</a>
 
 <table id="events" class="table table-responsive">
   <tbody>
     {% for event in events %}
     <tr class="event">
-      <th scope="row">{{ event.date|date:"d/m"  }}</th>
+      <th scope="row">{{ event.date|date:"D d/m"  }}</th>
       <td>
         <a class="show_event" href="{{ event.get_absolute_url }}">
           {{ event.title }}

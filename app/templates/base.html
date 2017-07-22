@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 {% load compress %}
 <!DOCTYPE html>
 <html lang="es">
@@ -31,9 +32,21 @@
     <!-- {% include '_messages.html' %} -->
     <div class="container">
 
-    {% block content %}
-    {% endblock content %}
+        <div class="content">
+            <h1>Reggae CDMX</h1>
 
+            {% block content %}
+            {% endblock content %}
+        </div>  <!-- .content -->
+
+        <footer class="footer">
+            <p>
+                Made by <a href="https://flowfx.de/">FlowFX</a> –
+                <a href="https://www.facebook.com/ReggaeCDMX/">Facebook</a>
+                <a href="https://www.instagram.com/reggae_cdmx/">Instagram</a>
+                <a href="https://twitter.com/reggae_cdmx/">Twitter</a>
+            </p>
+        </footer>
     </div>
 
 </body>
