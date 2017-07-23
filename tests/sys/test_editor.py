@@ -5,7 +5,7 @@ from app.events.factories import EventFactory, VenueFactory
 from app.events.utils import assertRegex
 
 
-def test_jahshua_wants_to_add_an_event(live_server, browser, authentication):  # noqa: D103
+def test_jahshua_wants_to_add_an_event(live_server, browser, user):  # noqa: D103
     # We need one or more existing locations
     VenueFactory.create(name='Kaliman Bar')
     VenueFactory.create(name='Tacuba 64')
@@ -17,6 +17,12 @@ def test_jahshua_wants_to_add_an_event(live_server, browser, authentication):  #
     table = browser.find_element_by_id('events')
     rows = table.find_elements_by_tag_name('tr')
     assert len(rows) == 0
+
+    # Now he needs to log in
+    browser.find_element_by_id('id_login').click()
+    browser.find_element_by_id('id_username').send_keys('testuser')
+    browser.find_element_by_id('id_password').send_keys('password')
+    browser.find_element_by_id('submit-id-login').click()
 
     # Because he is awesome, he sees the 'add event' link
     browser.find_element_by_id('add_event').click()
@@ -44,12 +50,18 @@ def test_jahshua_wants_to_add_an_event(live_server, browser, authentication):  #
     assert 'Kaliman' in browser.page_source
 
 
-def test_jahshua_deletes_an_event_from_the_home_page(live_server, browser):  # noqa: D103
+def test_jahshua_deletes_an_event_from_the_home_page(live_server, browser, user):  # noqa: D103
     # There is one event in the list
     event = EventFactory.create()
 
     browser.get(live_server.url)
     assert event.title in browser.page_source
+
+    # Now he needs to log in
+    browser.find_element_by_id('id_login').click()
+    browser.find_element_by_id('id_username').send_keys('testuser')
+    browser.find_element_by_id('id_password').send_keys('password')
+    browser.find_element_by_id('submit-id-login').click()
 
     # Jahshua clicks the delete button of that first event
     browser.find_elements_by_class_name('delete_event')[0].click()
@@ -63,7 +75,7 @@ def test_jahshua_deletes_an_event_from_the_home_page(live_server, browser):  # n
     assert len(rows) == 0
 
 
-def test_jahshua_edits_an_event_from_the_home_page(live_server, browser):  # noqa: D103
+def test_jahshua_edits_an_event_from_the_home_page(live_server, browser, user):  # noqa: D103
     """Test editing an existing event."""
     # GIVEN one event in the database
     event = EventFactory.create()
@@ -71,6 +83,12 @@ def test_jahshua_edits_an_event_from_the_home_page(live_server, browser):  # noq
     # WHEN loading the home page
     browser.get(live_server.url)
     assert event.title in browser.page_source
+
+    # Now he needs to log in
+    browser.find_element_by_id('id_login').click()
+    browser.find_element_by_id('id_username').send_keys('testuser')
+    browser.find_element_by_id('id_password').send_keys('password')
+    browser.find_element_by_id('submit-id-login').click()
 
     # AND clicking the "edit" button of the first event
     browser.find_elements_by_class_name('edit_event')[0].click()

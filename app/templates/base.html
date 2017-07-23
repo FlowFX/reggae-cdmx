@@ -36,9 +36,9 @@
             <p style="text-align: right;">
             {% if user.is_authenticated %}
                 Hello, {{ user.username }}!
-                <a href="{% url 'logout' %}?next={{request.path}}">Log out</a>
+                <a id="id_logout" href="{% url 'logout' %}?next={{request.path}}">Log out</a>
             {% else %}
-                <a href="{% url 'login' %}?next={{request.path}}">Login</a>
+                <a id="id_login" href="{% url 'login' %}?next={{request.path}}">Login</a>
             {% endif %}
             </p>
 
