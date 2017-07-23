@@ -5,7 +5,7 @@ from app.events.factories import EventFactory, VenueFactory
 from app.events.utils import assertRegex
 
 
-def test_jahshua_wants_to_add_an_event(live_server, browser):  # noqa: D103
+def test_jahshua_wants_to_add_an_event(live_server, browser, authentication):  # noqa: D103
     # We need one or more existing locations
     VenueFactory.create(name='Kaliman Bar')
     VenueFactory.create(name='Tacuba 64')

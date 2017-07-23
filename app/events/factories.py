@@ -1,4 +1,6 @@
 """Model factories for calendar app."""
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
 
 import factory
 from factory.django import DjangoModelFactory
@@ -22,3 +24,13 @@ class EventFactory(DjangoModelFactory):
     title = faker('sentence', nb_words=4)
     date = faker('date_object')
     venue = factory.SubFactory(VenueFactory)
+
+
+class UserFactory(DjangoModelFactory):
+    """ModelFactory for the User object."""
+
+    class Meta:
+        model = User
+
+    username = factory.Sequence(lambda n: 'john_doe_{0}'.format(n))
+    password = make_password("password")
