@@ -1,4 +1,5 @@
 """reggae_cdmx/views.py."""
+from braces.views import LoginRequiredMixin
 
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -50,7 +51,7 @@ class EventDetailView(DetailView):
     context_object_name = 'event'
 
 
-class EventCreateView(FormActionMixin, CreateView):
+class EventCreateView(LoginRequiredMixin, FormActionMixin, CreateView):
     """CreateView for the Event model."""
 
     model = Event
@@ -63,7 +64,7 @@ class EventCreateView(FormActionMixin, CreateView):
         return reverse('events:list')
 
 
-class EventUpdateView(FormActionMixin, UpdateView):
+class EventUpdateView(LoginRequiredMixin, FormActionMixin, UpdateView):
     """UpdateView for the Event model."""
 
     model = Event
@@ -76,7 +77,7 @@ class EventUpdateView(FormActionMixin, UpdateView):
         return reverse('events:list')
 
 
-class EventDeleteView(FormActionMixin, DeleteView):
+class EventDeleteView(LoginRequiredMixin, FormActionMixin, DeleteView):
     """DeleteView for the Event model."""
 
     model = Event

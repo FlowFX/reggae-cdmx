@@ -24,3 +24,13 @@ def browser():
 def testdata():
     """Fill database with test events."""
     EventFactory.create_batch(10)
+
+
+@pytest.fixture()
+def authentication(live_server, browser, cookie):
+    # https://stackoverflow.com/a/22497239/6476946
+
+    browser.get(live_server.url + '/admin/')  # Selenium will set cookie domain based on current page domain
+    browser.add_cookie({'name': 'sessionid', 'value': cookie.value, 'secure': False, 'path': '/'})
+    browser.refresh()  # Need to update page for logged in user
+    browser.get(live_server.url + '/admin/')

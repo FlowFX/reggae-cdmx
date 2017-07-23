@@ -75,6 +75,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = '/login/'
+
 LANGUAGES = (
     ('es-mx', 'Español'),
 )
