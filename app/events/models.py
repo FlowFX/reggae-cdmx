@@ -16,6 +16,9 @@ class Event(models.Model):
         null=True,
         blank=True,
     )
+    description = models.TextField(verbose_name='', blank=True)
+    facebook_event_url = models.URLField(verbose_name='URL of the corresponding Facebook event', blank=True)
+    flyer_image = models.ImageField(verbose_name='image file of the event\'s promotion flyer', blank=True)
 
     def get_absolute_url(self):
         """Return the event's detail page URL."""
