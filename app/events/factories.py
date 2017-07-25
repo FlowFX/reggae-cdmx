@@ -24,6 +24,8 @@ class EventFactory(DjangoModelFactory):
     title = faker('sentence', nb_words=4)
     date = faker('date_object')
     venue = factory.SubFactory(VenueFactory)
+    description = faker('paragraph')
+    facebook_event_url = faker('url')
 
 
 class UserFactory(DjangoModelFactory):
