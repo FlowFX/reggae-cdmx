@@ -1,10 +1,45 @@
 """Django settings for Reggae CDMX."""
 import os
 
+import json
 
+# Never import from Django directly into settings. Except this.
+from django.core.exceptions import ImproperlyConfigured
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-SECRET_KEY = 'extremely-secure-secret-key'
+# JSON-based secrets module (cf. Two Scoops of Django)
+try:
+    with open(os.path.join(BASE_DIR, 'secrets.json')) as f:
+        secrets = json.loads(f.read())
+except FileNotFoundError:
+    error_msg = 'secrets.json file is missing.'
+    raise ImproperlyConfigured(error_msg)
+
+
+def get_secret(setting, secrets=secrets):
+    """Get the secret variable or return explicit exception."""
+    try:
+        # Return either environment variable or setting from secrets module
+        value = os.environ.get(setting)
+        if value is None:
+            value = secrets[setting]
+        return value
+    except KeyError:
+        error_msg = f'Set the {setting} environment variable!'
+        raise ImproperlyConfigured(error_msg)
+
+
+# Core settings
+SECRET_KEY = get_secret('DJANGO_SECRET_KEY'),
+
+ADMINS = [('Florian', 'florian@lexa.mx'),]
+ALLOWED_HOSTS = []
+APPEND_SLASH = True
+DEFAULT_CHARSET = 'utf-8'
+ROOT_URLCONF = 'config.urls'
+SITE_ID = 1
+WSGI_APPLICATION = 'config.wsgi.application'
+
 
 DEBUG = False
 
@@ -125,6 +160,13 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     },
 }
+
+
+# Sessions https://docs.djangoproject.com/en/1.11/topics/http/sessions/
+SESSION_COOKIE_AGE = 1209600  # (2 weeks, in seconds)
+SESSION_COOKIE_SECURE = True
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 
 # Static files (CSS, JavaScript, Images)
