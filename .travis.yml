@@ -5,7 +5,7 @@ python:
 install: "pip install -r requirements/testing.txt"
 # Run tests
 script:
-  - pytest -k sys -x
+  # - pytest -k sys -x
   - pytest -k unit -x --cov -n auto
 after_success:
   - coveralls
