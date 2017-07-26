@@ -1,4 +1,4 @@
-# Common requirements
+# common requirements
 
 # Django
 Django==1.11.3

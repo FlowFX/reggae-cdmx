@@ -1,4 +1,4 @@
-# Local/Development requirements
+# development requirements
 -r testing.txt
 
 django-debug-toolbar==1.8
