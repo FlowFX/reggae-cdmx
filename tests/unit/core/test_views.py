@@ -6,10 +6,10 @@ import pytest
 
 @pytest.mark.parametrize(
     'name, status_code',
-    [('login', 200),
-     ('logout', 200),
+    [('account_login', 200),
+     ('account_logout', 302),  # gets redirected to '/'
      ])
-def test_authentication_pages(client, name, status_code):  # noqa: D103
+def test_authentication_pages(db, client, name, status_code):  # noqa: D103
     # GIVEN a logged out user
     # WHEN calling the page
     url = reverse(name)

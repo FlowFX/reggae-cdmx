@@ -10,13 +10,21 @@ DEBUG = False
 
 ALLOWED_HOSTS: list = []
 
+SITE_ID = 1
+
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    # 'allauth.socialaccount.providers.google',
+    'django.contrib.admin',
     'django_extensions',
     'compressor',
     'app.events',
@@ -75,8 +83,26 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGIN_URL = '/login/'
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
+# Auth and allauth settings
+# https://django-allauth.readthedocs.io/en/latest/configuration.html
+ACCOUNT_PRESERVE_USERNAME_CASING = False
+LOGIN_REDIRECT_URL = None
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'METHOD': 'js_sdk',
+    }
+}
+
+
+# Language and localization
 LANGUAGES = (
     ('es-mx', 'Español'),
 )
