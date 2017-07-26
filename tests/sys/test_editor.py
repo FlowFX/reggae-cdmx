@@ -19,10 +19,11 @@ def test_jahshua_wants_to_add_an_event(live_server, browser, user):  # noqa: D10
     assert len(rows) == 0
 
     # Now he needs to log in
-    browser.find_element_by_id('id_login').click()
-    browser.find_element_by_id('id_username').send_keys('testuser')
+    browser.find_element_by_id('id_login_link').click()
+    browser.find_element_by_id('id_login').send_keys('testuser')
     browser.find_element_by_id('id_password').send_keys('password')
-    browser.find_element_by_id('submit-id-login').click()
+    browser.find_element_by_class_name('primaryAction').click()
+    # browser.find_element_by_id('submit-id-login').click()
 
     # Because he is awesome, he sees the 'add event' link
     browser.find_element_by_id('add_event').click()
@@ -58,10 +59,11 @@ def test_jahshua_deletes_an_event_from_the_home_page(live_server, browser, user)
     assert event.title in browser.page_source
 
     # Now he needs to log in
-    browser.find_element_by_id('id_login').click()
-    browser.find_element_by_id('id_username').send_keys('testuser')
+    browser.find_element_by_id('id_login_link').click()
+    browser.find_element_by_id('id_login').send_keys('testuser')
     browser.find_element_by_id('id_password').send_keys('password')
-    browser.find_element_by_id('submit-id-login').click()
+    browser.find_element_by_class_name('primaryAction').click()
+    # browser.find_element_by_id('submit-id-login').click()
 
     # Jahshua clicks the delete button of that first event
     browser.find_elements_by_class_name('delete_event')[0].click()
@@ -85,10 +87,11 @@ def test_jahshua_edits_an_event_from_the_home_page(live_server, browser, user): 
     assert event.title in browser.page_source
 
     # Now he needs to log in
-    browser.find_element_by_id('id_login').click()
-    browser.find_element_by_id('id_username').send_keys('testuser')
+    browser.find_element_by_id('id_login_link').click()
+    browser.find_element_by_id('id_login').send_keys('testuser')
     browser.find_element_by_id('id_password').send_keys('password')
-    browser.find_element_by_id('submit-id-login').click()
+    browser.find_element_by_class_name('primaryAction').click()
+    # browser.find_element_by_id('submit-id-login').click()
 
     # AND clicking the "edit" button of the first event
     browser.find_elements_by_class_name('edit_event')[0].click()

@@ -6,9 +6,18 @@ from django.contrib import admin
 
 from app.events.views import IndexView
 
+from django.views.generic import TemplateView
+
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('django.contrib.auth.urls')),
+    # url(r'^', include('django.contrib.auth.urls')),
+    url(r'^accounts/', include('allauth.urls')),
+    url(
+        r'^accounts/profile/$',
+        TemplateView.as_view(template_name='account/profile.html'),
+        name="account_profile",
+    ),
     url(r'^$', IndexView.as_view(), name='index'),
     # Events
     url(r'^events/', include('app.events.urls', namespace='events')),
