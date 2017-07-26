@@ -163,6 +163,7 @@ CACHES = {
 
 
 # Sessions https://docs.djangoproject.com/en/1.11/topics/http/sessions/
+SESSION_CACHE_ALIAS = 'default'
 SESSION_COOKIE_AGE = 1209600  # (2 weeks, in seconds)
 SESSION_COOKIE_SECURE = True
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'

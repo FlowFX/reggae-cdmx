@@ -7,8 +7,8 @@ INTERNAL_IPS: list = []
 
 
 # Security
-CSRF_COOKIE_SECURE = True
-CSRF_USE_SESSIONS = True
+# CSRF_COOKIE_SECURE = True
+# CSRF_USE_SESSIONS = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_SSL_REDIRECT = True  # Force HTTPS
 
@@ -36,16 +36,16 @@ DATABASES = {
 }
 
 # Caching
-CACHES = {
-    'default': {  # Redislabs
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': get_secret('REDIS_LOCATION'),
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            'PASSWORD': get_secret('REDIS_PASSWORD'),
-        }
-    },
-}
+# CACHES = {
+#     'default': {  # Redislabs
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION': get_secret('REDIS_LOCATION'),
+#         'OPTIONS': {
+#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+#             'PASSWORD': get_secret('REDIS_PASSWORD'),
+#         }
+#     }
+# }
 
 
 # Error tracking
