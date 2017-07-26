@@ -26,13 +26,3 @@ class EventFactory(DjangoModelFactory):
     venue = factory.SubFactory(VenueFactory)
     description = faker('paragraph')
     facebook_event_url = faker('url')
-
-
-class UserFactory(DjangoModelFactory):
-    """ModelFactory for the User object."""
-
-    class Meta:
-        model = User
-
-    username = factory.Sequence(lambda n: 'john_doe_{0}'.format(n))  # pragma: no cover
-    password = make_password("password")
