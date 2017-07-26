@@ -1,7 +1,7 @@
 """Pytest fixtures."""
 from django.contrib.auth.hashers import make_password
 
-from app.events import factories as event_factories
+from app.core import factories as core_factories
 from app.venues import factories, views
 
 from mock import MagicMock
@@ -26,7 +26,7 @@ def mock_venue(mocker):
 @pytest.fixture()
 def user():
     """Return an existing user."""
-    user = event_factories.UserFactory.create(
+    user = core_factories.UserFactory.create(
         username='testuser',
         password=make_password('password'),
     )
