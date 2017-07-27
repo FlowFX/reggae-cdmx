@@ -21,7 +21,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.abspath('/var/www/media/reggae-cdmx.com/')
 
 
-# # Database
+# Database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -36,16 +36,16 @@ DATABASES = {
 }
 
 # Caching
-# CACHES = {
-#     'default': {  # Redislabs
-#         'BACKEND': 'django_redis.cache.RedisCache',
-#         'LOCATION': get_secret('REDIS_LOCATION'),
-#         'OPTIONS': {
-#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-#             'PASSWORD': get_secret('REDIS_PASSWORD'),
-#         }
-#     }
-# }
+CACHES = {
+    'default': {  # Redislabs
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': get_secret('REDIS_LOCATION'),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'PASSWORD': get_secret('REDIS_PASSWORD'),
+        }
+    }
+}
 
 
 # Error tracking
