@@ -100,3 +100,7 @@ db.sqlite3
 .static
 .media
 .mypy_cache/
+
+# Continuous delivery
+deploy_key
+deploy_key.pub
