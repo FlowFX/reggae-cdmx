@@ -1,13 +1,19 @@
 language: python
+cache: pip
 python:
-  - 3.6
-# Install dependencies
-install: "pip install -r requirements/testing.txt"
-# Run tests
+- 3.6
+before_install:
+- openssl aes-256-cbc -K $encrypted_7ec8dadd4ab6_key -iv $encrypted_7ec8dadd4ab6_iv
+  -in .travis/deploy_key.enc -out .travis/deploy_key -d
+install: pip install -r requirements/testing.txt
 script:
-  # - pytest -k sys -x
-  - pytest -k unit -x --cov -n auto
-after_success:
-  - coveralls
+- echo "{}" > secrets.json
+# - pytest -k sys
+- pytest -k unit -x --cov -n auto
+after_success: |
+  if [ "${CIRCLE_BRANCH}" == "master" ]; then
+    coveralls
+    source .travis/deploy-script.sh
+  fi
 notifications:
   email: false
