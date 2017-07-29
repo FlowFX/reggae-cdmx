@@ -2,8 +2,8 @@
 {% if messages %}
     <div class="messages">
         {% for message in messages %}
-            <div id="message_{{ forloop.counter }}" class="alert alert-success{% if message.tags %} {{ message.tags }}{% endif %}" role="alert">
-                <strong>Éxito!</strong> {{ message }}
+            <div id="message_{{ forloop.counter }}" class="p2 border rounded message{% if message.tags %} {{ message.tags }}{% endif %}" role="alert">
+                <strong>O.o</strong> {{ message }}
             </div>
         {% endfor %}
     </div>

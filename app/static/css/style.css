@@ -21,12 +21,16 @@ a h1:hover {
 
 /* buttons */
 input[type="submit"],
-.button {
-     /* background-color: #ffb505; */
-    /* border-color: #ffb505;  */
+.btn {
+     color: #000;;   
+     background-color: #ffb505;  
+     border-color: #ffb505;   
 }
-.button.button-outline {
-    color: #fff;
+.message,
+.btn.btn-outline {
+     color: #ffb505;   
+     border-color: #ffb505;   
+     background-color: #000;;  
 }
 
 /* table cells */

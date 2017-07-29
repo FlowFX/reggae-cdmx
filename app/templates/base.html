@@ -12,6 +12,7 @@
 
     <!-- Basscss -->
     <link href="https://unpkg.com/basscss@8.0.2/css/basscss.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/basscss-btn@1.1.0/css/btn.css" rel="stylesheet">
 
     {% compress css %}
     <link rel="stylesheet" href={% static "css/style.css" %} type="text/css" />
@@ -20,18 +21,20 @@
 </head>
 <body>
 
-    <!-- {% include '_messages.html' %} -->
     <div class="max-width-3 mx-auto">
+
 
         <div class="content">
 
             <a href="{% url 'index' %}"><h1>Reggae CDMX</h1></a>
+         
+            {% include '_messages.html' %} 
 
             {% if user.is_authenticated %}
-            <a class="btn" id="add_event" href="{% url 'events:create' %}">Nuevo evento</a>
-            <a class="btn" id="list_events" href="{% url 'events:list' %}">Todos evento</a>
-            <a class="btn" id="add_venue" href="{% url 'venues:create' %}">Nuevo locación</a>
-            <a class="btn" id="list_venues" href="{% url 'venues:list' %}">Todos locaciones</a>
+            <a class="btn rounded" id="add_event" href="{% url 'events:create' %}">Nuevo evento</a>
+            <a class="btn btn-outline rounded" id="list_events" href="{% url 'events:list' %}">Todos evento</a>
+            <a class="btn rounded" id="add_venue" href="{% url 'venues:create' %}">Nuevo locación</a>
+            <a class="btn btn-outline rounded" id="list_venues" href="{% url 'venues:list' %}">Todos locaciones</a>
             {% endif %}
 
             {% block content %}
@@ -50,7 +53,7 @@
             {% if user.is_authenticated %}
                 <a id="id_logout_link" href="{% url 'account_logout' %}?next={{request.path}}">Logout</a>
             {% else %}
-                <a id="id_login_link" href="{% url 'account_login' %}?next={{request.path}}">Login con Facebook</a>
+                <a id="id_login_link" href="{% url 'account_login' %}?next={{request.path}}">Login</a>
             {% endif %}
             </span>
         </footer>
