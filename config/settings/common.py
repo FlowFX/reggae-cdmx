@@ -128,7 +128,7 @@ AUTHENTICATION_BACKENDS = (
 # Auth and allauth settings
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_PRESERVE_USERNAME_CASING = False
-LOGIN_REDIRECT_URL = None
+# LOGIN_REDIRECT_URL = 'index'
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
@@ -165,7 +165,7 @@ CACHES = {
 # Sessions https://docs.djangoproject.com/en/1.11/topics/http/sessions/
 SESSION_CACHE_ALIAS = 'default'
 SESSION_COOKIE_AGE = 1209600  # (2 weeks, in seconds)
-SESSION_COOKIE_SECURE = True
+#SESSION_COOKIE_SECURE = True
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
