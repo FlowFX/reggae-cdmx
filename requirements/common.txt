@@ -10,5 +10,5 @@ django-allauth==0.32.0
 Pillow==4.2.1
 
 # Frontend
-django-compressor==2.1.1
+django-compressor==2.2
 csscompressor==0.9.4
