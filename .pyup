@@ -1,0 +1,14 @@
+update: all
+
+pin: True
+
+schedule: "every day"
+
+search: True
+
+assignees:
+ - flowfx
+
+branch_prefix: pyup-
+
+close_prs: True
