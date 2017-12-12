@@ -2,6 +2,9 @@
 from django.db import models
 
 
+app_name = 'venues'
+
+
 class Venue(models.Model):
     """The venue model."""
 
