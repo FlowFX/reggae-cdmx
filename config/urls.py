@@ -1,8 +1,7 @@
 """Reggae CDMX URL Configuration."""
-
 from django.conf import settings
-from django.conf.urls import include, url
 from django.contrib import admin
+from django.urls import include, path
 
 from app.events.views import IndexView
 
@@ -10,23 +9,23 @@ from django.views.generic import TemplateView
 
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    # url(r'^', include('django.contrib.auth.urls')),
-    url(r'^accounts/', include('allauth.urls')),
-    url(
-        r'^accounts/profile/$',
+    path('admin/', admin.site.urls),
+    # path(r'^', include('django.contrib.auth.urls')),
+    path('accounts/', include('allauth.urls')),
+    path(
+        'accounts/profile/',
         TemplateView.as_view(template_name='account/profile.html'),
         name="account_profile",
     ),
-    url(r'^$', IndexView.as_view(), name='index'),
+    path('', IndexView.as_view(), name='index'),
     # Events
-    url(r'^events/', include('app.events.urls', namespace='events')),
+    path('events/', include('app.events.urls', namespace='events')),
     # Venues
-    url(r'^venues/', include('app.venues.urls', namespace='venues')),
+    path('venues/', include('app.venues.urls', namespace='venues')),
 ]
 
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
+        path('__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns

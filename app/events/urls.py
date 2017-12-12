@@ -1,15 +1,17 @@
 """Events URLs."""
-
-from django.conf.urls import url
+from django.urls import path
 
 from .views import (EventCreateView, EventDeleteView, EventDetailView,
                     EventListView, EventUpdateView)
 
 
+app_name = 'events'
+
+
 urlpatterns = [
-    url(r'^$', EventListView.as_view(), name='list'),
-    url(r'^new$', EventCreateView.as_view(), name='create'),
-    url(r'^(?P<pk>[0-9]+)/edit$', EventUpdateView.as_view(), name='update'),
-    url(r'^(?P<pk>[0-9]+)/delete$', EventDeleteView.as_view(), name='delete'),
-    url(r'^(?P<pk>[0-9]+)/$', EventDetailView.as_view(), name='detail'),
+    path('', EventListView.as_view(), name='list'),
+    path('new', EventCreateView.as_view(), name='create'),
+    path('<int:pk>/edit', EventUpdateView.as_view(), name='update'),
+    path('<int:pk>/delete', EventDeleteView.as_view(), name='delete'),
+    path('<int:pk>/', EventDetailView.as_view(), name='detail'),
 ]
