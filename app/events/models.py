@@ -6,6 +6,9 @@ from django.urls import reverse
 import datetime
 
 
+app_name = 'events'
+
+
 class Event(models.Model):
     """The event model. The main model in this project."""
 
@@ -15,6 +18,7 @@ class Event(models.Model):
         'venues.Venue',
         null=True,
         blank=True,
+        on_delete=models.SET_NULL,
     )
     description = models.TextField(verbose_name='', blank=True)
     facebook_event_url = models.URLField(verbose_name='URL of the corresponding Facebook event', blank=True)
