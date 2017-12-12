@@ -1,14 +1,17 @@
 """URL definitions for the venues app."""
-from django.conf.urls import url
+from django.urls import path
 
 from .views import (VenueCreateView, VenueDeleteView, VenueDetailView,
                     VenueListView, VenueUpdateView)
 
 
+app_name = 'venues'
+
+
 urlpatterns = [
-    url(r'^$', VenueListView.as_view(), name='list'),
-    url(r'^new$', VenueCreateView.as_view(), name='create'),
-    url(r'^(?P<pk>[0-9]+)/$', VenueDetailView.as_view(), name='detail'),
-    url(r'^(?P<pk>[0-9]+)/edit$', VenueUpdateView.as_view(), name='update'),
-    url(r'^(?P<pk>[0-9]+)/delete$', VenueDeleteView.as_view(), name='delete'),
+    path('', VenueListView.as_view(), name='list'),
+    path('new', VenueCreateView.as_view(), name='create'),
+    path('<int:pk>/', VenueDetailView.as_view(), name='detail'),
+    path('<int:pk>/edit', VenueUpdateView.as_view(), name='update'),
+    path('<int:pk>/delete', VenueDeleteView.as_view(), name='delete'),
 ]
