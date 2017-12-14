@@ -13,42 +13,41 @@
     <link href="https://unpkg.com/tachyons/css/tachyons.min.css" rel="stylesheet">
 
 </head>
-<body class="sans-serif bg-near-black yellow pa3">
+<body class="sans-serif bg-near-black yellow pa4">
 
     <div class="wrapper">
 
         <div class="content">
 
-            <a href="{% url 'index' %}"><h1>Reggae CDMX</h1></a>
+            <h1>Reggae CDMX</h1>
          
             {% include '_messages.html' %} 
 
             {% if user.is_authenticated %}
-            <a class="link green" id="add_event" href="{% url 'events:create' %}">Nuevo evento</a>
-            <a class="link green" id="list_events" href="{% url 'events:list' %}">Todos evento</a>
-            <a class="link green" id="add_venue" href="{% url 'venues:create' %}">Nuevo locación</a>
-            <a class="link green" id="list_venues" href="{% url 'venues:list' %}">Todos locaciones</a>
+            <a class="f6 link dim br3 ph3 pv2 mb2 dib white bg-green" id="add_event" href="{% url 'events:create' %}">Nuevo evento</a>
+            <a class="f6 link dim br3 ph3 pv2 mb2 dib white bg-green" id="list_events" href="{% url 'events:list' %}">Todos evento</a>
+            <a class="f6 link dim br3 ph3 pv2 mb2 dib white bg-green" id="add_venue" href="{% url 'venues:create' %}">Nuevo locación</a>
+            <a class="f6 link dim br3 ph3 pv2 mb2 dib white bg-green" id="list_venues" href="{% url 'venues:list' %}">Todos locaciones</a>
             {% endif %}
 
             {% block content %}
             {% endblock content %}
         </div>  <!-- .content -->
 
-        <footer class="footer flex">
-            <span class="flex-auto">
-                Made by <a href="https://flowfx.de/">FlowFX</a> –
-                <a class="link green" href="https://www.facebook.com/ReggaeCDMX/">Facebook</a>
-                <a class="link green" href="https://www.instagram.com/reggae_cdmx/">Instagram</a>
-                <a class="link green" href="https://twitter.com/reggae_cdmx/">Twitter</a>
-                <a class="link green" href="https://github.com/flowfx/reggae-cdmx">GitHub</a>
-            </span>
-            <span>
-            {% if user.is_authenticated %}
-                <a id="id_logout_link" href="{% url 'account_logout' %}?next={{request.path}}">Logout</a>
-            {% else %}
-                <a id="id_login_link" href="{% url 'account_login' %}?next={{request.path}}">Login</a>
-            {% endif %}
-            </span>
+        <footer class="pv5 pv6-l">
+            <p class="f6">
+              <span class="dib mr2 mr3-ns">Made by <a class="link green underline-hover" href="https://flowfx.de/">FlowFX</a></span> 
+              <a class="link green underline-hover" href="https://www.facebook.com/ReggaeCDMX/">Facebook</a>
+              <a class="link green underline-hover" href="https://twitter.com/reggae_cdmx/">Twitter</a>
+              <a class="link green underline-hover" href="https://github.com/flowfx/reggae-cdmx">GitHub</a>
+              <span class="dib ml2 ml3-ns">
+              {% if user.is_authenticated %}
+                  <a class="link green underline-hover" id="id_logout_link" href="{% url 'account_logout' %}?next={{request.path}}">Logout</a>
+              {% else %}
+                  <a class="link green underline-hover" id="id_login_link" href="{% url 'account_login' %}?next={{request.path}}">Login</a>
+              {% endif %}
+              </span>
+            </p>
         </footer>
     </div>
 
