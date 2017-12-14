@@ -1,4 +1,5 @@
 # Reggae CDMX
+![Project Status](https://img.shields.io/badge/status-alpha-yellow.svg)
 [![Build Status](https://travis-ci.org/FlowFX/reggae-cdmx.com.svg?branch=master)](https://travis-ci.org/FlowFX/reggae-cdmx.com)
 [![Coverage Status](https://coveralls.io/repos/github/FlowFX/reggae-cdmx/badge.svg)](https://coveralls.io/github/FlowFX/reggae-cdmx.com)
 [![Updates](https://pyup.io/repos/github/FlowFX/reggae-cdmx.com/shield.svg)](https://pyup.io/repos/github/FlowFX/reggae-cdmx.com/)
