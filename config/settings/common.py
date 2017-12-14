@@ -60,7 +60,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'django.contrib.admin',
     'django_extensions',
-    'compressor',
     'app.events',
     'app.venues',
 ]
@@ -173,7 +172,6 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
 ]
 
 STATICFILES_DIRS = [
@@ -188,16 +186,3 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, '.media'))
 
 INTERNAL_IPS = ['127.0.0.1']
-
-
-# compressor
-COMPRESS_ENABLED = True
-COMPRESS_OFFLINE = False
-COMPRESS_CACHE_BACKEND = 'default'
-
-COMPRESS_CSS_FILTERS = [
-    'compressor.filters.cssmin.CSSCompressorFilter',
-]
-COMPRESS_JS_FILTERS = [
-    'compressor.filters.jsmin.JSMinFilter',
-]
