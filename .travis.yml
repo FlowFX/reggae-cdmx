@@ -13,7 +13,7 @@ script:
   # create an empty secrets file. all secrets are set in Travis environment variables
   - echo "{}" > secrets.json
   # run integration and unit tests
-  - pytest -x --cov -n auto
+  - pytest --cov
 after_success:
   # start ssh agent
   - eval "$(ssh-agent -s)"
@@ -26,8 +26,8 @@ after_success:
   # reload PythonAnywhere web app via the API
   - python .travis/reload-webapp.py
 after_deploy:
-  # update coveralls.io
-  - coveralls
+  # update codecov
+  - codecov
 notifications:
   # spare me from email notifications
   email: false
