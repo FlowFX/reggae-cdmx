@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'django.contrib.admin',
     'django_extensions',
+    'anymail',
     'app.events',
     'app.venues',
 ]
@@ -158,6 +159,16 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     },
 }
+
+
+# Email backende
+DEFAULT_FROM_EMAIL = "admin@reggae-cdmx.com"
+EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
+ANYMAIL = {
+    "MAILGUN_API_KEY": get_secret('MAILGUN_API_KEY'),
+    "MAILGUN_SENDER_DOMAIN": 'mg.reggae-cdmx.com',
+}
+SERVER_EMAIL = "django@reggae-cdmx.com"  # for error messages
 
 
 # Sessions https://docs.djangoproject.com/en/1.11/topics/http/sessions/
