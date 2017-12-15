@@ -12,9 +12,11 @@ install: pip install -r requirements/testing.txt
 script:
   # create an empty secrets file. all secrets are set in Travis environment variables
   - echo "{}" > secrets.json
-  # run integration and unit tests
-  - pytest --cov
+  # run tests, check flake8, and measure coverage
+  - pytest --flake8 --cov
 after_success:
+  # update codecov
+  - codecov
   # start ssh agent
   - eval "$(ssh-agent -s)"
   - chmod 600 deploy_key
@@ -25,9 +27,6 @@ after_success:
   - git push -f pythonanywhere master
   # reload PythonAnywhere web app via the API
   - python .travis/reload-webapp.py
-after_deploy:
-  # update codecov
-  - codecov
 notifications:
   # spare me from email notifications
   email: false
