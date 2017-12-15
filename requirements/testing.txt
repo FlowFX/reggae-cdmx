@@ -22,5 +22,5 @@ flake8==3.5.0
 flake8-docstrings==1.1.0
 
 # Misc
-mypy==0.550
+mypy==0.560
 Werkzeug==0.13
