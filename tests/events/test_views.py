@@ -8,111 +8,104 @@ from django.urls import reverse
 from mock import MagicMock
 
 
-def test_index_view_with_no_events(client, mocker):  # noqa: D103
-    # GIVEN no events
-    mocker.patch.object(views.IndexView, 'get_queryset', return_value=None)
+class TestHomePage:
 
-    # WHEN calling the home page
-    url = reverse('index')
-    response = client.get(url)
+    def test_home_page_shows_existing_events(self, client, mocker):  # noqa: D103
+        # GIVEN a couple events
+        events = factories.EventFactory.build_batch(5)
+        mocker.patch.object(views.IndexView, 'get_queryset', return_value=events)
 
-    # THEN it's there,
-    assert response.status_code == 200
-    assert response.template_name[0] == 'index.html'
+        # WHEN calling the home page
+        url = reverse('index')
+        response = client.get(url)
 
+        # THEN it's there,
+        assert response.status_code == 200
+        assert response.template_name[0] == 'index.html'
 
-def test_index_view_with_events(client, mocker):  # noqa: D103
-    # GIVEN a couple mock events
-    events = factories.EventFactory.build_batch(5)
-    mocker.patch.object(views.IndexView, 'get_queryset', return_value=events)
-
-    # WHEN calling the home page
-    url = reverse('index')
-    response = client.get(url)
-
-    # THEN it's there,
-    assert response.status_code == 200
-    assert response.template_name[0] == 'index.html'
-
-    # AND the event titles are shown and linked
-    content = response.content.decode()
-    assert events[0].title in content
-    assert events[0].venue.name in content
-    assert events[0].date.strftime("%d/%m") in content
-    assert events[0].get_absolute_url() in content
+        # AND the event titles are shown and linked
+        content = response.content.decode()
+        assert events[0].title in content
+        assert events[0].venue.name in content
+        assert events[0].date.strftime("%d/%m") in content
+        assert events[0].get_absolute_url() in content
 
 
-def test_event_list_view(client, mocker):  # noqa: D103
-    # GIVEN a couple mock events
-    events = factories.EventFactory.build_batch(5)
-    mocker.patch.object(views.EventListView, 'get_queryset', return_value=events)
+class TestEventsListView:
 
-    # WHEN calling the events list
-    url = reverse('events:list')
-    response = client.get(url)
+    def test_events_list_shows_existing_events(self, client, mocker):  # noqa: D103
+        # GIVEN a couple events
+        events = factories.EventFactory.build_batch(5)
+        mocker.patch.object(views.EventListView, 'get_queryset', return_value=events)
 
-    # THEN it's there,
-    assert response.status_code == 200
-    assert response.template_name[0] == 'events/event_list.html'
+        # WHEN calling the events list
+        url = reverse('events:list')
+        response = client.get(url)
 
-    # AND the event titles are shown and linked
-    content = response.content.decode()
-    assert events[0].title in content
-    assert events[0].venue.name in content
-    assert events[0].date.strftime("%d/%m") in content
-    assert events[0].get_absolute_url() in content
+        # THEN it's there,
+        assert response.status_code == 200
+        assert response.template_name[0] == 'events/event_list.html'
 
-
-def test_event_detail_view(client, mocker):  # noqa: D103
-    # GIVEN an existing event
-    event = factories.EventFactory.build()
-    mocker.patch.object(views.EventDetailView, 'get_object', return_value=event)
-
-    # WHEN callint the detail view
-    url = reverse('events:detail', args=[str(event.id)])
-    response = client.get(url)
-
-    # THEN it's there
-    assert response.status_code == 200
-    assert response.template_name[0] == 'events/event_detail.html'
-
-    # AND the event dtails are shown
-    content = response.content.decode()
-    assert event.title in content
-    assert event.venue.name in content
-    assert event.date.strftime("%d/%m") in content
+        # AND the event titles are shown and linked
+        content = response.content.decode()
+        assert events[0].title in content
+        assert events[0].venue.name in content
+        assert events[0].date.strftime("%d/%m") in content
+        assert events[0].get_absolute_url() in content
 
 
-def test_event_create_view_GET(db, client, authenticated_user):  # noqa: D103
-    # TODO: why do we need the database here?!
-    # GIVEN any state
-    # WHEN calling the event create view
-    url = reverse('events:create')
-    response = client.get(url)
+class TestEventsDetailView:
 
-    # THEN it's there
-    assert response.status_code == 200
-    assert response.template_name[0] == 'model_form.html'
+    def test_event_detail_view_shows_event_details(self, client, mocker):  # noqa: D103
+        # GIVEN an existing event
+        event = factories.EventFactory.build()
+        mocker.patch.object(views.EventDetailView, 'get_object', return_value=event)
 
-    # AND there is a submit button
-    assert 'submit' in response.content.decode()
+        # WHEN callint the detail view
+        url = reverse('events:detail', args=[str(event.id)])
+        response = client.get(url)
+
+        # THEN it's there
+        assert response.status_code == 200
+        assert response.template_name[0] == 'events/event_detail.html'
+
+        # AND the event dtails are shown
+        content = response.content.decode()
+        assert event.title in content
+        assert event.venue.name in content
+        assert event.date.strftime("%d/%m") in content
 
 
-def test_event_create_view_POST_redirects_to_list_view(db, client, authenticated_user, mocker):  # noqa: D103
-    # GIVEN any state
-    mocker.patch('app.events.models.Event.save', MagicMock(name="save"))
+class TestEventsCreateView:
 
-    # WHEN creating a new event via POST request
-    url = reverse('events:create')
-    data = {'title': 'Xochimilco goes Large',
-            'date': date(2017, 8, 2),
-            'venue': '',
-            }
-    response = client.post(url, data=data)
+    def test_events_create_view_returns_200_on_get_request(self, client, authenticated_user):  # noqa: D103
+        # GIVEN any state
+        # WHEN requesting the event create view
+        url = reverse('events:create')
+        response = client.get(url)
 
-    # THEN we get redirected to the events list
-    assert response.status_code == 302
-    assert response.url == reverse('events:list')
+        # THEN it's there
+        assert response.status_code == 200
+        assert response.template_name[0] == 'model_form.html'
+
+        # AND there is a submit button
+        assert 'submit' in response.content.decode()
+
+    def test_events_create_view_redirects_to_list_view_on_post_request(self, db, client, authenticated_user, mocker):  # noqa: D103
+        # GIVEN any state
+        mocker.patch('app.events.models.Event.save', MagicMock(name="save"))
+
+        # WHEN creating a new event via POST request
+        url = reverse('events:create')
+        data = {'title': 'Xochimilco goes Large',
+                'date': date(2017, 8, 2),
+                'venue': '',
+                }
+        response = client.post(url, data=data)
+
+        # THEN we get redirected to the events list
+        assert response.status_code == 302
+        assert response.url == reverse('events:list')
 
 
 def test_event_update_view_GET(db, client, authenticated_user, mocker):  # noqa: D103
