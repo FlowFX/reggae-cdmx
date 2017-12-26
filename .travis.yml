@@ -31,7 +31,7 @@ deploy:
     branch: master
     condition: $TOXENV = py36
 after_deploy:
-  # update codecov
+  #  update codecov
   # - codecov
 notifications:
   # spare me from email notifications
