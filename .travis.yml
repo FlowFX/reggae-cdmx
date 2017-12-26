@@ -17,17 +17,23 @@ script:
   - echo "{}" > secrets.json
   # run tests with tox
   - tox
-after_success:
-  # update codecov
-  # - codecov
-  # start ssh agent
-  - eval "$(ssh-agent -s)"
-  - chmod 600 deploy_key
-  - ssh-add deploy_key
-  # configure remote repository
-  - git remote add pythonanywhere flowfx@ssh.pythonanywhere.com:/home/flowfx/bare-repos/reggae-cdmx.git
-  # push master branch to production 
-  - git push -f pythonanywhere master
+deploy:
+  provider: script
+  script: .travis/deploy.sh
+  on:
+    branch: master
+# after_success:
+#   # update codecov
+#   # - codecov
+#   # start ssh agent
+#   - eval "$(ssh-agent -s)"
+#   - chmod 600 deploy_key
+#   - ssh-add deploy_key
+#   # configure remote repository
+#   - git remote add pythonanywhere flowfx@ssh.pythonanywhere.com:/home/flowfx/bare-repos/reggae-cdmx.git
+#   # push master branch to production 
+#   - git push -f pythonanywhere master
+after_deploy:
   # reload PythonAnywhere web app via the API
   - python .travis/reload-webapp.py
 notifications:
