@@ -1,5 +1,6 @@
 #!/bin/sh
 
+cd ..
 # start ssh agent
 eval "$(ssh-agent -s)"
 chmod 600 deploy_key
