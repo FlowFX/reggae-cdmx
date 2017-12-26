@@ -31,8 +31,6 @@ deploy:
     branch: master
     condition: $TOXENV = py36
 after_deploy:
-  # reload PythonAnywhere web app via the API
-  - python .travis/reload-webapp.py
   # update codecov
   # - codecov
 notifications:
