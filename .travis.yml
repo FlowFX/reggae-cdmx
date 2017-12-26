@@ -3,7 +3,7 @@ cache: pip
 python:
   - 3.6
 env:
-  # - TOXENV=py36
+  - TOXENV=py36
   - TOXENV=flake8
 addons:
   # add PythonAnywhere server to known hosts
@@ -29,7 +29,7 @@ deploy:
   script: .travis/deploy.sh
   on:
     branch: master
-    condition: $TOXENV = flake8
+    condition: $TOXENV = py36
 after_deploy:
   # reload PythonAnywhere web app via the API
   - python .travis/reload-webapp.py
