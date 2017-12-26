@@ -180,14 +180,13 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 
 # Static files (CSS, JavaScript, Images)
-STATICFILES_FINDERS = [
+STATICFILES_FINDERS: list = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'app/static'),
-]
+
+STATICFILES_DIRS: list = []
 
 
 STATIC_URL = '/static/'
