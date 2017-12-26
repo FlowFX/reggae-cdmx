@@ -1,5 +1,6 @@
 # Testing requirements
 -r common.txt
+-r flake8.txt
 
 # pytest
 pytest==3.3.1
@@ -18,11 +19,6 @@ tox==2.9.*
 coverage==4.4.2
 pytest-cov==2.5.1
 codecov==2.0.10
-
-# Flake8
-flake8==3.5.0
-flake8-docstrings==1.1.0
-flake8-import-order==0.16
 
 # Misc
 mypy==0.560
