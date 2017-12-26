@@ -1,9 +1,8 @@
 """Models for calendar app."""
+import datetime
 
 from django.db import models
 from django.urls import reverse
-
-import datetime
 
 
 app_name = 'events'

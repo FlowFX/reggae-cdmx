@@ -1,7 +1,7 @@
 """Unit tests for utility functions."""
-import pytest
-
 from app.events.utils import assertRegex
+
+import pytest
 
 
 @pytest.mark.parametrize('text, regex, assertion',

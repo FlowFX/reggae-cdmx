@@ -4,7 +4,6 @@
 # pytest
 pytest==3.3.1
 pytest-django==3.1.2
-pytest-flake8==0.9.1
 pytest-xdist==1.21.0
 pytest-stepwise==0.4
 pytest-mock==1.6.3
@@ -23,6 +22,7 @@ codecov==2.0.10
 # Flake8
 flake8==3.5.0
 flake8-docstrings==1.1.0
+flake8-import-order==0.16
 
 # Misc
 mypy==0.560

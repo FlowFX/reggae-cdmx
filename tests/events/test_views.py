@@ -1,10 +1,11 @@
 """Unit tests for events views."""
-from django.urls import reverse
-from mock import MagicMock
+from datetime import date
 
 from app.events import factories, views
 
-from datetime import date
+from django.urls import reverse
+
+from mock import MagicMock
 
 
 def test_index_view_with_no_events(client, mocker):  # noqa: D103

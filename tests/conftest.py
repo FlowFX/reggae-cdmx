@@ -1,8 +1,8 @@
 """Pytest fixtures."""
-from django.contrib.auth.hashers import make_password
-
 from app.core import factories as core_factories
 from app.venues import factories, views
+
+from django.contrib.auth.hashers import make_password
 
 from mock import MagicMock
 
