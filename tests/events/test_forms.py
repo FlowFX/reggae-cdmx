@@ -1,9 +1,9 @@
 """Unit tests for form validation."""
 from datetime import date
 
-import pytest
-
 from app.events.forms import EventForm
+
+import pytest
 
 
 @pytest.mark.parametrize(

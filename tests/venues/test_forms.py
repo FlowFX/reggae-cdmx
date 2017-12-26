@@ -1,7 +1,7 @@
 """Unit tests for venues.forms."""
-import pytest
-
 from app.venues import forms
+
+import pytest
 
 
 @pytest.mark.parametrize(

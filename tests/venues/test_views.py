@@ -1,7 +1,7 @@
 """Unit tests for venues.views."""
-from django.urls import reverse
-
 from app.venues import factories, views
+
+from django.urls import reverse
 
 import pytest
 
