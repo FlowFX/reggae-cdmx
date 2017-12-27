@@ -1,11 +1,11 @@
 """Unit tests for events views."""
-from datetime import date
-
 from app.events import factories, views
 
 from django.urls import reverse
 
 from mock import MagicMock
+
+from ..conftest import today, tomorrow, yesterday
 
 
 class TestHomePage:  # noqa: D101
@@ -29,6 +29,30 @@ class TestHomePage:  # noqa: D101
         assert events[0].venue.name in content
         assert events[0].date.strftime("%d/%m") in content
         assert events[0].get_absolute_url() in content
+
+    def test_home_page_shows_only_future_events(self, db, rf, mocker):  # noqa: D102
+        # GIVEN a past event
+        past_event = factories.EventFactory.create(date=yesterday())
+
+        # AND a current event
+        current_event = factories.EventFactory.create(date=today())
+
+        # AND a future event
+        future_event = factories.EventFactory.create(date=tomorrow())
+
+        # WHEN calling the home page
+        url = reverse('index')
+        request = rf.get(url)
+        response = views.IndexView.as_view()(request)
+        context = response.context_data
+
+        # THEN the context only includes the current and future dates
+        assert past_event not in context['events']
+        assert current_event in context['events']
+        assert future_event in context['events']
+
+        # AND the current event comes before the future event in the list
+        assert list(context['events']).index(current_event) < list(context['events']).index(future_event)
 
 
 class TestEventsListView:  # noqa: D101
@@ -99,7 +123,7 @@ class TestEventsCreateView:  # noqa: D101
         # WHEN creating a new event via POST request
         url = reverse('events:create')
         data = {'title': 'Xochimilco goes Large',
-                'date': date(2017, 8, 2),
+                'date': tomorrow(),
                 'venue': '',
                 }
         response = client.post(url, data=data)
@@ -136,7 +160,7 @@ class TestEventsUpdateView:  # noqa: D101
 
         # WHEN updating the event via POST request
         url = reverse('events:update', args=[str(event.id)])
-        data = {'title': event.title, 'date': date(2019, 8, 5)}
+        data = {'title': event.title, 'date': tomorrow()}
         response = client.post(url, data)
 
         # THEN it redirects to the events list

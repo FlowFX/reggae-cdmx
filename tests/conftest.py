@@ -1,4 +1,6 @@
 """Pytest fixtures."""
+import datetime
+
 from app.core import factories as core_factories
 from app.venues import factories, views
 
@@ -7,6 +9,21 @@ from django.contrib.auth.hashers import make_password
 from mock import MagicMock
 
 import pytest
+
+
+def today():
+    """Return datetime.date object of today."""
+    return datetime.date.today()
+
+
+def yesterday():
+    """Return datetime.date object of yesterday."""
+    return today() - datetime.timedelta(1)
+
+
+def tomorrow():
+    """Return datetime.date object of tomorrow."""
+    return today() + datetime.timedelta(1)
 
 
 @pytest.fixture(scope="function")
