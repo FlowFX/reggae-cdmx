@@ -1,4 +1,6 @@
 """reggae_cdmx/views.py."""
+import datetime
+
 from braces.views import LoginRequiredMixin
 
 from django.contrib import messages
@@ -41,6 +43,13 @@ class IndexView(ListView):
     model = Event
     template_name = 'index.html'
     context_object_name = 'events'
+
+    def get_queryset(self):
+        """Return all future events."""
+        queryset = self.model._default_manager.filter(date__gte=datetime.date.today())
+        queryset = queryset.order_by('date')
+
+        return queryset
 
 
 class EventDetailView(DetailView):
