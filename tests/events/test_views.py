@@ -109,9 +109,9 @@ class TestEventsCreateView:  # noqa: D101
         assert response.url == reverse('events:list')
 
 
-class TestEventsUpdateView:
+class TestEventsUpdateView:  # noqa: D101
 
-    def test_event_update_view_GET(self, db, client, authenticated_user, mocker):  # noqa: D103
+    def test_event_update_view_GET(self, db, client, authenticated_user, mocker):  # noqa: D102
         # TODO: why do we need the databse here?!
         # GIVEN an existing event
         event = factories.EventFactory.build(title='Here We Go Again')
@@ -129,8 +129,7 @@ class TestEventsUpdateView:
         content = response.content.decode()
         assert event.title in content
 
-    def test_event_update_view_POST_redirects_to_event_list(self, db, client, authenticated_user, mocker):  # noqa: D103
-        # TODO: why do we need the databse here?!
+    def test_post_request_redirects_to_event_list(self, client, authenticated_user, mocker):  # noqa: D102
         # GIVEN an existing event
         event = factories.EventFactory.build(title='Here We Go Again')
         mocker.patch.object(views.EventUpdateView, 'get_object', return_value=event)
@@ -145,9 +144,9 @@ class TestEventsUpdateView:
         assert response.url == reverse('events:list')
 
 
-class TestEventsDeleteView:
+class TestEventsDeleteView:  # noqa: D101
 
-    def test_event_delete_view_GET(self, client, authenticated_user, mocker):  # noqa: D103
+    def test_event_delete_view_GET(self, client, authenticated_user, mocker):  # noqa: D102
         # GIVEN an existing event
         event = factories.EventFactory.build()
         mocker.patch.object(views.EventDeleteView, 'get_object', return_value=event)
@@ -160,7 +159,7 @@ class TestEventsDeleteView:
         assert response.status_code == 200
         assert response.template_name[0] == 'model_delete.html'
 
-    def test_event_delete_view_POST_redirects_to_events_list(self, client, authenticated_user, mocker):  # noqa: D103
+    def test_success_post_req_redirects_to_events_list(self, client, authenticated_user, mocker):  # noqa: D102
         # GIVEN an existing event
         event = factories.EventFactory.build()
         mocker.patch.object(views.EventDeleteView, 'get_object', return_value=event)
@@ -175,7 +174,7 @@ class TestEventsDeleteView:
         assert response.status_code == 302
         assert response.url == reverse('events:list')
 
-    def test_event_delete_view_POST_cancel_button_works(self, client, authenticated_user, mocker):  # noqa: D103
+    def test_post_req_cancel_button_works(self, client, authenticated_user, mocker):  # noqa: D102
         # GIVEN an existing event
         event = factories.EventFactory.build()
         mocker.patch.object(views.EventDeleteView, 'get_object', return_value=event)

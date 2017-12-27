@@ -1,7 +1,7 @@
 """Unit tests for form validation."""
-from app.events.forms import EventForm
-
 from datetime import date
+
+from app.events.forms import EventForm
 
 import pytest
 
