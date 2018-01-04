@@ -1,0 +1,21 @@
+// Styles for reggae-cdmx.com
+
+@import 'tachyons';
+
+.footer {
+    @extend .pv5;
+    @extend .pv6-l;
+}
+
+.button-link {
+    @extend .link;
+    @extend .white;
+    @extend .bg-green;
+    @extend .f6;
+    @extend .dim;
+    @extend .br3;
+    @extend .ph3;
+    @extend .pv2;
+    @extend .mb2;
+    @extend .dib;
+}
