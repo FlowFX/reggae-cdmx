@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django_extensions',
     'anymail',
+    'compressor',
     'app.events',
     'app.venues',
 ]
@@ -174,20 +175,21 @@ SERVER_EMAIL = "django@reggae-cdmx.com"  # for error messages
 # Sessions https://docs.djangoproject.com/en/1.11/topics/http/sessions/
 SESSION_CACHE_ALIAS = 'default'
 SESSION_COOKIE_AGE = 1209600  # (2 weeks, in seconds)
-#SESSION_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 
 # Static files (CSS, JavaScript, Images)
-STATICFILES_FINDERS: list = [
+STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
 ]
 
-
-STATICFILES_DIRS: list = []
-
+STATICFILES_DIRS = [
+    os.path.abspath(os.path.join(BASE_DIR, 'app/static'))
+]
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '.static'))
