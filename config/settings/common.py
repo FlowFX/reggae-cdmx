@@ -198,3 +198,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, '.media'))
 
 INTERNAL_IPS = ['127.0.0.1']
+
+
+COMPRESS_PRECOMPILERS = (
+    ('text/scss', 'sass --scss {infile} {outfile}'),
+)

@@ -11,12 +11,9 @@
 
     <title>Reggae CDMX</title>
 
-    <!-- Tachyons CSS -->
-    <link href="https://unpkg.com/tachyons/css/tachyons.min.css" rel="stylesheet" type="text/css" />
-
     {% compress css %}
     <!-- Custom CSS -->
-    <link href="{% static 'style.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/stylesheet.css' %}" rel="stylesheet" type="text/css" />
     {% endcompress %}
 
     <!-- Piwik -->
@@ -48,17 +45,17 @@
             {% include '_messages.html' %} 
 
             {% if user.is_authenticated %}
-            <a class="f6 link dim br3 ph3 pv2 mb2 dib white bg-green" id="add_event" href="{% url 'events:create' %}">Nuevo evento</a>
-            <a class="f6 link dim br3 ph3 pv2 mb2 dib white bg-green" id="list_events" href="{% url 'events:list' %}">Todos evento</a>
-            <a class="f6 link dim br3 ph3 pv2 mb2 dib white bg-green" id="add_venue" href="{% url 'venues:create' %}">Nuevo locación</a>
-            <a class="f6 link dim br3 ph3 pv2 mb2 dib white bg-green" id="list_venues" href="{% url 'venues:list' %}">Todos locaciones</a>
+            <a class="button-link" id="add_event" href="{% url 'events:create' %}">Nuevo evento</a>
+            <a class="button-link" id="list_events" href="{% url 'events:list' %}">Todos evento</a>
+            <a class="button-link" id="add_venue" href="{% url 'venues:create' %}">Nuevo locación</a>
+            <a class="button-link" id="list_venues" href="{% url 'venues:list' %}">Todos locaciones</a>
             {% endif %}
 
             {% block content %}
             {% endblock content %}
         </div>  <!-- .content -->
 
-        <footer class="pv5 pv6-l">
+        <footer class="footer">
             <p class="f6">
               <span class="dib mr2 mr3-ns">Made by <a class="link green underline-hover" href="https://flowfx.de/">FlowFX</a></span> 
               <a class="link green underline-hover" href="https://www.facebook.com/ReggaeCDMX/">Facebook</a>
