@@ -3,7 +3,7 @@
 -r flake8.txt
 
 # pytest
-pytest==3.3.1
+pytest==3.3.2
 pytest-django==3.1.2
 pytest-xdist==1.21.0
 pytest-stepwise==0.4
