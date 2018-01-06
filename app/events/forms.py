@@ -15,6 +15,7 @@ class EventForm(forms.ModelForm):
             'venue',
             'description',
             'fb_event_url',
+            'flyer_image',
         )
 
     def clean_fb_event_url(self):
