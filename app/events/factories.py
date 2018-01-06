@@ -1,9 +1,9 @@
 """Model factories for calendar app."""
+from app.events.models import Event
+from app.venues.factories import VenueFactory
+
 import factory
 from factory.django import DjangoModelFactory
-
-from .models import Event
-from app.venues.factories import VenueFactory
 
 
 def faker(provider, **kwargs):

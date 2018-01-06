@@ -6,7 +6,7 @@ from app.events.forms import EventForm
 import pytest
 
 
-class TestEventForm:
+class TestEventForm:  # noqa: D101
 
     @pytest.mark.parametrize(
         'title, date, venue, validity',

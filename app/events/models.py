@@ -18,6 +18,7 @@ class Event(models.Model):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
+        related_name='events',
     )
     description = models.TextField(verbose_name='', blank=True)
     fb_event_url = models.URLField(verbose_name='URL of the corresponding Facebook event', blank=True)

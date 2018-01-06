@@ -1,7 +1,7 @@
 """Forms definitions."""
-from django import forms
+from app.events.models import Event
 
-from .models import Event
+from django import forms
 
 
 class EventForm(forms.ModelForm):
@@ -19,6 +19,7 @@ class EventForm(forms.ModelForm):
         )
 
     def clean_fb_event_url(self):
+        """Check for valid Facebook event URLs."""
         url = self.cleaned_data['fb_event_url']
 
         # heuristics to check validity of a facebook event url
