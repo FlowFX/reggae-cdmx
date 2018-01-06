@@ -99,6 +99,21 @@ class TestEventsDetailView:  # noqa: D101
         assert event.venue.name in content
         assert event.date.strftime("%d/%m") in content
 
+    def test_event_detail_view_works_without_an_event_venue(self, client, mocker):  # noqa: D102
+        """Regression test for the case that an event has no venue, yet."""
+        # GIVEN an existing event with no venue
+        event = factories.EventFactory.build(
+            venue=None,
+        )
+        mocker.patch.object(views.EventDetailView, 'get_object', return_value=event)
+
+        # WHEN callint the detail view
+        url = reverse('events:detail', args=[str(event.id)])
+        response = client.get(url)
+
+        # THEN it's there
+        assert response.status_code == 200
+
 
 class TestEventsCreateView:  # noqa: D101
 
