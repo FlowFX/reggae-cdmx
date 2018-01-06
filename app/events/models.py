@@ -18,9 +18,10 @@ class Event(models.Model):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
+        related_name='events',
     )
     description = models.TextField(verbose_name='', blank=True)
-    facebook_event_url = models.URLField(verbose_name='URL of the corresponding Facebook event', blank=True)
+    fb_event_url = models.URLField(verbose_name='URL of the corresponding Facebook event', blank=True)
     flyer_image = models.ImageField(verbose_name='image file of the event\'s promotion flyer', blank=True)
 
     def get_absolute_url(self):

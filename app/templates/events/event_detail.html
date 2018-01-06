@@ -9,8 +9,10 @@
 
 <h1>{{ event.title }}</h1>
 <h2>{{ event.date|date:"d/m" }}</h2>
+{% if event.venue %}
 <p>
     <a href="{% url 'venues:detail' event.venue.id %}">{{ event.venue.name }}</a>
 </p>
+{% endif %}
 
 {% endblock content %}

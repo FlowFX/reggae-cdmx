@@ -1,5 +1,4 @@
 """Model factories for venues app."""
-
 import factory
 from factory.django import DjangoModelFactory
 

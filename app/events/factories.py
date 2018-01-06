@@ -1,9 +1,9 @@
 """Model factories for calendar app."""
+from app.events.models import Event
+from app.venues.factories import VenueFactory
+
 import factory
 from factory.django import DjangoModelFactory
-
-from .models import Event
-from ..venues.factories import VenueFactory
 
 
 def faker(provider, **kwargs):
@@ -22,4 +22,4 @@ class EventFactory(DjangoModelFactory):
     date = faker('date_object')
     venue = factory.SubFactory(VenueFactory)
     description = faker('paragraph')
-    facebook_event_url = faker('url')
+    fb_event_url = faker('url')
