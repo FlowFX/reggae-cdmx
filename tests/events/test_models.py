@@ -12,3 +12,15 @@ def test_event_factory(db):  # noqa: D103
 
     # THEN it's there
     assert Event.objects.count() == 1
+
+
+def test_event_has_all_the_attributes():  # noqa: D103
+    # GIVEN an event
+    e = EventFactory.build()
+
+    # THEN it has …
+    assert e.title
+    assert e.date
+    assert e.venue
+    assert e.description
+    assert e.fb_event_url
