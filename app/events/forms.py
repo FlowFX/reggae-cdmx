@@ -13,6 +13,7 @@ class EventForm(forms.ModelForm):
             'title',
             'date',
             'venue',
+            'description',
             'fb_event_url',
         )
 
