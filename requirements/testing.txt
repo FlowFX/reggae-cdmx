@@ -3,7 +3,7 @@
 -r flake8.txt
 
 # pytest
-factory-boy==2.9.2
+factory-boy==2.10.0
 mock==2.0.0
 pytest==3.3.2
 pytest-django==3.1.2
