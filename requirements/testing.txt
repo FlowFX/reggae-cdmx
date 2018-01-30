@@ -19,7 +19,7 @@ tox==2.9.*
 # coverage
 coverage==4.4.2
 pytest-cov==2.5.1
-codecov==2.0.12
+codecov==2.0.15
 
 # Misc
 mypy==0.560
