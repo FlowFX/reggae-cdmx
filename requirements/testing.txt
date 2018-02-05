@@ -11,7 +11,7 @@ pytest-mock==1.6.3
 pytest-randomly==1.2.3
 pytest-stepwise==0.4
 pytest-xdist==1.21.0
-selenium==3.8.1
+selenium==3.9.0
 
 # tox
 tox==2.9.*
