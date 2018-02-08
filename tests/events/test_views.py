@@ -5,7 +5,7 @@ from django.urls import reverse
 
 from mock import MagicMock
 
-from ..conftest import today, tomorrow, yesterday
+from ..conftest import TEST_DIR, today, tomorrow, yesterday
 
 
 class TestHomePage:  # noqa: D101
@@ -146,6 +146,22 @@ class TestEventsCreateView:  # noqa: D101
         # THEN we get redirected to the events list
         assert response.status_code == 302
         assert response.url == reverse('events:list')
+
+    def test_events_create_can_upload_flyer_image(self, db, client, authenticated_user):  # noqa: D102
+        # GIVEN any state
+        # WHEN creating an event with a flyer image
+        with open(TEST_DIR + '/data/test_flyer.jpg', 'rb') as flyer:
+            url = reverse('events:create')
+            data = {'title': 'Xochimilco goes Large',
+                    'date': tomorrow(),
+                    'venue': '',
+                    'flyer_image': flyer,
+                    }
+            client.post(url, data=data)
+        
+        # THEN the image file gets saved into the media folder
+        e = factories.Event.objects.get(title='Xochimilco goes Large')
+        assert e.flyer_image.url == '/media/test_flyer.jpg'
 
 
 class TestEventsUpdateView:  # noqa: D101
