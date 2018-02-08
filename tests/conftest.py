@@ -1,14 +1,19 @@
 """Pytest fixtures."""
 import datetime
+import os
 
 from app.core import factories as core_factories
 from app.venues import factories, views
 
+from django.conf import settings
 from django.contrib.auth.hashers import make_password
 
 from mock import MagicMock
 
 import pytest
+
+
+TEST_DIR = os.path.abspath(os.path.join(settings.BASE_DIR, 'tests'))
 
 
 def today():
