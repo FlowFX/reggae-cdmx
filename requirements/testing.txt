@@ -24,3 +24,4 @@ codecov==2.0.15
 # Misc
 mypy==0.560
 Werkzeug==0.14.1
+dj-inmemorystorage==1.4.1
