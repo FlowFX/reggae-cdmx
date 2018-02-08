@@ -12,7 +12,15 @@ def faker(provider, **kwargs):
 
 
 class EventFactory(DjangoModelFactory):
-    """ModelFactory for the Event object."""
+    """ModelFactory for the Event object.
+
+    >>> e = EventFactory.build()
+    >>> assert e.title
+    >>> assert e.date
+    >>> assert e.description
+    >>> assert e.venue
+    >>> assert e.fb_event_url
+    """
 
     class Meta:  # noqa
         model = Event
