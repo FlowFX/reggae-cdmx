@@ -158,10 +158,10 @@ class TestEventsCreateView:  # noqa: D101
                     'flyer_image': flyer,
                     }
             client.post(url, data=data)
-        
+
         # THEN the image file gets saved into the media folder
         e = factories.Event.objects.get(title='Xochimilco goes Large')
-        assert e.flyer_image.url == '/media/test_flyer.jpg'
+        assert e.flyer_image.url.endswith('test_flyer.jpg')
 
 
 class TestEventsUpdateView:  # noqa: D101
