@@ -13,7 +13,7 @@ class TestHomePage:  # noqa: D101
     def test_home_page_shows_existing_events(self, client, mocker):  # noqa: D102
         # GIVEN a couple events
         events = factories.EventFactory.build_batch(5, id=9999)
-        mocker.patch.object(views.IndexView, 'get_queryset', return_value=events)
+        mocker.patch.object(views.HomePage, 'get_queryset', return_value=events)
 
         # WHEN calling the home page
         url = reverse('index')
@@ -43,7 +43,7 @@ class TestHomePage:  # noqa: D101
         # WHEN calling the home page
         url = reverse('index')
         request = rf.get(url)
-        response = views.IndexView.as_view()(request)
+        response = views.HomePage.as_view()(request)
         context = response.context_data
 
         # THEN the context only includes the current and future dates

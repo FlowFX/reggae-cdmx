@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
 
-from app.events.views import IndexView
+from app.events.views import HomePage
 
 from django.views.generic import TemplateView
 
@@ -17,7 +17,7 @@ urlpatterns = [
         TemplateView.as_view(template_name='account/profile.html'),
         name="account_profile",
     ),
-    path('', IndexView.as_view(), name='index'),
+    path('', HomePage.as_view(), name='index'),
     # Events
     path('events/', include('app.events.urls', namespace='events')),
     # Venues
