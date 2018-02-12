@@ -5,7 +5,7 @@
 
 body {
   background: black;
-  color: yellow;
+  color: #F5ED07;
 }
 
 
@@ -17,7 +17,7 @@ body {
 
 /* HEADER */
 .header__title {
-  color: yellow;
+  color: #F5ED07;
   text-decoration: none;
 }
 
