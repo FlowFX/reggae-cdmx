@@ -37,7 +37,7 @@ class FormActionMixin(object):
             return super(FormActionMixin, self).post(request, *args, **kwargs)
 
 
-class IndexView(ListView):
+class HomePage(ListView):
     """View for home page."""
 
     model = Event
