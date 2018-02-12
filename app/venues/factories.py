@@ -16,5 +16,4 @@ class VenueFactory(DjangoModelFactory):
     class Meta:  # noqa
         model = Venue
 
-    id = factory.Sequence(lambda n: n+1)
     name = faker('name_female')
