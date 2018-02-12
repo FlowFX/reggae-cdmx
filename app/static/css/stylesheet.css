@@ -7,3 +7,25 @@ body {
   background: black;
   color: yellow;
 }
+
+
+.wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* HEADER */
+.header__title {
+  color: yellow;
+  text-decoration: none;
+}
+
+/* TABLE */
+.table {
+  text-align: left;
+}
+
+.table-responsive {
+  width: 100%;
+}
