@@ -12,9 +12,9 @@
     <title>Reggae CDMX</title>
 
     <!-- normalize.css -->
-    <link rel="stylesheet" 
-          href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" 
-          integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" 
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css"
+          integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54="
           crossorigin="anonymous" />
     {% compress css %}
     <!-- Custom CSS -->
@@ -45,8 +45,8 @@
 
         <header class="header">
             <a class="header__title" href="{% url 'index' %}"><h1>Reggae CDMX</h1></a>
-         
-            {% include '_messages.html' %} 
+
+            {% include '_messages.html' %}
 
             {% if user.is_authenticated %}
             <a class="" id="add_event" href="{% url 'events:create' %}">Nuevo evento</a>
@@ -63,7 +63,7 @@
 
         <footer class="footer">
             <p class="">
-              <span class="">Made by <a class="link green underline-hover" href="https://flowfx.de/">FlowFX</a></span> 
+              <span class="">Made by <a class="link green underline-hover" href="https://flowfx.de/">FlowFX</a></span>
               <a class="" href="https://www.facebook.com/ReggaeCDMX/">Facebook</a>
               <a class="" href="https://twitter.com/reggae_cdmx/">Twitter</a>
               <a class="" href="https://github.com/flowfx/reggae-cdmx">GitHub</a>
