@@ -3,7 +3,8 @@ import datetime
 import os
 
 from app.core import factories as core_factories
-from app.venues import factories, views
+from app.events import factories as events_factories, views as events_views
+from app.venues import factories as venues_factories, views as venues_views
 
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
@@ -32,12 +33,26 @@ def tomorrow():
 
 
 @pytest.fixture(scope="function")
+def mock_event(mocker):
+    """Mock all database-related stuff of the Event model."""
+    event = events_factories.EventFactory.build(id=9999, venue__id=9999)
+    mocker.patch.object(events_views.EventDeleteView, 'get_object', return_value=event)
+    mocker.patch.object(events_views.EventDetailView, 'get_object', return_value=event)
+    mocker.patch.object(events_views.EventUpdateView, 'get_object', return_value=event)
+
+    mocker.patch('app.events.models.Event.save', MagicMock(name="save"))
+    mocker.patch('app.events.models.Event.delete', MagicMock(name="delete"))
+
+    yield event
+
+
+@pytest.fixture(scope="function")
 def mock_venue(mocker):
     """Mock all database-related stuff of the Venue model."""
-    venue = factories.VenueFactory.build(id=9999)
-    mocker.patch.object(views.VenueDeleteView, 'get_object', return_value=venue)
-    mocker.patch.object(views.VenueDetailView, 'get_object', return_value=venue)
-    mocker.patch.object(views.VenueUpdateView, 'get_object', return_value=venue)
+    venue = venues_factories.VenueFactory.build(id=9999)
+    mocker.patch.object(venues_views.VenueDeleteView, 'get_object', return_value=venue)
+    mocker.patch.object(venues_views.VenueDetailView, 'get_object', return_value=venue)
+    mocker.patch.object(venues_views.VenueUpdateView, 'get_object', return_value=venue)
 
     mocker.patch('app.venues.models.Venue.save', MagicMock(name="save"))
     mocker.patch('app.venues.models.Venue.delete', MagicMock(name="delete"))
