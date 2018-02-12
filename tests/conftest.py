@@ -34,7 +34,7 @@ def tomorrow():
 @pytest.fixture(scope="function")
 def mock_venue(mocker):
     """Mock all database-related stuff of the Venue model."""
-    venue = factories.VenueFactory.build()
+    venue = factories.VenueFactory.build(id=9999)
     mocker.patch.object(views.VenueDeleteView, 'get_object', return_value=venue)
     mocker.patch.object(views.VenueDetailView, 'get_object', return_value=venue)
     mocker.patch.object(views.VenueUpdateView, 'get_object', return_value=venue)

@@ -8,7 +8,7 @@ import pytest
 
 def test_venue_list_view(client, mocker):  # noqa: D103
     # GIVEN a number of venues
-    venues = factories.VenueFactory.build_batch(5)
+    venues = factories.VenueFactory.build_batch(5, id=9999)
     mocker.patch.object(views.VenueListView, 'get_queryset', return_value=venues)
 
     # WHEN opening the venues list

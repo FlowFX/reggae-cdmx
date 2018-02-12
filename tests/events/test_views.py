@@ -12,7 +12,7 @@ class TestHomePage:  # noqa: D101
 
     def test_home_page_shows_existing_events(self, client, mocker):  # noqa: D102
         # GIVEN a couple events
-        events = factories.EventFactory.build_batch(5)
+        events = factories.EventFactory.build_batch(5, id=9999)
         mocker.patch.object(views.IndexView, 'get_queryset', return_value=events)
 
         # WHEN calling the home page
@@ -32,13 +32,13 @@ class TestHomePage:  # noqa: D101
 
     def test_home_page_shows_only_future_events(self, db, rf, mocker):  # noqa: D102
         # GIVEN a past event
-        past_event = factories.EventFactory.create(date=yesterday())
+        past_event = factories.EventFactory.create(date=yesterday(), id=9997)
 
         # AND a current event
-        current_event = factories.EventFactory.create(date=today())
+        current_event = factories.EventFactory.create(date=today(), id=9998)
 
         # AND a future event
-        future_event = factories.EventFactory.create(date=tomorrow())
+        future_event = factories.EventFactory.create(date=tomorrow(), id=9999)
 
         # WHEN calling the home page
         url = reverse('index')
@@ -59,7 +59,7 @@ class TestEventsListView:  # noqa: D101
 
     def test_events_list_shows_existing_events(self, client, mocker):  # noqa: D102
         # GIVEN a couple events
-        events = factories.EventFactory.build_batch(5)
+        events = factories.EventFactory.build_batch(5, id=9999)
         mocker.patch.object(views.EventListView, 'get_queryset', return_value=events)
 
         # WHEN calling the events list
@@ -82,7 +82,7 @@ class TestEventsDetailView:  # noqa: D101
 
     def test_event_detail_view_shows_event_details(self, client, mocker):  # noqa: D102
         # GIVEN an existing event
-        event = factories.EventFactory.build()
+        event = factories.EventFactory.build(id=9999, venue__id=9999)
         mocker.patch.object(views.EventDetailView, 'get_object', return_value=event)
 
         # WHEN callint the detail view
@@ -103,6 +103,7 @@ class TestEventsDetailView:  # noqa: D101
         """Regression test for the case that an event has no venue, yet."""
         # GIVEN an existing event with no venue
         event = factories.EventFactory.build(
+            id=9999,
             venue=None,
         )
         mocker.patch.object(views.EventDetailView, 'get_object', return_value=event)
@@ -169,7 +170,7 @@ class TestEventsUpdateView:  # noqa: D101
     def test_event_update_view_GET(self, db, client, authenticated_user, mocker):  # noqa: D102
         # TODO: why do we need the databse here?!
         # GIVEN an existing event
-        event = factories.EventFactory.build(title='Here We Go Again')
+        event = factories.EventFactory.build(title='Here We Go Again', id=9999)
         mocker.patch.object(views.EventUpdateView, 'get_object', return_value=event)
 
         # WHEN calling the update view via GET request
@@ -186,7 +187,7 @@ class TestEventsUpdateView:  # noqa: D101
 
     def test_post_request_redirects_to_event_list(self, client, authenticated_user, mocker):  # noqa: D102
         # GIVEN an existing event
-        event = factories.EventFactory.build(title='Here We Go Again')
+        event = factories.EventFactory.build(title='Here We Go Again', id=9999)
         mocker.patch.object(views.EventUpdateView, 'get_object', return_value=event)
 
         # WHEN updating the event via POST request
@@ -203,7 +204,7 @@ class TestEventsDeleteView:  # noqa: D101
 
     def test_event_delete_view_GET(self, client, authenticated_user, mocker):  # noqa: D102
         # GIVEN an existing event
-        event = factories.EventFactory.build()
+        event = factories.EventFactory.build(id=9999)
         mocker.patch.object(views.EventDeleteView, 'get_object', return_value=event)
 
         # WHEN calling the delete view via GET
@@ -216,7 +217,7 @@ class TestEventsDeleteView:  # noqa: D101
 
     def test_success_post_req_redirects_to_events_list(self, client, authenticated_user, mocker):  # noqa: D102
         # GIVEN an existing event
-        event = factories.EventFactory.build()
+        event = factories.EventFactory.build(id=9999)
         mocker.patch.object(views.EventDeleteView, 'get_object', return_value=event)
         mocker.patch('app.events.models.Event.delete', MagicMock(name="delete"))
 
@@ -231,7 +232,7 @@ class TestEventsDeleteView:  # noqa: D101
 
     def test_post_req_cancel_button_works(self, client, authenticated_user, mocker):  # noqa: D102
         # GIVEN an existing event
-        event = factories.EventFactory.build()
+        event = factories.EventFactory.build(id=9999)
         mocker.patch.object(views.EventDeleteView, 'get_object', return_value=event)
 
         # WHEN calling the delete view via POST request, without db or mocks
