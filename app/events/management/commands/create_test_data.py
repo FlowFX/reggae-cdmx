@@ -1,9 +1,7 @@
 """Management command to easily create test data."""
 from app.events.factories import EventFactory
-from app.events.models import Event
 
 from django.core.management.base import BaseCommand
-from django.db.models import Max
 
 
 class Command(BaseCommand):  # noqa: D101
