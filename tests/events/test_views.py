@@ -80,10 +80,9 @@ class TestEventsListView:  # noqa: D101
 
 class TestEventsDetailView:  # noqa: D101
 
-    def test_event_detail_view_shows_event_details(self, client, mocker):  # noqa: D102
+    def test_event_detail_view_shows_event_details(self, client, mock_event):  # noqa: D102
         # GIVEN an existing event
-        event = factories.EventFactory.build(id=9999, venue__id=9999)
-        mocker.patch.object(views.EventDetailView, 'get_object', return_value=event)
+        event = mock_event
 
         # WHEN callint the detail view
         url = reverse('events:detail', args=[str(event.id)])
@@ -167,11 +166,9 @@ class TestEventsCreateView:  # noqa: D101
 
 class TestEventsUpdateView:  # noqa: D101
 
-    def test_event_update_view_GET(self, db, client, authenticated_user, mocker):  # noqa: D102
-        # TODO: why do we need the databse here?!
+    def test_event_update_view_GET(self, client, authenticated_user, mock_event):  # noqa: D102
         # GIVEN an existing event
-        event = factories.EventFactory.build(title='Here We Go Again', id=9999)
-        mocker.patch.object(views.EventUpdateView, 'get_object', return_value=event)
+        event = mock_event
 
         # WHEN calling the update view via GET request
         url = reverse('events:update', args=[str(event.id)])
@@ -185,10 +182,9 @@ class TestEventsUpdateView:  # noqa: D101
         content = response.content.decode()
         assert event.title in content
 
-    def test_post_request_redirects_to_event_list(self, client, authenticated_user, mocker):  # noqa: D102
+    def test_post_request_redirects_to_event_list(self, client, authenticated_user, mock_event):  # noqa: D102
         # GIVEN an existing event
-        event = factories.EventFactory.build(title='Here We Go Again', id=9999)
-        mocker.patch.object(views.EventUpdateView, 'get_object', return_value=event)
+        event = mock_event
 
         # WHEN updating the event via POST request
         url = reverse('events:update', args=[str(event.id)])
@@ -202,10 +198,9 @@ class TestEventsUpdateView:  # noqa: D101
 
 class TestEventsDeleteView:  # noqa: D101
 
-    def test_event_delete_view_GET(self, client, authenticated_user, mocker):  # noqa: D102
+    def test_event_delete_view_GET(self, client, authenticated_user, mock_event):  # noqa: D102
         # GIVEN an existing event
-        event = factories.EventFactory.build(id=9999)
-        mocker.patch.object(views.EventDeleteView, 'get_object', return_value=event)
+        event = mock_event
 
         # WHEN calling the delete view via GET
         url = reverse('events:delete', args=[str(event.id)])
@@ -215,11 +210,9 @@ class TestEventsDeleteView:  # noqa: D101
         assert response.status_code == 200
         assert response.template_name[0] == 'model_delete.html'
 
-    def test_success_post_req_redirects_to_events_list(self, client, authenticated_user, mocker):  # noqa: D102
+    def test_success_post_req_redirects_to_events_list(self, client, authenticated_user, mock_event):  # noqa: D102
         # GIVEN an existing event
-        event = factories.EventFactory.build(id=9999)
-        mocker.patch.object(views.EventDeleteView, 'get_object', return_value=event)
-        mocker.patch('app.events.models.Event.delete', MagicMock(name="delete"))
+        event = mock_event
 
         # WHEN calling the delete view via POST request
         url = reverse('events:delete', args=[str(event.id)])
@@ -230,10 +223,9 @@ class TestEventsDeleteView:  # noqa: D101
         assert response.status_code == 302
         assert response.url == reverse('events:list')
 
-    def test_post_req_cancel_button_works(self, client, authenticated_user, mocker):  # noqa: D102
+    def test_post_req_cancel_button_works(self, client, authenticated_user, mock_event):  # noqa: D102
         # GIVEN an existing event
-        event = factories.EventFactory.build(id=9999)
-        mocker.patch.object(views.EventDeleteView, 'get_object', return_value=event)
+        event = mock_event
 
         # WHEN calling the delete view via POST request, without db or mocks
         url = reverse('events:delete', args=[str(event.id)])
