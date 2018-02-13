@@ -1,4 +1,6 @@
 """Unit tests for events views."""
+from datetime import timedelta
+
 from app.events import factories, views
 
 from django.urls import reverse
@@ -9,6 +11,58 @@ from ..conftest import TEST_DIR, today, tomorrow, yesterday
 
 
 class TestHomePage:  # noqa: D101
+
+    def test_home_page_view_provides_structured_calendar_of_events(self, db, client):  # noqa: D102
+        # GIVEN multiple events in separate weeks
+        e = factories.EventFactory.create(date=today())  # today
+        # factories.EventFactory.create_batch(2, date=tomorrow())  # tomorrow
+        # factories.EventFactory.create_batch(2, date=tomorrow() + timedelta(6))  # next week
+
+        # WHEN requesting the home page
+        url = reverse('index')
+        response = client.get(url)
+
+        # THEN the view context provides a structured calendar of events
+        calendar = response.context_data['calendar']
+
+        year = today().year
+        month = today().strftime('%B')
+        week = today().isocalendar()[1]
+        day = today().isocalendar()[2]
+
+        assert type(calendar) is dict
+        assert calendar[year]['year'] == year
+        assert calendar[year]['months'][month]['month'] == month
+        assert calendar[year]['months'][month]['weeks'][week]['week'] == week
+        assert calendar[year]['months'][month]['weeks'][week]['days'][day]['date'] == today()
+        assert calendar[year]['months'][month]['weeks'][week]['days'][day]['events'][0] == e
+
+        # for year in calendar:
+        #     assert type(year) is dict
+
+        # # it spans over at least 1 year
+        # this_year = today().year
+        # assert calendar[this_year]
+
+        # # and over at least 1 month
+        # this_month = today().month
+        # assert calendar[this_year][this_month]
+
+        # # and over this week
+        # this_week = today().isocalendar()[1]
+        # assert calendar[this_year][this_month][this_week]
+
+        # # and next week.
+        # next_week = this_week + 1
+        # assert calendar[this_year][this_month][next_week]
+
+        # # AND it contains two events for today
+        # this_day = today().isocalendar()[2]
+        # todays_events = calendar[this_year][this_month][this_week][this_day]
+        # assert len(todays_events['events']) == 2
+
+        # # and provides the correct date for today's events.
+        # assert todays_events['date'] == today()
 
     def test_home_page_shows_existing_events(self, client, mocker):  # noqa: D102
         # GIVEN a couple events
