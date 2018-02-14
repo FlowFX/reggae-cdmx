@@ -1,22 +1,46 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block content %}
 
-<h2>Proxmios eventos</h1>
+  <h1>Proxmios eventos</h1>
 
-<table id="events" class="table table-responsive">
-  <tbody>
-    {% for event in events %}
-    <tr class="event">
-      <th scope="row">{{ event.date|date:"D d/m"  }}</th>
-      <td>
-        <a class="show_event" href="{{ event.get_absolute_url }}">
-          {{ event.title }}
-        </a>{% if event.venue.name %}, {{ event.venue.name }} {% endif %}
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+  {% for key, year in calendar.items %}
+    {% if not forloop.first %}
+      <h2>Year: {{ year.year }}</h2>
+    {% endif %}
+
+    {% for key, month in year.months.items %}
+      {% if not forloop.first %}
+        <h3>{% trans month.month %}</h3>
+      {% endif %}
+
+      {% for key, week in month.weeks.items %}
+          <table class="table table-responsive">
+            <tbody>
+
+        {% for key, day in week.days.items %}
+
+              {% for event in day.events %}
+                <tr>
+                  {% if forloop.first %}
+                    <th scope="row">{{ event.date|date:"D d/m" }}</th>
+                  {% else %}
+                    <th></th>
+                  {% endif %}
+
+                  <td>
+                    <a href="{{ event.get_absolute_url }}">
+                      {{ event.title }}
+                    </a>{% if event.venue.name %}, {{ event.venue.name }} {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}  <!-- event in day.events -->
+        {% endfor %}  <!-- day in week -->
+            </tbody>
+          </table>
+      {% endfor %}  <!-- week in month -->
+    {% endfor %}  <!-- month in year -->
+  {% endfor %}  <!-- year in calendar -->
 
 {% endblock content %}

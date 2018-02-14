@@ -1,6 +1,4 @@
 """Unit tests for events views."""
-from datetime import timedelta
-
 from app.events import factories, views
 
 from django.urls import reverse
