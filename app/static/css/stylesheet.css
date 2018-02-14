@@ -24,6 +24,7 @@ body {
 /* TABLE */
 .table {
   text-align: left;
+  padding: 10px 0;
 }
 
 .table-responsive {
