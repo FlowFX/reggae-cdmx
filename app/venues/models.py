@@ -8,7 +8,9 @@ app_name = 'venues'
 class Venue(models.Model):
     """The venue model."""
 
-    name = models.CharField(max_length=255)
+    name = models.CharField('nombre', max_length=255)
+    address = models.CharField('dirección', max_length=1024, blank=True)
+    fb_page_url = models.URLField('URL', blank=True)
 
     def __str__(self):
         """Return string representation of Venue instance.
