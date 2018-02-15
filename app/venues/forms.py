@@ -11,4 +11,6 @@ class VenueForm(forms.ModelForm):
         model = Venue
         fields = (
             'name',
+            'address',
+            'fb_page_url',
         )
