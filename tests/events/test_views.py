@@ -64,7 +64,7 @@ class TestEventsListView:
 
     def test_events_list_shows_existing_events(self, client, mocker):  # noqa: D102
         # GIVEN a couple events
-        events = factories.EventFactory.build_batch(5, id=9999)
+        events = factories.EventFactory.build_batch(3, id=9999)
         mocker.patch.object(views.EventListView, 'get_queryset', return_value=events)
 
         # WHEN calling the events list
@@ -77,10 +77,11 @@ class TestEventsListView:
 
         # AND the event titles are shown and linked
         content = response.content.decode()
-        assert events[0].title in content
-        assert events[0].venue.name in content
-        assert events[0].date.strftime("%d/%m") in content
-        assert events[0].get_absolute_url() in content
+        for event in events:
+            assert event.title in content
+            assert event.venue.name in content
+            assert event.date.strftime("%d/%m") in content
+            assert event.get_absolute_url() in content
 
 
 class TestEventsDetailView:  # noqa: D101
