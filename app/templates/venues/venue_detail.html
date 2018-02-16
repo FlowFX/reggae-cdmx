@@ -2,6 +2,13 @@
 
 {% block content %}
 
+{% if user.is_staff %}
+<a class="button" href="{% url 'venues:update' venue.id %}">Editar</a>
+<a class="button" href="{% url 'venues:delete' venue.id %}">Borrar</a>
+{% endif %}
+
 <h2>{{ venue.name }}</h2>
+<p>Dirección: {{ venue.address }}</p>
+<p>URL: {{ venue.url }}</p>
 
 {% endblock content %}
