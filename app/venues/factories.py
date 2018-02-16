@@ -15,7 +15,7 @@ class VenueFactory(DjangoModelFactory):
 
     >>> v = VenueFactory.build()
     >>> assert v.name
-    >>> assert v.fb_page_url
+    >>> assert v.url
     >>> assert v.address
     """
 
@@ -23,5 +23,5 @@ class VenueFactory(DjangoModelFactory):
         model = Venue
 
     name = faker('name_female')
-    fb_page_url = faker('url')
+    url = faker('url')
     address = faker('address')
