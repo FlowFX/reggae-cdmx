@@ -188,7 +188,7 @@ STATICFILES_FINDERS = [
 ]
 
 STATICFILES_DIRS = [
-    os.path.abspath(os.path.join(BASE_DIR, 'app/static'))
+    os.path.abspath(os.path.join(BASE_DIR, 'app/static')),
 ]
 
 STATIC_URL = '/static/'
@@ -198,8 +198,3 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, '.media'))
 
 INTERNAL_IPS = ['127.0.0.1']
-
-
-COMPRESS_PRECOMPILERS = (
-    ('text/scss', 'sass --scss {infile} {outfile}'),
-)
