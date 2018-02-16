@@ -5,4 +5,4 @@
 [![Updates](https://pyup.io/repos/github/FlowFX/reggae-cdmx.com/shield.svg)](https://pyup.io/repos/github/FlowFX/reggae-cdmx.com/)
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/FlowFX/reggae-cdmx.com.svg?columns=all)](https://waffle.io/FlowFX/reggae-cdmx.com) 
 
-Django app powering https://reggae-cdmx.com/.
+Django app powering [reggae-cdmx.com](https://reggae-cdmx.com/).
