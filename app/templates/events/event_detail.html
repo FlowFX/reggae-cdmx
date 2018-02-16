@@ -16,8 +16,8 @@
 {% if event.venue %}
 <h2>¿Dónde?</h2>
 <p>
-  {% if event.venue.fb_page_url %}
-    <a href="{{ event.venue.fb_page_url }}">{{ event.venue.name }}</a>
+  {% if event.venue.url %}
+    <a href="{{ event.venue.url }}">{{ event.venue.name }}</a>
   {% else %}
     {{ event.venue.name }}
   {% endif %}
