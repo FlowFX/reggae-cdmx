@@ -5,7 +5,7 @@ from django.urls import reverse
 
 from mock import MagicMock
 
-from ..conftest import TEST_DIR, today, tomorrow, yesterday
+from ..conftest import TEST_DIR, today, tomorrow
 
 
 class TestHomePage:
@@ -13,10 +13,7 @@ class TestHomePage:
 
     def test_home_page_context_provides_structured_calendar_of_events(self, client, mocker):  # noqa: D102
         # GIVEN a event
-        events = [factories.EventFactory.build(
-            id=9999,
-            date=today(),
-            ), ]  # today
+        events = [factories.EventFactory.build(id=9999, date=today())]  # today
         mocker.patch.object(views.HomePage, 'get_queryset', return_value=events)
 
         # WHEN requesting the home page
