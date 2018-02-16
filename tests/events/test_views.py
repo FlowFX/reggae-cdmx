@@ -58,9 +58,6 @@ class TestHomePage:
         assert events[0].date.strftime("%d/%m") in content
         assert events[0].get_absolute_url() in content
 
-    def test_home_page_shows_only_future_events(self, db, rf, mocker):  # noqa: D102
-        # GIVEN a past event
-        past_event = factories.EventFactory.create(date=yesterday(), id=9997)
 
 class TestEventsListView:
     """Test events.views.EventListView on '/events/'."""
