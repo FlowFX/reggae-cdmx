@@ -27,4 +27,8 @@
 </p>
 {% endif %}
 
+{% if event.flyer_image %}
+  <img src="{{ event.flyer_image.url }}" class="img-responsive" />
+{% endif %}
+
 {% endblock content %}
