@@ -8,8 +8,8 @@ from mock import MagicMock
 from ..conftest import TEST_DIR, today, tomorrow, yesterday
 
 
-class TestHomePage:  # noqa: D101
-    """Test events.views.HomePage."""
+class TestHomePage:
+    """Test events.views.HomePage on '/'."""
 
     def test_home_page_context_provides_structured_calendar_of_events(self, client, mocker):  # noqa: D102
         # GIVEN a event
@@ -62,28 +62,8 @@ class TestHomePage:  # noqa: D101
         # GIVEN a past event
         past_event = factories.EventFactory.create(date=yesterday(), id=9997)
 
-        # AND a current event
-        current_event = factories.EventFactory.create(date=today(), id=9998)
-
-        # AND a future event
-        future_event = factories.EventFactory.create(date=tomorrow(), id=9999)
-
-        # WHEN calling the home page
-        url = reverse('index')
-        request = rf.get(url)
-        response = views.HomePage.as_view()(request)
-        context = response.context_data
-
-        # THEN the context only includes the current and future dates
-        assert past_event not in context['events']
-        assert current_event in context['events']
-        assert future_event in context['events']
-
-        # AND the current event comes before the future event in the list
-        assert list(context['events']).index(current_event) < list(context['events']).index(future_event)
-
-
-class TestEventsListView:  # noqa: D101
+class TestEventsListView:
+    """Test events.views.EventListView on '/events/'."""
 
     def test_events_list_shows_existing_events(self, client, mocker):  # noqa: D102
         # GIVEN a couple events
