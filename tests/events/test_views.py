@@ -9,12 +9,15 @@ from ..conftest import TEST_DIR, today, tomorrow, yesterday
 
 
 class TestHomePage:  # noqa: D101
+    """Test events.views.HomePage."""
 
-    def test_home_page_view_provides_structured_calendar_of_events(self, db, client):  # noqa: D102
-        # GIVEN multiple events in separate weeks
-        e = factories.EventFactory.create(date=today())  # today
-        # factories.EventFactory.create_batch(2, date=tomorrow())  # tomorrow
-        # factories.EventFactory.create_batch(2, date=tomorrow() + timedelta(6))  # next week
+    def test_home_page_context_provides_structured_calendar_of_events(self, client, mocker):  # noqa: D102
+        # GIVEN a event
+        events = [factories.EventFactory.build(
+            id=9999,
+            date=today(),
+            ), ]  # today
+        mocker.patch.object(views.HomePage, 'get_queryset', return_value=events)
 
         # WHEN requesting the home page
         url = reverse('index')
@@ -33,38 +36,11 @@ class TestHomePage:  # noqa: D101
         assert calendar[year]['months'][month]['month'] == month
         assert calendar[year]['months'][month]['weeks'][week]['week'] == week
         assert calendar[year]['months'][month]['weeks'][week]['days'][day]['date'] == today()
-        assert calendar[year]['months'][month]['weeks'][week]['days'][day]['events'][0] == e
-
-        # for year in calendar:
-        #     assert type(year) is dict
-
-        # # it spans over at least 1 year
-        # this_year = today().year
-        # assert calendar[this_year]
-
-        # # and over at least 1 month
-        # this_month = today().month
-        # assert calendar[this_year][this_month]
-
-        # # and over this week
-        # this_week = today().isocalendar()[1]
-        # assert calendar[this_year][this_month][this_week]
-
-        # # and next week.
-        # next_week = this_week + 1
-        # assert calendar[this_year][this_month][next_week]
-
-        # # AND it contains two events for today
-        # this_day = today().isocalendar()[2]
-        # todays_events = calendar[this_year][this_month][this_week][this_day]
-        # assert len(todays_events['events']) == 2
-
-        # # and provides the correct date for today's events.
-        # assert todays_events['date'] == today()
+        assert calendar[year]['months'][month]['weeks'][week]['days'][day]['events'][0] == events[0]
 
     def test_home_page_shows_existing_events(self, client, mocker):  # noqa: D102
         # GIVEN a couple events
-        events = factories.EventFactory.build_batch(5, id=9999)
+        events = factories.EventFactory.build_batch(3, id=9999)
         mocker.patch.object(views.HomePage, 'get_queryset', return_value=events)
 
         # WHEN calling the home page
