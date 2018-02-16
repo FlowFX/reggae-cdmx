@@ -34,7 +34,7 @@ deploy:
     condition: $TOXENV = py36
 after_deploy:
   #  update codecov
-  # - codecov
+  - codecov
 notifications:
   # spare me from email notifications
   email: false
