@@ -1,8 +1,10 @@
 [run]
 source = app
 branch = True
-omit = 
+omit =
 	# omit all tests
 	tests/*
 	# omit migrations
 	*/migrations/*
+    # omit management commands
+    */management/commands/*
