@@ -5,11 +5,13 @@ from django.urls import reverse
 
 from mock import MagicMock
 
-from ..conftest import TEST_DIR, today, tomorrow
+from ..conftest import TEST_DIR, today, tomorrow, yesterday
 
 
 class TestHomePage:
     """Test events.views.HomePage on '/'."""
+
+    url = reverse('index')
 
     def test_home_page_context_provides_structured_calendar_of_events(self, client, mocker):  # noqa: D102
         # GIVEN a event
@@ -17,8 +19,7 @@ class TestHomePage:
         mocker.patch.object(views.HomePage, 'get_queryset', return_value=events)
 
         # WHEN requesting the home page
-        url = reverse('index')
-        response = client.get(url)
+        response = client.get(self.url)
 
         # THEN the view context provides a structured calendar of events
         calendar = response.context_data['calendar']
@@ -41,8 +42,7 @@ class TestHomePage:
         mocker.patch.object(views.HomePage, 'get_queryset', return_value=events)
 
         # WHEN calling the home page
-        url = reverse('index')
-        response = client.get(url)
+        response = client.get(self.url)
 
         # THEN it's there,
         assert response.status_code == 200
@@ -54,6 +54,17 @@ class TestHomePage:
         assert events[0].venue.name in content
         assert events[0].date.strftime("%d/%m") in content
         assert events[0].get_absolute_url() in content
+
+    def test_home_page_only_shows_future_events(self, db, rf):  # noqa: D102
+        # GIVEN only a past event
+        factories.EventFactory.create(date=yesterday())
+
+        # WHEN making a GET request to the home page
+        request = rf.get(self.url)
+        response = views.HomePage.as_view()(request)
+
+        # THEN the calendar in the context is empty
+        assert response.context_data['calendar'] == {}
 
 
 class TestEventsListView:
