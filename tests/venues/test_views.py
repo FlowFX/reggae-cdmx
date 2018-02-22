@@ -16,7 +16,8 @@ class TestAnonymousAccess:
             ('venues:update', True),
             ('venues:delete', True),
         ])
-    def test_anonymous_user_cant_access_create_read_update_delete(self, client, mock_venue, url_name, venue_exists):
+    def test_anonymous_user_cant_access_create_read_update_delete(self, client, mock_venue, url_name, venue_exists):\
+        # noqa: D102
         # GIVEN an existing venue
         # WHEN requesting the venue create/update/delete view as an anonymous user
         if venue_exists:
@@ -72,7 +73,8 @@ class TestVenuesListView:
      ('venues:delete', True, 'model_delete.html'),
      ('venues:detail', True, 'venues/venue_detail.html'),
      ])
-def test_CRUD_views_GET_yields_200(client, authenticated_user, mock_venue, url_name, venue_exists, template_name):  # noqa: D103
+def test_CRUD_views_GET_yields_200(client, authenticated_user, mock_venue, url_name, venue_exists, template_name):\
+    # noqa: D103
     # GIVEN an existing venue
     # WHEN calling the CRUD views as an authenticated user
     if venue_exists:
@@ -93,7 +95,8 @@ def test_CRUD_views_GET_yields_200(client, authenticated_user, mock_venue, url_n
      ('venues:update', True),
      ('venues:delete', True),
      ])
-def test_venue_CRUD_views_POST_request_redirects(client, authenticated_user, mock_venue, url_name, venue_exists):  # noqa: D103
+def test_venue_CRUD_views_POST_request_redirects(client, authenticated_user, mock_venue, url_name, venue_exists):\
+    # noqa: D103
     # GIVEN an existing venue
     # WHEN creating/updating/deleting a venue as an authenticated user
     if venue_exists:
