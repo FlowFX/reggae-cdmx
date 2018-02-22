@@ -2,7 +2,6 @@
 from braces.views import LoginRequiredMixin
 
 from django.contrib import messages
-from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import (CreateView, DeleteView,
                                   DetailView, ListView, UpdateView)
@@ -27,12 +26,12 @@ class FormActionMixin(object):
         messages.success(self.request, self.success_msg)
         return super(FormActionMixin, self).form_valid(form)
 
-    def post(self, request, *args, **kwargs):
-        """Add 'Cancel' button redirect."""
-        if "cancel" in request.POST:
-            return HttpResponseRedirect(self.get_success_url())
-        else:
-            return super(FormActionMixin, self).post(request, *args, **kwargs)
+    # def post(self, request, *args, **kwargs):
+    #     """Add 'Cancel' button redirect."""
+    #     if "cancel" in request.POST:
+    #         return HttpResponseRedirect(self.get_success_url())
+    #     else:
+    #         return super(FormActionMixin, self).post(request, *args, **kwargs)
 
 
 class VenueListView(LoginRequiredMixin, ListView):
