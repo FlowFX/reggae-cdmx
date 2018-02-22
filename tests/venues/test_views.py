@@ -6,22 +6,38 @@ from django.urls import reverse
 import pytest
 
 
-def test_venue_list_view(client, mocker):  # noqa: D103
-    # GIVEN a number of venues
-    venues = factories.VenueFactory.build_batch(5, id=9999)
-    mocker.patch.object(views.VenueListView, 'get_queryset', return_value=venues)
+class TestVenuesListView:
+    """Test venues.views.VenueListView on '/venues/'."""
 
-    # WHEN opening the venues list
     url = reverse('venues:list')
-    response = client.get(url)
 
-    # THEN it's there
-    assert response.status_code == 200
-    assert response.template_name[0] == 'venues/venue_list.html'
+    def test_anonymous_users_cant_access_venues_list(self, client, mocker):  # noqa: D102
+        # GIVEN any state
+        mocker.patch.object(views.VenueListView, 'get_queryset', return_value=None)
 
-    # AND shows all existing venues
-    for venue in venues:
-        assert venue.name in response.content.decode()
+        # WHEN requesting the venues list as an anonymous user
+        response = client.get(self.url)
+
+        # THEN she gets redirected to the login page
+        assert response.status_code == 302
+        assert response.url.startswith(reverse('account_login'))
+
+    def test_venue_list_shows_existing_venues(self, client, authenticated_user, mocker):  # noqa: D102
+        # GIVEN a number of venues
+        venues = factories.VenueFactory.build_batch(3, id=9999)
+        mocker.patch.object(views.VenueListView, 'get_queryset', return_value=venues)
+
+        # WHEN opening the venues list
+        url = reverse('venues:list')
+        response = client.get(url)
+
+        # THEN it's there
+        assert response.status_code == 200
+        assert response.template_name[0] == 'venues/venue_list.html'
+
+        # AND shows all existing venues
+        for venue in venues:
+            assert venue.name in response.content.decode()
 
 
 @pytest.mark.parametrize(

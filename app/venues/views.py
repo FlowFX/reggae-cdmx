@@ -1,4 +1,5 @@
 """reggae/venues/views.py."""
+from braces.views import LoginRequiredMixin
 
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -34,7 +35,7 @@ class FormActionMixin(object):
             return super(FormActionMixin, self).post(request, *args, **kwargs)
 
 
-class VenueListView(ListView):
+class VenueListView(LoginRequiredMixin, ListView):
     """ListView for the Venue model."""
 
     model = Venue
