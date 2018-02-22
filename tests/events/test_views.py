@@ -68,14 +68,15 @@ class TestHomePage:
 class TestEventsListView:
     """Test events.views.EventListView on '/events/'."""
 
-    def test_events_list_shows_existing_events(self, client, mocker):  # noqa: D102
+    url = reverse('events:list')
+
+    def test_events_list_shows_existing_events(self, client, authenticated_user, mocker):  # noqa: D102
         # GIVEN a couple events
         events = factories.EventFactory.build_batch(3, id=9999)
         mocker.patch.object(views.EventListView, 'get_queryset', return_value=events)
 
         # WHEN calling the events list
-        url = reverse('events:list')
-        response = client.get(url)
+        response = client.get(self.url)
 
         # THEN it's there,
         assert response.status_code == 200
@@ -89,8 +90,31 @@ class TestEventsListView:
             assert event.date.strftime("%d/%m") in content
             assert event.get_absolute_url() in content
 
+    def test_anonymous_user_cant_access_events_list(self, client, mocker):  # noqa: D102
+        # GIVEN any state
+        mocker.patch.object(views.EventListView, 'get_queryset', return_value=None)
+
+        # WHEN calling the events list as an anonymous user
+        response = client.get(self.url)
+
+        # THEN it redirects to the login page
+        assert response.status_code == 302
+        assert response.url.startswith(reverse('account_login'))
+
 
 class TestEventsDetailView:  # noqa: D101
+
+    def test_anonymous_user_can_access_event_detail(self, client, mock_event):  # noqa: D102
+        # GIVEN an existing event
+        event = mock_event
+
+        # WHEN requesting the detail view as an anonymous user
+        url = reverse('events:detail', args=[str(event.id)])
+        response = client.get(url)
+
+        # THEN it's there
+        assert response.status_code == 200
+        assert response.template_name[0] == 'events/event_detail.html'
 
     def test_event_detail_view_shows_event_details(self, client, mock_event):  # noqa: D102
         # GIVEN an existing event
@@ -100,11 +124,7 @@ class TestEventsDetailView:  # noqa: D101
         url = reverse('events:detail', args=[str(event.id)])
         response = client.get(url)
 
-        # THEN it's there
-        assert response.status_code == 200
-        assert response.template_name[0] == 'events/event_detail.html'
-
-        # AND the event dtails are shown
+        # THEN the event dtails are shown
         content = response.content.decode()
         assert event.title in content
         assert event.venue.name in content
@@ -129,11 +149,21 @@ class TestEventsDetailView:  # noqa: D101
 
 class TestEventsCreateView:  # noqa: D101
 
+    url = reverse('events:create')
+
+    def test_anonymous_user_cant_access_event_create_view(self, client):  # noqa: D102
+        # GIVEN any state
+        # WHEN requesting the event create view as an anonymous user
+        response = client.get(self.url)
+
+        # THEN she does not get access
+        assert response.status_code == 302
+        assert response.url.startswith(reverse('account_login'))
+
     def test_events_create_view_returns_200_on_get_request(self, client, authenticated_user):  # noqa: D102
         # GIVEN any state
-        # WHEN requesting the event create view
-        url = reverse('events:create')
-        response = client.get(url)
+        # WHEN requesting the event create view as an authenticated user
+        response = client.get(self.url)
 
         # THEN it's there
         assert response.status_code == 200
@@ -143,12 +173,11 @@ class TestEventsCreateView:  # noqa: D101
         # noqa: D102
         # GIVEN any state
         # WHEN creating a new event via POST request
-        url = reverse('events:create')
         data = {'title': 'Xochimilco goes Large',
                 'date': tomorrow(),
                 'venue': '',
                 }
-        response = client.post(url, data=data)
+        response = client.post(self.url, data=data)
 
         # THEN we get redirected to the event detail
         assert response.status_code == 302
@@ -158,13 +187,12 @@ class TestEventsCreateView:  # noqa: D101
         # GIVEN any state
         # WHEN creating an event with a flyer image
         with open(TEST_DIR + '/data/test_flyer.jpg', 'rb') as flyer:
-            url = reverse('events:create')
             data = {'title': 'Xochimilco goes Large',
                     'date': tomorrow(),
                     'venue': '',
                     'flyer_image': flyer,
                     }
-            client.post(url, data=data)
+            client.post(self.url, data=data)
 
         # THEN the image file gets saved into the media folder
         e = factories.Event.objects.get(title='Xochimilco goes Large')
@@ -172,6 +200,18 @@ class TestEventsCreateView:  # noqa: D101
 
 
 class TestEventsUpdateView:  # noqa: D101
+
+    def test_anonymous_user_cant_edit_events(self, client, mock_event):  # noqa: D102
+        # GIVEN an existing event
+        event = mock_event
+
+        # WHEN calling the update view as an anonymous user
+        url = reverse('events:update', args=[str(event.id)])
+        response = client.get(url)
+
+        # THEN she does not get access
+        assert response.status_code == 302
+        assert response.url.startswith(reverse('account_login'))
 
     def test_event_update_view_GET(self, client, authenticated_user, mock_event):  # noqa: D102
         # GIVEN an existing event
@@ -204,6 +244,18 @@ class TestEventsUpdateView:  # noqa: D101
 
 
 class TestEventsDeleteView:  # noqa: D101
+
+    def test_anonymous_user_cant_delete_events(self, client, mock_event):  # noqa: D102
+        # GIVEN an existing event
+        event = mock_event
+
+        # WHEN calling the delete view as an anonymous user
+        url = reverse('events:delete', args=[str(event.id)])
+        response = client.get(url)
+
+        # THEN it redirects to the login page
+        assert response.status_code == 302
+        assert response.url.startswith(reverse('account_login'))
 
     def test_event_delete_view_GET(self, client, authenticated_user, mock_event):  # noqa: D102
         # GIVEN an existing event

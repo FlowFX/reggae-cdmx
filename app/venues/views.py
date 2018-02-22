@@ -1,4 +1,5 @@
 """reggae/venues/views.py."""
+from braces.views import LoginRequiredMixin
 
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -34,7 +35,7 @@ class FormActionMixin(object):
             return super(FormActionMixin, self).post(request, *args, **kwargs)
 
 
-class VenueListView(ListView):
+class VenueListView(LoginRequiredMixin, ListView):
     """ListView for the Venue model."""
 
     model = Venue
@@ -42,15 +43,14 @@ class VenueListView(ListView):
     context_object_name = 'venues'
 
 
-class VenueDetailView(DetailView):
+class VenueDetailView(LoginRequiredMixin, DetailView):
     """DetailView for the Venue model."""
 
     model = Venue
-    # template_name = 'venue_list.html'
     context_object_name = 'venue'
 
 
-class VenueCreateView(FormActionMixin, CreateView):
+class VenueCreateView(LoginRequiredMixin, FormActionMixin, CreateView):
     """CreateView for the Venue model."""
 
     model = Venue
@@ -63,7 +63,7 @@ class VenueCreateView(FormActionMixin, CreateView):
         return reverse('venues:list')
 
 
-class VenueUpdateView(FormActionMixin, UpdateView):
+class VenueUpdateView(LoginRequiredMixin, FormActionMixin, UpdateView):
     """UpdateView for the Venue model."""
 
     model = Venue
@@ -76,7 +76,7 @@ class VenueUpdateView(FormActionMixin, UpdateView):
         return reverse('venues:list')
 
 
-class VenueDeleteView(FormActionMixin, DeleteView):
+class VenueDeleteView(LoginRequiredMixin, FormActionMixin, DeleteView):
     """DeleteView for the Venue model."""
 
     model = Venue
