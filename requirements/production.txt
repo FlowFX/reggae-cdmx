@@ -1,7 +1,7 @@
 # production requirements
 -r common.txt
 
-# Only production uses a MySQL database
+# Only production uses a PostgreSQL database
 psycopg2==2.7.4
 
 # Only production uses the Redis cache
