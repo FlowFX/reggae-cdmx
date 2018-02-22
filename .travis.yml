@@ -4,7 +4,7 @@ python:
   - 3.6
 env:
   - TOXENV=py36
-  - TOXENV=flake8
+#   - TOXENV=flake8
 addons:
   # add PythonAnywhere server to known hosts
   ssh_known_hosts: ssh.pythonanywhere.com
