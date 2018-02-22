@@ -104,6 +104,18 @@ class TestEventsListView:
 
 class TestEventsDetailView:  # noqa: D101
 
+    def test_anonymous_user_can_access_event_detail(self, client, mock_event):  # noqa: D102
+        # GIVEN an existing event
+        event = mock_event
+
+        # WHEN requesting the detail view as an anonymous user
+        url = reverse('events:detail', args=[str(event.id)])
+        response = client.get(url)
+
+        # THEN it's there
+        assert response.status_code == 200
+        assert response.template_name[0] == 'events/event_detail.html'
+
     def test_event_detail_view_shows_event_details(self, client, mock_event):  # noqa: D102
         # GIVEN an existing event
         event = mock_event
@@ -112,11 +124,7 @@ class TestEventsDetailView:  # noqa: D101
         url = reverse('events:detail', args=[str(event.id)])
         response = client.get(url)
 
-        # THEN it's there
-        assert response.status_code == 200
-        assert response.template_name[0] == 'events/event_detail.html'
-
-        # AND the event dtails are shown
+        # THEN the event dtails are shown
         content = response.content.decode()
         assert event.title in content
         assert event.venue.name in content
