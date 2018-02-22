@@ -1,9 +1,0 @@
-# production requirements
--r common.txt
-
-# Only production uses a MySQL database
-psycopg2==2.7.4
-
-# Only production uses the Redis cache
-redis==2.10.6
-django-redis==4.8.0
