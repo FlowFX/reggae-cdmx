@@ -12,8 +12,11 @@ class TestHomePage:
     url = reverse('index')
 
     def test_home_page_context_provides_structured_calendar_of_events(self, client, mocker):  # noqa: D102
-        # GIVEN a event
-        events = [factories.EventFactory.build(id=9999, date=today())]  # today
+        # GIVEN two events on the same day
+        events = [
+            factories.EventFactory.build(id=9998, date=today()),  # today
+            factories.EventFactory.build(id=9999, date=today()),  # also today
+        ]
         mocker.patch.object(views.HomePage, 'get_queryset', return_value=events)
 
         # WHEN requesting the home page
@@ -28,11 +31,9 @@ class TestHomePage:
         day = today().isocalendar()[2]
 
         assert type(calendar) is dict
-        assert calendar[year]['year'] == year
-        assert calendar[year]['months'][month]['month'] == month
-        assert calendar[year]['months'][month]['weeks'][week]['week'] == week
         assert calendar[year]['months'][month]['weeks'][week]['days'][day]['date'] == today()
         assert calendar[year]['months'][month]['weeks'][week]['days'][day]['events'][0] == events[0]
+        assert calendar[year]['months'][month]['weeks'][week]['days'][day]['events'][1] == events[1]
 
     def test_home_page_shows_existing_events(self, client, mocker):  # noqa: D102
         # GIVEN a couple events
