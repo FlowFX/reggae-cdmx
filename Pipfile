@@ -2,19 +2,6 @@
 verify_ssl = true
 url = "https://pypi.python.org/simple"
 
-[packages]
-django = "*"
-django-extensions = "*"
-django-braces = "*"
-django-allauth = "*"
-django-anymail = "*"
-pillow = "*"
-django-compressor = "*"
-csscompressor = "*"
-psycopg2 = "*"
-redis = "*"
-django-redis = "*"
-
 [dev-packages]
 pytest = "*"
 bpython = "*"
@@ -39,3 +26,17 @@ flake8-commas = "*"
 flake8-deprecated = "*"
 flake8-docstrings = "*"
 flake8-import-order = "*"
+detox = "*"
+
+[packages]
+django = "*"
+django-extensions = "*"
+django-braces = "*"
+django-allauth = "*"
+django-anymail = "*"
+pillow = "*"
+django-compressor = "*"
+csscompressor = "*"
+psycopg2 = "*"
+redis = "*"
+django-redis = "*"

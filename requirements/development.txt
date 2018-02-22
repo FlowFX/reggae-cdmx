@@ -1,5 +1,0 @@
-# development requirements
--r testing.txt
-
-django-debug-toolbar==1.9.1
-bpython==0.17.1
