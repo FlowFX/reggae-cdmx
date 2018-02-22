@@ -11,13 +11,7 @@ def faker(provider, **kwargs):
 
 
 class VenueFactory(DjangoModelFactory):
-    """ModelFactory for the Venue object.
-
-    >>> v = VenueFactory.build()
-    >>> assert v.name
-    >>> assert v.url
-    >>> assert v.address
-    """
+    """ModelFactory for the Venue object."""
 
     class Meta:  # noqa
         model = Venue
