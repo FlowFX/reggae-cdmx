@@ -3,8 +3,6 @@ from app.events import factories, views
 
 from django.urls import reverse
 
-from mock import MagicMock
-
 from ..conftest import TEST_DIR, today, tomorrow, yesterday
 
 
@@ -141,11 +139,9 @@ class TestEventsCreateView:  # noqa: D101
         assert response.status_code == 200
         assert response.template_name[0] == 'model_form.html'
 
-    def test_events_create_view_redirects_to_list_view_on_post_request(self, db, client, authenticated_user, mocker):\
-    # noqa: D102
+    def test_events_create_redirects_to_detail_view_on_post_request(self, db, client, authenticated_user):\
+        # noqa: D102
         # GIVEN any state
-        mocker.patch('app.events.models.Event.save', MagicMock(name="save"))
-
         # WHEN creating a new event via POST request
         url = reverse('events:create')
         data = {'title': 'Xochimilco goes Large',
@@ -154,9 +150,9 @@ class TestEventsCreateView:  # noqa: D101
                 }
         response = client.post(url, data=data)
 
-        # THEN we get redirected to the events list
+        # THEN we get redirected to the event detail
         assert response.status_code == 302
-        assert response.url == reverse('events:list')
+        assert response.url == reverse('events:detail', kwargs={'pk': 1})
 
     def test_events_create_can_upload_flyer_image(self, db, client, authenticated_user):  # noqa: D102
         # GIVEN any state

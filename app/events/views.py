@@ -134,10 +134,6 @@ class EventCreateView(LoginRequiredMixin, FormActionMixin, CreateView):
     template_name = 'model_form.html'
     success_msg = 'Event created'
 
-    def get_success_url(self):
-        """Return the home page."""
-        return reverse('events:list')
-
 
 class EventUpdateView(LoginRequiredMixin, FormActionMixin, UpdateView):
     """UpdateView for the Event model."""
