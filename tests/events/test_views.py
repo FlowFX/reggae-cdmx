@@ -68,14 +68,15 @@ class TestHomePage:
 class TestEventsListView:
     """Test events.views.EventListView on '/events/'."""
 
-    def test_events_list_shows_existing_events(self, client, mocker):  # noqa: D102
+    url = reverse('events:list')
+
+    def test_events_list_shows_existing_events(self, client, authenticated_user, mocker):  # noqa: D102
         # GIVEN a couple events
         events = factories.EventFactory.build_batch(3, id=9999)
         mocker.patch.object(views.EventListView, 'get_queryset', return_value=events)
 
         # WHEN calling the events list
-        url = reverse('events:list')
-        response = client.get(url)
+        response = client.get(self.url)
 
         # THEN it's there,
         assert response.status_code == 200
@@ -88,6 +89,17 @@ class TestEventsListView:
             assert event.venue.name in content
             assert event.date.strftime("%d/%m") in content
             assert event.get_absolute_url() in content
+
+    def test_anonymous_user_cant_access_events_list(self, client, mocker):  # noqa: D102
+        # GIVEN any state
+        mocker.patch.object(views.EventListView, 'get_queryset', return_value=None)
+
+        # WHEN calling the events list as an anonymous user
+        response = client.get(self.url)
+
+        # THEN it redirects to the login page
+        assert response.status_code == 302
+        assert response.url.startswith(reverse('account_login'))
 
 
 class TestEventsDetailView:  # noqa: D101

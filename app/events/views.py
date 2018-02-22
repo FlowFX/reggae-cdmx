@@ -140,7 +140,7 @@ class EventDeleteView(LoginRequiredMixin, FormActionMixin, DeleteView):
         return super(EventDeleteView, self).delete(request, *args, **kwargs)
 
 
-class EventListView(ListView):
+class EventListView(LoginRequiredMixin, ListView):
     """ListView for the Event model."""
 
     model = Event
