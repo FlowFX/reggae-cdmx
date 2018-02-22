@@ -19,7 +19,7 @@ class FormActionMixin(object):
 
     @property
     def success_msg(self):  # noqa: D102
-        return NotImplemented
+        return NotImplemented  # pragma: no cover
 
     def form_valid(self, form):
         """Display success message when form validated."""
