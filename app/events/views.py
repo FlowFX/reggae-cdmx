@@ -54,9 +54,7 @@ class HomePage(ListView):
     def get_context_data(self, **kwargs):
         """Add to the context."""
         context = super(HomePage, self).get_context_data(**kwargs)
-
         events = context['events']
-
         calendar = {}
 
         for event in events:
@@ -91,29 +89,6 @@ class HomePage(ListView):
 
             calendar[year]['months'][month]['weeks'][week]['days'][day]['events'] += [event]
 
-        """
-        {
-            7: {
-                1: {
-                        'date': event.date,
-                        'events': [a, b, c]
-                    }
-                2: {
-                        'date': event.date,
-                        'events': [d, e, f]
-                   }
-            },
-            8: {
-                1: {
-                        'date': event.date,
-                        'events': [g, h, i],
-                    }
-            }
-        }
-        """
-
-        # print(calendar)
-        # context.update('calendar': calendar)
         context['calendar'] = calendar
         return context
 
