@@ -1,7 +1,6 @@
 """Django settings for Reggae CDMX."""
-import os
-
 import json
+import os
 
 # Never import from Django directly into settings. Except this.
 from django.core.exceptions import ImproperlyConfigured
@@ -33,17 +32,14 @@ def get_secret(setting, secrets=secrets):
 SECRET_KEY = get_secret('DJANGO_SECRET_KEY'),
 
 ADMINS = [('Florian', 'florian@lexa.mx'),]
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS: list = []
 APPEND_SLASH = True
 DEFAULT_CHARSET = 'utf-8'
 ROOT_URLCONF = 'config.urls'
 SITE_ID = 1
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 DEBUG = False
-
-ALLOWED_HOSTS: list = []
 
 SITE_ID = 1
 
@@ -81,7 +77,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'app/templates'),],
+        'DIRS': [os.path.join(BASE_DIR, 'app/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,12 +124,11 @@ AUTHENTICATION_BACKENDS = (
 # Auth and allauth settings
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_PRESERVE_USERNAME_CASING = False
-# LOGIN_REDIRECT_URL = 'index'
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
         'METHOD': 'js_sdk',
-    }
+    },
 }
 
 
