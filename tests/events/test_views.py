@@ -137,7 +137,7 @@ class TestEventsCreateView:  # noqa: D101
 
         # THEN it's there
         assert response.status_code == 200
-        assert response.template_name[0] == 'model_form.html'
+        assert response.template_name[0] == 'events/event_form.html'
 
     def test_events_create_redirects_to_detail_view_on_post_request(self, db, client, authenticated_user):\
         # noqa: D102
@@ -183,7 +183,7 @@ class TestEventsUpdateView:  # noqa: D101
 
         # THEN it's there
         assert response.status_code == 200
-        assert response.template_name[0] == 'model_form.html'
+        assert response.template_name[0] == 'events/event_form.html'
 
         # AND it shows the event detials
         content = response.content.decode()
