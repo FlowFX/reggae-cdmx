@@ -141,9 +141,6 @@ class TestEventsCreateView:  # noqa: D101
         assert response.status_code == 200
         assert response.template_name[0] == 'model_form.html'
 
-        # AND there is a submit button
-        assert 'submit' in response.content.decode()
-
     def test_events_create_view_redirects_to_list_view_on_post_request(self, db, client, authenticated_user, mocker):\
     # noqa: D102
         # GIVEN any state
