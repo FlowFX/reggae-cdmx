@@ -193,6 +193,18 @@ class TestEventsCreateView:  # noqa: D101
 
 class TestEventsUpdateView:  # noqa: D101
 
+    def test_anonymous_user_cant_edit_events(self, client, mock_event):  # noqa: D102
+        # GIVEN an existing event
+        event = mock_event
+
+        # WHEN calling the update view as an anonymous user
+        url = reverse('events:update', args=[str(event.id)])
+        response = client.get(url)
+
+        # THEN she does not get access
+        assert response.status_code == 302
+        assert response.url.startswith(reverse('account_login'))
+
     def test_event_update_view_GET(self, client, authenticated_user, mock_event):  # noqa: D102
         # GIVEN an existing event
         event = mock_event
