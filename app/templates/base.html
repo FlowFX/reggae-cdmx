@@ -11,15 +11,19 @@
 
     <title>Reggae CDMX</title>
 
-    <!-- normalize.css -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css"
-          integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54="
-          crossorigin="anonymous" />
-    {% compress css %}
-    <!-- Custom CSS -->
-    <link href="{% static 'css/stylesheet.css' %}" rel="stylesheet" type="text/css" />
-    {% endcompress %}
+    {% block stylesheets %}
+
+      <!-- normalize.css -->
+      <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css"
+            integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54="
+            crossorigin="anonymous" />
+      {% compress css %}
+      <!-- Custom CSS -->
+      <link href="{% static 'css/stylesheet.css' %}" rel="stylesheet" type="text/css" />
+      {% endcompress %}
+
+    {% endblock stylesheets %}
 
     <!-- Piwik -->
     <script type="text/javascript">
@@ -79,5 +83,7 @@
       </p>
   </footer>
 
+  {% block scripts %}
+  {% endblock scripts %}
 </body>
 </html>

@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 
+{% block stylesheets %}
+  {{ block.super }}
+
+  <!-- jQueryUI datepicker -->
+  <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
+{% endblock stylesheets %}
+
 {% block content %}
 
 <form action="" method="post" enctype="multipart/form-data">
@@ -9,3 +16,23 @@
 </form>
 
 {% endblock content %}
+
+{% block scripts %}
+  {{ block.super }}
+
+  <!-- jQuery -->
+  <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"></script>
+  <!-- jQueryUI -->
+  <script
+      src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+      integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+      crossorigin="anonymous"></script>
+  <script>
+    $( function() {
+      $( "#id_date" ).datepicker( $.datepicker.regional[ "es" ] );
+    } );
+  </script>
+{% endblock scripts %}
