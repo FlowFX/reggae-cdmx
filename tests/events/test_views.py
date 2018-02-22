@@ -141,11 +141,21 @@ class TestEventsDetailView:  # noqa: D101
 
 class TestEventsCreateView:  # noqa: D101
 
+    url = reverse('events:create')
+
+    def test_anonymous_user_cant_access_event_create_view(self, client):  # noqa: D102
+        # GIVEN any state
+        # WHEN requesting the event create view as an anonymous user
+        response = client.get(self.url)
+
+        # THEN she does not get access
+        assert response.status_code == 302
+        assert response.url.startswith(reverse('account_login'))
+
     def test_events_create_view_returns_200_on_get_request(self, client, authenticated_user):  # noqa: D102
         # GIVEN any state
-        # WHEN requesting the event create view
-        url = reverse('events:create')
-        response = client.get(url)
+        # WHEN requesting the event create view as an authenticated user
+        response = client.get(self.url)
 
         # THEN it's there
         assert response.status_code == 200
@@ -155,12 +165,11 @@ class TestEventsCreateView:  # noqa: D101
         # noqa: D102
         # GIVEN any state
         # WHEN creating a new event via POST request
-        url = reverse('events:create')
         data = {'title': 'Xochimilco goes Large',
                 'date': tomorrow(),
                 'venue': '',
                 }
-        response = client.post(url, data=data)
+        response = client.post(self.url, data=data)
 
         # THEN we get redirected to the event detail
         assert response.status_code == 302
@@ -170,13 +179,12 @@ class TestEventsCreateView:  # noqa: D101
         # GIVEN any state
         # WHEN creating an event with a flyer image
         with open(TEST_DIR + '/data/test_flyer.jpg', 'rb') as flyer:
-            url = reverse('events:create')
             data = {'title': 'Xochimilco goes Large',
                     'date': tomorrow(),
                     'venue': '',
                     'flyer_image': flyer,
                     }
-            client.post(url, data=data)
+            client.post(self.url, data=data)
 
         # THEN the image file gets saved into the media folder
         e = factories.Event.objects.get(title='Xochimilco goes Large')
