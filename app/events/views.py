@@ -131,7 +131,7 @@ class EventCreateView(LoginRequiredMixin, FormActionMixin, CreateView):
 
     model = Event
     form_class = EventForm
-    template_name = 'model_form.html'
+    template_name = 'events/event_form.html'
     success_msg = 'Event created'
 
 
@@ -140,7 +140,7 @@ class EventUpdateView(LoginRequiredMixin, FormActionMixin, UpdateView):
 
     model = Event
     form_class = EventForm
-    template_name = 'model_form.html'
+    template_name = 'events/event_form.html'
     success_msg = 'Event updated'
 
     def get_success_url(self):
