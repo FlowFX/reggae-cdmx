@@ -1,4 +1,6 @@
 """Unit tests for events views."""
+import datetime
+
 from app.events import factories, views
 
 from django.urls import reverse
@@ -79,7 +81,7 @@ class TestEventsListView:
 
     def test_events_list_shows_existing_events(self, client, authenticated_user, mocker):  # noqa: D102
         # GIVEN a couple events
-        events = factories.EventFactory.build_batch(3, id=9999)
+        events = factories.EventFactory.build_batch(2, slug='i-am-a-slug')
         mocker.patch.object(views.EventListView, 'get_queryset', return_value=events)
 
         # WHEN calling the events list
@@ -110,6 +112,23 @@ class TestEventsListView:
 
 
 class TestEventsDetailView:  # noqa: D101
+
+    def test_event_detail_url_uses_event_slug(self, db):  # noqa: D102
+        event = factories.EventFactory.create(
+            date=datetime.date(2018, 1, 1),
+            venue=None,
+            )
+
+        url = reverse('events:detail', kwargs={'slug': event.slug})
+        assert '2018-01-01' in url
+
+    def test_event_absolute_url_uses_event_slug(self, db):  # noqa: D102
+        event = factories.EventFactory.create(
+            date=datetime.date(2018, 1, 1),
+            venue=None,
+            )
+
+        assert reverse('events:detail', kwargs={'slug': event.slug}) == event.get_absolute_url()
 
     def test_anonymous_user_can_access_event_detail(self, client, mock_event):  # noqa: D102
         # GIVEN an existing event
@@ -188,7 +207,7 @@ class TestEventsCreateView:  # noqa: D101
 
         # THEN we get redirected to the event detail
         assert response.status_code == 302
-        assert response.url == reverse('events:detail', kwargs={'pk': 1})
+        assert response.url.endswith('goes-large/')
 
     def test_events_create_can_upload_flyer_image(self, db, client, authenticated_user):  # noqa: D102
         # GIVEN any state

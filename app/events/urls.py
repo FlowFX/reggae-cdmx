@@ -11,7 +11,7 @@ app_name = 'events'
 urlpatterns = [
     path('', EventListView.as_view(), name='list'),
     path('new', EventCreateView.as_view(), name='create'),
-    path('<int:pk>/edit', EventUpdateView.as_view(), name='update'),
-    path('<int:pk>/delete', EventDeleteView.as_view(), name='delete'),
-    path('<int:pk>/', EventDetailView.as_view(), name='detail'),
+    path('<str:slug>/edit', EventUpdateView.as_view(), name='update'),
+    path('<str:slug>/delete', EventDeleteView.as_view(), name='delete'),
+    path('<str:slug>/', EventDetailView.as_view(), name='detail'),
 ]

@@ -46,7 +46,7 @@ class Event(models.Model):
 
     def get_absolute_url(self):
         """Return the event's detail page URL."""
-        return reverse('events:detail', args=[str(self.id)])
+        return reverse('events:detail', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
         """Override default save method."""
