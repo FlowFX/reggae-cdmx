@@ -17,3 +17,16 @@ def test_authentication_pages(db, client, name, status_code):  # noqa: D103
 
     # THEN it's there
     assert response.status_code == status_code
+
+
+def test_login_redirects_properly(client):  # noqa: D103
+    # GIVEN any state
+    # WHEN requesting the '/login/' URL
+    old_url = '/login/'
+    new_url = reverse('account_login')
+
+    response = client.get(old_url)
+
+    # THEN it redirects to Allauth's default /accounts/login/'
+    assert response.status_code == 301
+    assert response.url == new_url

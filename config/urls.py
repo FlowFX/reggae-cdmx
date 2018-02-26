@@ -6,7 +6,7 @@ from django.urls import include, path
 
 from app.events.views import HomePage
 
-from django.views.generic import TemplateView
+from django.views.generic import RedirectView, TemplateView
 
 
 urlpatterns = [
@@ -23,6 +23,11 @@ urlpatterns = [
     path('events/', include('app.events.urls', namespace='events')),
     # Venues
     path('venues/', include('app.venues.urls', namespace='venues')),
+]
+
+# Permanent redirects
+urlpatterns += [
+    path('login/', RedirectView.as_view(url='/accounts/login/', permanent=True)),
 ]
 
 if settings.DEBUG:
