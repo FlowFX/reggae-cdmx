@@ -23,8 +23,8 @@ class TestHomePage:
         day = date.isocalendar()[2]
 
         events = [
-            factories.EventFactory.build(id=9998, date=date, title='First Event').__dict__,  # today
-            factories.EventFactory.build(id=9999, date=date).__dict__,  # also today
+            factories.EventFactory.build(id=9998, date=date, title='First Event', slug='a-slug').__dict__,  # today
+            factories.EventFactory.build(id=9999, date=date, slug='another-slug').__dict__,  # also today
         ]
         events[1]['venue__name'] = 'My Venue'
         mocker.patch.object(views.HomePage, 'get_queryset', return_value=events)
@@ -37,10 +37,8 @@ class TestHomePage:
         this_day = calendar[year]['months'][month]['weeks'][week]['days'][day]
 
         assert this_day['date'] == today()
-        assert this_day['events'][0]['id'] == 9998
         assert this_day['events'][0]['title'] == 'First Event'
 
-        assert this_day['events'][1]['id'] == 9999
         assert this_day['events'][1]['url']
         assert this_day['events'][1]['venue__name']
 
@@ -60,7 +58,7 @@ class TestHomePage:
         assert event.title in content
         assert event.venue.name in content
         assert event.date.strftime("%d/%m") in content
-        assert f'/events/{event.id}/' in content
+        assert event.get_absolute_url() in content
 
     def test_home_page_only_shows_future_events(self, db, rf):  # noqa: D102
         # GIVEN only a past event

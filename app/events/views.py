@@ -49,7 +49,7 @@ class HomePage(ListView):
         qs = qs.select_related('venue')
         qs = qs.filter(date__gte=datetime.date.today())
         qs = qs.order_by('date')
-        qs = qs.values('id', 'date', 'title', 'venue__name')
+        qs = qs.values('slug', 'date', 'title', 'venue__name')
 
         return qs
 
@@ -91,7 +91,7 @@ class HomePage(ListView):
                     'events': [],
                 }
 
-            event['url'] = reverse('events:detail', args=[str(event['id'])])
+            event['url'] = reverse('events:detail', kwargs={'slug': event['slug']})
             calendar[year]['months'][month]['weeks'][week]['days'][day]['events'] += [event]
 
         context['calendar'] = calendar
