@@ -11,34 +11,43 @@ class TestHomePage:
 
     url = reverse('index')
 
-    def test_home_page_context_provides_structured_calendar_of_events(self, client, mocker):  # noqa: D102
+    def test_home_page_context_provides_structured_calendar_of_events(self, db, client, mocker):  # noqa: D102
         # GIVEN two events on the same day
-        events = [
-            factories.EventFactory.build(id=9998, date=today()),  # today
-            factories.EventFactory.build(id=9999, date=today()),  # also today
-        ]
-        mocker.patch.object(views.HomePage, 'get_queryset', return_value=events)
+        date = today()
+
+        year = date.year
+        month = date.strftime('%B')
+        week = date.isocalendar()[1]
+        day = date.isocalendar()[2]
+
+        factories.EventFactory.create(id=9998, date=date, title='First Event'),  # today
+        factories.EventFactory.create(id=9999, date=date),  # also today
+
+        # events = [
+        #     dict(factories.EventFactory.create(id=9998, date=today(), title='First Event')),  # today
+        #     dict(factories.EventFactory.create(id=9999, date=today())),  # also today
+        # ]
+        # mocker.patch.object(views.HomePage, 'get_queryset', return_value=events)
 
         # WHEN requesting the home page
         response = client.get(self.url)
 
         # THEN the view context provides a structured calendar of events
         calendar = response.context_data['calendar']
+        this_day = calendar[year]['months'][month]['weeks'][week]['days'][day]
 
-        year = today().year
-        month = today().strftime('%B')
-        week = today().isocalendar()[1]
-        day = today().isocalendar()[2]
+        assert this_day['date'] == today()
+        assert this_day['events'][0]['id'] == 9998
+        assert this_day['events'][0]['title'] == 'First Event'
 
-        assert type(calendar) is dict
-        assert calendar[year]['months'][month]['weeks'][week]['days'][day]['date'] == today()
-        assert calendar[year]['months'][month]['weeks'][week]['days'][day]['events'][0] == events[0]
-        assert calendar[year]['months'][month]['weeks'][week]['days'][day]['events'][1] == events[1]
+        assert this_day['events'][1]['id'] == 9999
+        assert this_day['events'][1]['url']
+        assert this_day['events'][1]['venue__name']
 
-    def test_home_page_shows_existing_events(self, client, mocker):  # noqa: D102
+    def test_home_page_shows_existing_events(self, db, client, mocker):  # noqa: D102
         # GIVEN a couple events
-        events = factories.EventFactory.build_batch(3, id=9999)
-        mocker.patch.object(views.HomePage, 'get_queryset', return_value=events)
+        events = factories.EventFactory.create_batch(3)
+        # mocker.patch.object(views.HomePage, 'get_queryset', return_value=events)
 
         # WHEN calling the home page
         response = client.get(self.url)
@@ -48,11 +57,12 @@ class TestHomePage:
         assert response.template_name[0] == 'index.html'
 
         # AND the event titles are shown and linked
+        event = events[0]
         content = response.content.decode()
-        assert events[0].title in content
-        assert events[0].venue.name in content
-        assert events[0].date.strftime("%d/%m") in content
-        assert events[0].get_absolute_url() in content
+        assert event.title in content
+        assert event.venue.name in content
+        assert event.date.strftime("%d/%m") in content
+        assert f'/events/{event.id}/' in content
 
     def test_home_page_only_shows_future_events(self, db, rf):  # noqa: D102
         # GIVEN only a past event

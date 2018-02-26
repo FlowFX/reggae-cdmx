@@ -45,22 +45,27 @@ class HomePage(ListView):
 
     def get_queryset(self):
         """Return all future events."""
-        queryset = self.model._default_manager.filter(date__gte=datetime.date.today())
-        queryset = queryset.order_by('date')
+        qs = self.model._default_manager
+        qs = qs.select_related('venue')
+        qs = qs.filter(date__gte=datetime.date.today())
+        qs = qs.order_by('date')
+        qs = qs.values('id', 'date', 'title', 'venue__name')
 
-        return queryset
+        return qs
 
     def get_context_data(self, **kwargs):
         """Add to the context."""
         context = super(HomePage, self).get_context_data(**kwargs)
         events = context['events']
+
         calendar = {}
 
         for event in events:
-            year = event.date.year
-            month = event.date.strftime('%B')
-            week = event.date.isocalendar()[1]
-            day = event.date.isocalendar()[2]
+            date = event.get('date')
+            year = date.year
+            month = date.strftime('%B')
+            week = date.isocalendar()[1]
+            day = date.isocalendar()[2]
 
             if not calendar.get(year):
                 calendar[year] = {
@@ -82,10 +87,11 @@ class HomePage(ListView):
 
             if not calendar[year]['months'][month]['weeks'][week]['days'].get(day):
                 calendar[year]['months'][month]['weeks'][week]['days'][day] = {
-                    'date': event.date,
+                    'date': date,
                     'events': [],
                 }
 
+            event['url'] = reverse('events:detail', args=[str(event['id'])])
             calendar[year]['months'][month]['weeks'][week]['days'][day]['events'] += [event]
 
         context['calendar'] = calendar
