@@ -11,7 +11,7 @@ class TestHomePage:
 
     url = reverse('index')
 
-    def test_home_page_context_provides_structured_calendar_of_events(self, db, client, mocker):  # noqa: D102
+    def test_home_page_context_provides_structured_calendar_of_events(self, client, mocker):  # noqa: D102
         # GIVEN two events on the same day
         date = today()
 
@@ -20,14 +20,12 @@ class TestHomePage:
         week = date.isocalendar()[1]
         day = date.isocalendar()[2]
 
-        factories.EventFactory.create(id=9998, date=date, title='First Event'),  # today
-        factories.EventFactory.create(id=9999, date=date),  # also today
-
-        # events = [
-        #     dict(factories.EventFactory.create(id=9998, date=today(), title='First Event')),  # today
-        #     dict(factories.EventFactory.create(id=9999, date=today())),  # also today
-        # ]
-        # mocker.patch.object(views.HomePage, 'get_queryset', return_value=events)
+        events = [
+            factories.EventFactory.build(id=9998, date=date, title='First Event').__dict__,  # today
+            factories.EventFactory.build(id=9999, date=date).__dict__,  # also today
+        ]
+        events[1]['venue__name'] = 'My Venue'
+        mocker.patch.object(views.HomePage, 'get_queryset', return_value=events)
 
         # WHEN requesting the home page
         response = client.get(self.url)
@@ -45,9 +43,8 @@ class TestHomePage:
         assert this_day['events'][1]['venue__name']
 
     def test_home_page_shows_existing_events(self, db, client, mocker):  # noqa: D102
-        # GIVEN a couple events
-        events = factories.EventFactory.create_batch(3)
-        # mocker.patch.object(views.HomePage, 'get_queryset', return_value=events)
+        # GIVEN an event
+        event = factories.EventFactory.create()
 
         # WHEN calling the home page
         response = client.get(self.url)
@@ -56,8 +53,7 @@ class TestHomePage:
         assert response.status_code == 200
         assert response.template_name[0] == 'index.html'
 
-        # AND the event titles are shown and linked
-        event = events[0]
+        # AND the event title is shown and linked
         content = response.content.decode()
         assert event.title in content
         assert event.venue.name in content
