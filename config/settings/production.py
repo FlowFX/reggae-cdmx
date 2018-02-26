@@ -1,5 +1,7 @@
 from .common import *
 
+ENVIRONMENT = 'production'
+DEBUG = False
 
 # Core settings
 ALLOWED_HOSTS = ['.reggae-cdmx.com', ]
@@ -51,7 +53,7 @@ MIDDLEWARE += ['rollbar.contrib.django.middleware.RollbarNotifierMiddleware']
 
 ROLLBAR = {
     'access_token': get_secret('ROLLBAR_ACCESS_TOKEN'),
-    'environment': 'production',
+    'environment': ENVIRONMENT,
     'branch': 'master',
     'root': BASE_DIR,
 }

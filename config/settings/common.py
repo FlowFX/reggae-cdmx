@@ -35,6 +35,7 @@ ADMINS = [('Florian', 'florian@lexa.mx'),]
 ALLOWED_HOSTS: list = []
 APPEND_SLASH = True
 DEFAULT_CHARSET = 'utf-8'
+ENVIRONMENT = 'development'
 ROOT_URLCONF = 'config.urls'
 SITE_ID = 1
 WSGI_APPLICATION = 'config.wsgi.application'
