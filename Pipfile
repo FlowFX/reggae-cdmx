@@ -36,6 +36,7 @@ dj-inmemorystorage = "*"
 "flake8-import-order" = "*"
 detox = "*"
 django-debug-toolbar = "*"
+mypy = "*"
 
 
 [packages]
