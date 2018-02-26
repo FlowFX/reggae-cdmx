@@ -170,6 +170,29 @@ class TestEventsDetailView:  # noqa: D101
         # THEN it's there
         assert response.status_code == 200
 
+    def test_on_slug_change_a_redirect_is_created(self, db, client):  # noqa: D102
+        # GIVEN an event
+        event = factories.EventFactory.create(
+            date=datetime.date(2018, 1, 1),
+            venue=None,
+            )
+        old_url = event.get_absolute_url()
+
+        response = client.get(old_url)
+        assert response.status_code == 200
+
+        # WHEN changing the date
+        assert event.slug.startswith('2018-01-01')
+        event.date = datetime.date(2018, 1, 2)
+        event.save()
+
+        # AND requesting the event's detail page with the old url
+        response = client.get(old_url)
+
+        # THEN the user is redirected to the new URL
+        assert response.status_code == 301
+        assert response.url == event.get_absolute_url()
+
 
 class TestEventsCreateView:  # noqa: D101
 

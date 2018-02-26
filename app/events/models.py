@@ -1,8 +1,11 @@
 """Models for calendar app."""
 import datetime
 
+from django.contrib.redirects.models import Redirect
+from django.contrib.sites.models import Site
 from django.db import models
 from django.urls import reverse
+from django.urls.exceptions import NoReverseMatch
 from django.utils.text import slugify
 
 
@@ -49,7 +52,24 @@ class Event(models.Model):
         return reverse('events:detail', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
-        """Override default save method."""
+        """Override default save method.
+
+        Create new slug if necessary.
+        Create new redirect if slug/URL changes.
+
+        The slug changes when the date or title of the event changes. We want to always use the current
+        slug/URL, but don't invalidate the old URLs.
+        """
+        try:
+            old_url = self.get_absolute_url()
+        except NoReverseMatch:
+            old_url = None
+
         self.slug = self.generate_slug()
+        new_url = self.get_absolute_url()
+
+        if old_url and old_url != new_url:
+            site = Site.objects.get_current()
+            Redirect(old_path=old_url, new_path=new_url, site=site).save()
 
         super(Event, self).save(*args, **kwargs)
