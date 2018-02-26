@@ -46,5 +46,12 @@ CACHES = {
 }
 
 
-# Error tracking
-#ROLLBAR['environment'] = 'production'
+# Rollbar Error Tracking https://rollbar.com/flowfx/Reggae-CDMX/
+MIDDLEWARE += ['rollbar.contrib.django.middleware.RollbarNotifierMiddleware']
+
+ROLLBAR = {
+    'access_token': get_secret('ROLLBAR_ACCESS_TOKEN'),
+    'environment': 'production',
+    'branch': 'master',
+    'root': BASE_DIR,
+}
