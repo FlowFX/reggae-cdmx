@@ -30,9 +30,9 @@
                   {% endif %}
 
                   <td>
-                    <a href="{{ event.get_absolute_url }}">
+                    <a href="{{ event.url }}">
                       {{ event.title }}
-                    </a>{% if event.venue.name %}, {{ event.venue.name }} {% endif %}
+                    </a>{% if event.venue__name %}, {{ event.venue__name }} {% endif %}
                   </td>
                 </tr>
               {% endfor %}  <!-- event in day.events -->
