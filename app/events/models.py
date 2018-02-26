@@ -3,6 +3,7 @@ import datetime
 
 from django.db import models
 from django.urls import reverse
+from django.utils.text import slugify
 
 
 app_name = 'events'
@@ -11,6 +12,7 @@ app_name = 'events'
 class Event(models.Model):
     """The event model. The main model in this project."""
 
+    slug = models.SlugField(max_length=255)
     title = models.CharField(max_length=255)
     date = models.DateField(default=datetime.date.today)
     venue = models.ForeignKey(
@@ -28,13 +30,26 @@ class Event(models.Model):
         blank=True,
     )
 
-    def get_absolute_url(self):
-        """Return the event's detail page URL."""
-        return reverse('events:detail', args=[str(self.id)])
-
     def __str__(self):
         """Return string representation of event.
 
         event_title - event_date
         """
         return '{0} - {1}'.format(self.title, self.date)
+
+    def generate_slug(self):
+        """Return a unique slug generated from the event's date and title."""
+        date = str(self.date)
+        title = self.title
+
+        return slugify(f'{date} {title}')
+
+    def get_absolute_url(self):
+        """Return the event's detail page URL."""
+        return reverse('events:detail', args=[str(self.id)])
+
+    def save(self, *args, **kwargs):
+        """Override default save method."""
+        self.slug = self.generate_slug()
+
+        super(Event, self).save(*args, **kwargs)
