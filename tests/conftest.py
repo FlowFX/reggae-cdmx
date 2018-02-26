@@ -35,7 +35,7 @@ def tomorrow():
 @pytest.fixture(scope="function")
 def mock_event(mocker):
     """Mock all database-related stuff of the Event model."""
-    event = events_factories.EventFactory.build(id=9999, venue__id=9999)
+    event = events_factories.EventFactory.build(id=9999, venue__id=9999, slug='i-am-a-pole')
     mocker.patch.object(events_views.EventDeleteView, 'get_object', return_value=event)
     mocker.patch.object(events_views.EventDetailView, 'get_object', return_value=event)
     mocker.patch.object(events_views.EventUpdateView, 'get_object', return_value=event)

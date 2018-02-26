@@ -35,7 +35,6 @@ def test_event_has_slug(db):  # noqa: D103
         date=datetime.date(2018, 1, 1),
         venue=None,
         )
-    assert e.slug == ''
 
     # WHEN saving the event
     e.save()

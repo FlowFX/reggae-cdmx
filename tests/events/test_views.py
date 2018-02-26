@@ -133,7 +133,7 @@ class TestEventsDetailView:  # noqa: D101
         event = mock_event
 
         # WHEN requesting the detail view as an anonymous user
-        url = reverse('events:detail', args=[str(event.id)])
+        url = reverse('events:detail', kwargs={'slug': event.slug})
         response = client.get(url)
 
         # THEN it's there
@@ -145,7 +145,7 @@ class TestEventsDetailView:  # noqa: D101
         event = mock_event
 
         # WHEN callint the detail view
-        url = reverse('events:detail', args=[str(event.id)])
+        url = reverse('events:detail', kwargs={'slug': event.slug})
         response = client.get(url)
 
         # THEN the event dtails are shown
@@ -153,6 +153,7 @@ class TestEventsDetailView:  # noqa: D101
         assert event.title in content
         assert event.venue.name in content
         assert event.date.strftime("%d/%m") in content
+        assert event.get_absolute_url() in content
 
     def test_event_detail_view_works_without_an_event_venue(self, client, mocker):  # noqa: D102
         """Regression test for the case that an event has no venue, yet."""
@@ -164,7 +165,7 @@ class TestEventsDetailView:  # noqa: D101
         mocker.patch.object(views.EventDetailView, 'get_object', return_value=event)
 
         # WHEN callint the detail view
-        url = reverse('events:detail', args=[str(event.id)])
+        url = reverse('events:detail', kwargs={'slug': event.slug})
         response = client.get(url)
 
         # THEN it's there
@@ -253,7 +254,7 @@ class TestEventsUpdateView:  # noqa: D101
         event = mock_event
 
         # WHEN calling the update view as an anonymous user
-        url = reverse('events:update', args=[str(event.id)])
+        url = reverse('events:update', kwargs={'slug': event.slug})
         response = client.get(url)
 
         # THEN she does not get access
@@ -265,7 +266,7 @@ class TestEventsUpdateView:  # noqa: D101
         event = mock_event
 
         # WHEN calling the update view via GET request
-        url = reverse('events:update', args=[str(event.id)])
+        url = reverse('events:update', kwargs={'slug': event.slug})
         response = client.get(url)
 
         # THEN it's there
@@ -281,7 +282,7 @@ class TestEventsUpdateView:  # noqa: D101
         event = mock_event
 
         # WHEN updating the event via POST request
-        url = reverse('events:update', args=[str(event.id)])
+        url = reverse('events:update', kwargs={'slug': event.slug})
         data = {'title': event.title, 'date': tomorrow()}
         response = client.post(url, data)
 
@@ -297,7 +298,7 @@ class TestEventsDeleteView:  # noqa: D101
         event = mock_event
 
         # WHEN calling the delete view as an anonymous user
-        url = reverse('events:delete', args=[str(event.id)])
+        url = reverse('events:delete', kwargs={'slug': event.slug})
         response = client.get(url)
 
         # THEN it redirects to the login page
@@ -309,7 +310,7 @@ class TestEventsDeleteView:  # noqa: D101
         event = mock_event
 
         # WHEN calling the delete view via GET
-        url = reverse('events:delete', args=[str(event.id)])
+        url = reverse('events:delete', kwargs={'slug': event.slug})
         response = client.get(url)
 
         # THEN it's there
@@ -321,7 +322,7 @@ class TestEventsDeleteView:  # noqa: D101
         event = mock_event
 
         # WHEN calling the delete view via POST request
-        url = reverse('events:delete', args=[str(event.id)])
+        url = reverse('events:delete', kwargs={'slug': event.slug})
         response = client.post(url)
 
         # THEN we get redirected to the events list
@@ -334,7 +335,7 @@ class TestEventsDeleteView:  # noqa: D101
         event = mock_event
 
         # WHEN calling the delete view via POST request, without db or mocks
-        url = reverse('events:delete', args=[str(event.id)])
+        url = reverse('events:delete', kwargs={'slug': event.slug})
         response = client.post(url, data={'cancel': 'Cancel'})
 
         # THEN we get redirected to the events list
