@@ -2,11 +2,13 @@ from .common import *
 import sys
 import logging
 
+ENVIRONMENT = 'testing'
+DEBUG = False
 
 # Use in-memory file storage
 DEFAULT_FILE_STORAGE = 'inmemorystorage.InMemoryStorage'
 
-# Speed! 
+# Speed!
 PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher',
 )

@@ -1,5 +1,7 @@
 from .common import *
 
+ENVIRONMENT = 'production'
+DEBUG = False
 
 # Core settings
 ALLOWED_HOSTS = ['.reggae-cdmx.com', ]
@@ -46,5 +48,12 @@ CACHES = {
 }
 
 
-# Error tracking
-#ROLLBAR['environment'] = 'production'
+# Rollbar Error Tracking https://rollbar.com/flowfx/Reggae-CDMX/
+MIDDLEWARE += ['rollbar.contrib.django.middleware.RollbarNotifierMiddleware']
+
+ROLLBAR = {
+    'access_token': get_secret('ROLLBAR_ACCESS_TOKEN'),
+    'environment': ENVIRONMENT,
+    'branch': 'master',
+    'root': BASE_DIR,
+}

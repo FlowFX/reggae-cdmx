@@ -25,6 +25,7 @@
 
     {% endblock stylesheets %}
 
+    {% if environment == 'production' %}
     <!-- Piwik -->
     <script type="text/javascript">
         var _paq = _paq || [];
@@ -40,6 +41,7 @@
         })();
     </script>
     <!-- End Piwik Code -->
+    {% endif %}
 
 
 </head>
