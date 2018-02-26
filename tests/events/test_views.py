@@ -1,4 +1,6 @@
 """Unit tests for events views."""
+import datetime
+
 from app.events import factories, views
 
 from django.urls import reverse
@@ -21,8 +23,8 @@ class TestHomePage:
         day = date.isocalendar()[2]
 
         events = [
-            factories.EventFactory.build(id=9998, date=date, title='First Event').__dict__,  # today
-            factories.EventFactory.build(id=9999, date=date).__dict__,  # also today
+            factories.EventFactory.build(id=9998, date=date, title='First Event', slug='a-slug').__dict__,  # today
+            factories.EventFactory.build(id=9999, date=date, slug='another-slug').__dict__,  # also today
         ]
         events[1]['venue__name'] = 'My Venue'
         mocker.patch.object(views.HomePage, 'get_queryset', return_value=events)
@@ -35,10 +37,8 @@ class TestHomePage:
         this_day = calendar[year]['months'][month]['weeks'][week]['days'][day]
 
         assert this_day['date'] == today()
-        assert this_day['events'][0]['id'] == 9998
         assert this_day['events'][0]['title'] == 'First Event'
 
-        assert this_day['events'][1]['id'] == 9999
         assert this_day['events'][1]['url']
         assert this_day['events'][1]['venue__name']
 
@@ -58,7 +58,7 @@ class TestHomePage:
         assert event.title in content
         assert event.venue.name in content
         assert event.date.strftime("%d/%m") in content
-        assert f'/events/{event.id}/' in content
+        assert event.get_absolute_url() in content
 
     def test_home_page_only_shows_future_events(self, db, rf):  # noqa: D102
         # GIVEN only a past event
@@ -79,7 +79,7 @@ class TestEventsListView:
 
     def test_events_list_shows_existing_events(self, client, authenticated_user, mocker):  # noqa: D102
         # GIVEN a couple events
-        events = factories.EventFactory.build_batch(3, id=9999)
+        events = factories.EventFactory.build_batch(2, slug='i-am-a-slug')
         mocker.patch.object(views.EventListView, 'get_queryset', return_value=events)
 
         # WHEN calling the events list
@@ -111,12 +111,29 @@ class TestEventsListView:
 
 class TestEventsDetailView:  # noqa: D101
 
+    def test_event_detail_url_uses_event_slug(self, db):  # noqa: D102
+        event = factories.EventFactory.create(
+            date=datetime.date(2018, 1, 1),
+            venue=None,
+            )
+
+        url = reverse('events:detail', kwargs={'slug': event.slug})
+        assert '2018-01-01' in url
+
+    def test_event_absolute_url_uses_event_slug(self, db):  # noqa: D102
+        event = factories.EventFactory.create(
+            date=datetime.date(2018, 1, 1),
+            venue=None,
+            )
+
+        assert reverse('events:detail', kwargs={'slug': event.slug}) == event.get_absolute_url()
+
     def test_anonymous_user_can_access_event_detail(self, client, mock_event):  # noqa: D102
         # GIVEN an existing event
         event = mock_event
 
         # WHEN requesting the detail view as an anonymous user
-        url = reverse('events:detail', args=[str(event.id)])
+        url = reverse('events:detail', kwargs={'slug': event.slug})
         response = client.get(url)
 
         # THEN it's there
@@ -128,7 +145,7 @@ class TestEventsDetailView:  # noqa: D101
         event = mock_event
 
         # WHEN callint the detail view
-        url = reverse('events:detail', args=[str(event.id)])
+        url = reverse('events:detail', kwargs={'slug': event.slug})
         response = client.get(url)
 
         # THEN the event dtails are shown
@@ -136,6 +153,7 @@ class TestEventsDetailView:  # noqa: D101
         assert event.title in content
         assert event.venue.name in content
         assert event.date.strftime("%d/%m") in content
+        assert event.get_absolute_url() in content
 
     def test_event_detail_view_works_without_an_event_venue(self, client, mocker):  # noqa: D102
         """Regression test for the case that an event has no venue, yet."""
@@ -147,11 +165,34 @@ class TestEventsDetailView:  # noqa: D101
         mocker.patch.object(views.EventDetailView, 'get_object', return_value=event)
 
         # WHEN callint the detail view
-        url = reverse('events:detail', args=[str(event.id)])
+        url = reverse('events:detail', kwargs={'slug': event.slug})
         response = client.get(url)
 
         # THEN it's there
         assert response.status_code == 200
+
+    def test_on_slug_change_a_redirect_is_created(self, db, client):  # noqa: D102
+        # GIVEN an event
+        event = factories.EventFactory.create(
+            date=datetime.date(2018, 1, 1),
+            venue=None,
+            )
+        old_url = event.get_absolute_url()
+
+        response = client.get(old_url)
+        assert response.status_code == 200
+
+        # WHEN changing the date
+        assert event.slug.startswith('2018-01-01')
+        event.date = datetime.date(2018, 1, 2)
+        event.save()
+
+        # AND requesting the event's detail page with the old url
+        response = client.get(old_url)
+
+        # THEN the user is redirected to the new URL
+        assert response.status_code == 301
+        assert response.url == event.get_absolute_url()
 
 
 class TestEventsCreateView:  # noqa: D101
@@ -188,7 +229,7 @@ class TestEventsCreateView:  # noqa: D101
 
         # THEN we get redirected to the event detail
         assert response.status_code == 302
-        assert response.url == reverse('events:detail', kwargs={'pk': 1})
+        assert response.url.endswith('goes-large/')
 
     def test_events_create_can_upload_flyer_image(self, db, client, authenticated_user):  # noqa: D102
         # GIVEN any state
@@ -213,7 +254,7 @@ class TestEventsUpdateView:  # noqa: D101
         event = mock_event
 
         # WHEN calling the update view as an anonymous user
-        url = reverse('events:update', args=[str(event.id)])
+        url = reverse('events:update', kwargs={'slug': event.slug})
         response = client.get(url)
 
         # THEN she does not get access
@@ -225,7 +266,7 @@ class TestEventsUpdateView:  # noqa: D101
         event = mock_event
 
         # WHEN calling the update view via GET request
-        url = reverse('events:update', args=[str(event.id)])
+        url = reverse('events:update', kwargs={'slug': event.slug})
         response = client.get(url)
 
         # THEN it's there
@@ -241,7 +282,7 @@ class TestEventsUpdateView:  # noqa: D101
         event = mock_event
 
         # WHEN updating the event via POST request
-        url = reverse('events:update', args=[str(event.id)])
+        url = reverse('events:update', kwargs={'slug': event.slug})
         data = {'title': event.title, 'date': tomorrow()}
         response = client.post(url, data)
 
@@ -257,7 +298,7 @@ class TestEventsDeleteView:  # noqa: D101
         event = mock_event
 
         # WHEN calling the delete view as an anonymous user
-        url = reverse('events:delete', args=[str(event.id)])
+        url = reverse('events:delete', kwargs={'slug': event.slug})
         response = client.get(url)
 
         # THEN it redirects to the login page
@@ -269,7 +310,7 @@ class TestEventsDeleteView:  # noqa: D101
         event = mock_event
 
         # WHEN calling the delete view via GET
-        url = reverse('events:delete', args=[str(event.id)])
+        url = reverse('events:delete', kwargs={'slug': event.slug})
         response = client.get(url)
 
         # THEN it's there
@@ -281,7 +322,7 @@ class TestEventsDeleteView:  # noqa: D101
         event = mock_event
 
         # WHEN calling the delete view via POST request
-        url = reverse('events:delete', args=[str(event.id)])
+        url = reverse('events:delete', kwargs={'slug': event.slug})
         response = client.post(url)
 
         # THEN we get redirected to the events list
@@ -294,7 +335,7 @@ class TestEventsDeleteView:  # noqa: D101
         event = mock_event
 
         # WHEN calling the delete view via POST request, without db or mocks
-        url = reverse('events:delete', args=[str(event.id)])
+        url = reverse('events:delete', kwargs={'slug': event.slug})
         response = client.post(url, data={'cancel': 'Cancel'})
 
         # THEN we get redirected to the events list
