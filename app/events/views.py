@@ -152,3 +152,11 @@ class EventListView(LoginRequiredMixin, ListView):
     template_name = 'events/event_list.html'
     context_object_name = 'events'
     ordering = '-date'
+
+    def get_queryset(self):
+        """Return all events."""
+        qs = self.model._default_manager
+        qs = qs.select_related('venue')
+        qs = qs.order_by('-date')
+
+        return qs
