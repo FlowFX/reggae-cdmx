@@ -5,7 +5,8 @@ from django.contrib import admin
 
 
 class EventAdmin(admin.ModelAdmin):  # noqa: D101
-    pass
+    list_display = ('date', 'title', 'venue')
+    ordering = ['-date']
 
 
 admin.site.register(Event, EventAdmin)
