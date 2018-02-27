@@ -40,6 +40,7 @@ class VenueListView(LoginRequiredMixin, ListView):
     model = Venue
     template_name = 'venues/venue_list.html'
     context_object_name = 'venues'
+    ordering = 'name'
 
 
 class VenueDetailView(LoginRequiredMixin, DetailView):

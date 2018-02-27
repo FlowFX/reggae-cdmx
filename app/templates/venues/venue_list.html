@@ -8,17 +8,18 @@
   <tbody>
     {% for venue in venues %}
     <tr class="venue">
-      <th scope="row">{{ venue.id }}</th>
-      <td>{{ venue.name }}</td>
+      <th scope="row">{{ venue.name }}</th>
+      <td>{{ venue.address }}</td>
       <td>
         <a class="" href="{% url 'venues:update' venue.id %}">
-          <button class="">Editar</button>
-        </a>
-      <td>
-        <a class="" href="{% url 'venues:delete' venue.id %}">
-          <button class="">Borrar</button>
+          <button class="btn btn-sm btn-blue">Editar</button>
         </a>
       </td>
+      <!-- <td>
+        <a class="" href="{% url 'venues:delete' venue.id %}">
+          <button class="btn btn-red">Borrar</button>
+        </a>
+      </td> -->
     </tr>
     {% endfor %}
   </tbody>

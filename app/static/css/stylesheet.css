@@ -31,14 +31,32 @@ a:hover {
     color: green;
 }
 
-.button {
-    background-color: #4CAF50; /* Green */
+.btn {
+    background-color: grey;
     border: none;
     color: white;
-    padding: 15px 32px;
+    font-size: inherit;
+    padding: 12px 24px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
+}
+.btn:hover {
+    color: green;
+}
+
+.btn-sm {
+    padding: 2px 4px;
+}
+
+.btn-green {
+    background-color: lightgreen;
+}
+.btn-red {
+    background-color: red;
+}
+.btn-blue {
+    background-color: lightskyblue;
 }
 
 .img-responsive {

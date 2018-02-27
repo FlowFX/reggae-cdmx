@@ -50,16 +50,16 @@
   <div class="container">
 
     <header class="header">
+      {% if user.is_authenticated %}
+      <a class="btn btn-green" id="add_event" href="{% url 'events:create' %}">Nuevo evento</a>
+      <a class="btn btn-blue" id="list_events" href="{% url 'events:list' %}">Todos eventos</a>
+      <a class="btn btn-green" id="add_venue" href="{% url 'venues:create' %}">Nuevo locación</a>
+      <a class="btn btn-blue" id="list_venues" href="{% url 'venues:list' %}">Todos locaciones</a>
+      {% endif %}
+
       <a class="header__title" href="{% url 'index' %}"><h1>Reggae CDMX</h1></a>
 
       {% include '_messages.html' %}
-
-      {% if user.is_authenticated %}
-      <a class="" id="add_event" href="{% url 'events:create' %}">Nuevo evento</a>
-      <a class="" id="list_events" href="{% url 'events:list' %}">Todos evento</a>
-      <a class="" id="add_venue" href="{% url 'venues:create' %}">Nuevo locación</a>
-      <a class="" id="list_venues" href="{% url 'venues:list' %}">Todos locaciones</a>
-      {% endif %}
     </header>
 
     <main>
