@@ -136,20 +136,16 @@ SOCIALACCOUNT_PROVIDERS = {
 
 
 # Language and localization
-LANGUAGES = (
-    ('es-mx', 'Español'),
-)
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'app/templates/locale'),
 ]
 
-TIME_ZONE = 'America/Mexico_City'
-
-USE_I18N = False
-
+USE_I18N = True
 USE_L10N = True
-
 USE_TZ = True
+
+LANGUAGE_CODE = 'es-mx'
+TIME_ZONE = 'America/Mexico_City'
 
 
 # default CACHE backend
