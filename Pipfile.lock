@@ -666,10 +666,10 @@
         },
         "pytest-xdist": {
             "hashes": [
-                "sha256:169ae3f1f13dfda41d425cbdf90174f101fa0b8804938192273ad0419ba859a7",
-                "sha256:fcd6f36bab93b0b24ec45ca12f798b9b3af71da826db0b0794b358d2f5c038de"
+                "sha256:be2662264b035920ba740ed6efb1c816a83c8a22253df7766d129f6a7bfdbd35",
+                "sha256:e8f5744acc270b3e7d915bdb4d5f471670f049b6fbd163d4cbd52203b075d30f"
             ],
-            "version": "==1.22.1"
+            "version": "==1.22.2"
         },
         "python-dateutil": {
             "hashes": [
