@@ -123,10 +123,6 @@ class EventUpdateView(LoginRequiredMixin, FormActionMixin, UpdateView):
     template_name = 'events/event_form.html'
     success_msg = 'Event updated'
 
-    def get_success_url(self):
-        """Return the home page."""
-        return reverse('events:list')
-
 
 class EventDeleteView(LoginRequiredMixin, FormActionMixin, DeleteView):
     """DeleteView for the Event model."""
@@ -137,7 +133,7 @@ class EventDeleteView(LoginRequiredMixin, FormActionMixin, DeleteView):
 
     def get_success_url(self):
         """Return the home page."""
-        return reverse('events:list')
+        return reverse('index')
 
     def delete(self, request, *args, **kwargs):
         """Display success message on delete."""
