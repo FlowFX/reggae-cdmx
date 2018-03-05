@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
+    # 'allauth.socialaccount.providers.facebook',
     'django.contrib.admin',
     'django_extensions',
     'anymail',
@@ -127,12 +127,12 @@ AUTHENTICATION_BACKENDS = (
 # Auth and allauth settings
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_PRESERVE_USERNAME_CASING = False
-SOCIALACCOUNT_AUTO_SIGNUP = True
-SOCIALACCOUNT_PROVIDERS = {
-    'facebook': {
-        'METHOD': 'js_sdk',
-    },
-}
+# SOCIALACCOUNT_AUTO_SIGNUP = True
+# SOCIALACCOUNT_PROVIDERS = {
+#     'facebook': {
+#         'METHOD': 'js_sdk',
+#     },
+# }
 
 
 # Language and localization
