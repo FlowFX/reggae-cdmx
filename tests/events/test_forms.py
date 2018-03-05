@@ -29,10 +29,10 @@ class TestEventForm:  # noqa: D101
     @pytest.mark.parametrize(
         'fb_event_url, validity',
         [('https://www.facebook.com/events/2001223273532037/', True),
-         ('https://www.fakebook.com/events/2001223273532037/', False),  # typo
+         ('https://www.fakebook.com/events/2001223273532037/', True),  # all urls are allowed
          ('', True),   # empty event url
          ])
-    def test_event_allows_only_valid_facebook_urls_or_empty(self, fb_event_url, validity):
+    def test_event_allows_all_urls_and_empty(self, fb_event_url, validity):
         """Test form validation for EventForm."""
         form = EventForm(data={
             'title': 'A title',
