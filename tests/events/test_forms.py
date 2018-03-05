@@ -11,6 +11,8 @@ class TestEventForm:  # noqa: D101
     @pytest.mark.parametrize(
         'title, date, venue, validity',
         [('Bungalo Dub ft. Jahshua Soundman', date(2017, 8, 20), None, True),
+         ('Bungalo Dub ft. Jahshua Soundman', '20/08/2017', None, True),  # Mexican date formatting
+         ('Bungalo Dub ft. Jahshua Soundman', '08/20/2017', None, False),  # US date formatting
          ('Bungalo Dub', '', None, False),   # empty date
          ('', '20/08/2017', None, False),    # empty title
          ])

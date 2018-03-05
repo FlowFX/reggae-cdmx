@@ -32,7 +32,8 @@
       crossorigin="anonymous"></script>
   <script>
     $( function() {
-      $( "#id_date" ).datepicker( $.datepicker.regional[ "es" ] );
+      $.datepicker.setDefaults( $.datepicker.regional[ "es" ] );
+      $( "#id_date" ).datepicker({ dateFormat: "dd/mm/yy" });
     } );
   </script>
 {% endblock scripts %}
