@@ -30,3 +30,14 @@ def test_login_redirects_properly(client):  # noqa: D103
     # THEN it redirects to Allauth's default /accounts/login/'
     assert response.status_code == 301
     assert response.url == new_url
+
+
+def test_signup_returns_404(db, client):  # noqa: D103
+    # GIVEN any state
+    # WHEN requesting the signup page
+    url = reverse('account_signup')
+
+    response = client.get(url)
+
+    # THEN it returns a 404
+    assert response.status_code == 404
