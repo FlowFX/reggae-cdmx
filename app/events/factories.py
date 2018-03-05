@@ -21,5 +21,5 @@ class EventFactory(DjangoModelFactory):
     date = faker('future_date', end_date="+60d")
     venue = factory.SubFactory(VenueFactory)
     description = faker('paragraph')
-    fb_event_url = faker('url')
+    url = faker('url')
     slug = faker('slug')

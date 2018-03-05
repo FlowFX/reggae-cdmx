@@ -25,7 +25,7 @@ def test_event_has_all_the_attributes():  # noqa: D103
     assert e.date
     assert e.venue
     assert e.description
-    assert e.fb_event_url
+    assert e.url
 
 
 def test_event_has_slug(db):  # noqa: D103

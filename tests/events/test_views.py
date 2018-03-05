@@ -277,7 +277,7 @@ class TestEventsUpdateView:  # noqa: D101
         content = response.content.decode()
         assert event.title in content
 
-    def test_post_request_redirects_to_event_list(self, client, authenticated_user, mock_event):  # noqa: D102
+    def test_post_request_redirects_to_event_detail(self, client, authenticated_user, mock_event):  # noqa: D102
         # GIVEN an existing event
         event = mock_event
 
@@ -286,9 +286,9 @@ class TestEventsUpdateView:  # noqa: D101
         data = {'title': event.title, 'date': tomorrow()}
         response = client.post(url, data)
 
-        # THEN it redirects to the events list
+        # THEN it redirects to the event detail
         assert response.status_code == 302
-        assert response.url == reverse('events:list')
+        assert response.url == reverse('events:detail', kwargs={'slug': event.slug})
 
 
 class TestEventsDeleteView:  # noqa: D101
@@ -317,7 +317,7 @@ class TestEventsDeleteView:  # noqa: D101
         assert response.status_code == 200
         assert response.template_name[0] == 'model_delete.html'
 
-    def test_success_post_req_redirects_to_events_list(self, client, authenticated_user, mock_event):  # noqa: D102
+    def test_success_post_req_redirects_to_home_page(self, client, authenticated_user, mock_event):  # noqa: D102
         # GIVEN an existing event
         event = mock_event
 
@@ -328,17 +328,17 @@ class TestEventsDeleteView:  # noqa: D101
         # THEN we get redirected to the events list
         # TODO: check for success message
         assert response.status_code == 302
-        assert response.url == reverse('events:list')
+        assert response.url == reverse('index')
 
-    def test_post_req_cancel_button_works(self, client, authenticated_user, mock_event):  # noqa: D102
-        # GIVEN an existing event
-        event = mock_event
+    # def test_post_req_cancel_button_works(self, client, authenticated_user, mock_event):  # noqa: D102
+    #     # GIVEN an existing event
+    #     event = mock_event
 
-        # WHEN calling the delete view via POST request, without db or mocks
-        url = reverse('events:delete', kwargs={'slug': event.slug})
-        response = client.post(url, data={'cancel': 'Cancel'})
+    #     # WHEN calling the delete view via POST request, without db or mocks
+    #     url = reverse('events:delete', kwargs={'slug': event.slug})
+    #     response = client.post(url, data={'cancel': 'Cancel'})
 
-        # THEN we get redirected to the events list
-        # TODO: check for success message
-        assert response.status_code == 302
-        assert response.url == reverse('events:list')
+    #     # THEN we get redirected to the events list
+    #     # TODO: check for success message
+    #     assert response.status_code == 302
+    #     assert response.url == reverse('events:list')

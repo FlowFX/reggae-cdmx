@@ -25,11 +25,10 @@ class Event(models.Model):
         on_delete=models.SET_NULL,
         related_name='events',
     )
-    description = models.TextField(verbose_name='', blank=True)
-    fb_event_url = models.URLField(verbose_name='URL of the corresponding Facebook event', blank=True)
+    description = models.TextField(blank=True)
+    url = models.URLField(blank=True)
     flyer_image = models.ImageField(
         upload_to='event_flyers',
-        verbose_name='image file of the event\'s promotion flyer',
         blank=True,
     )
 
