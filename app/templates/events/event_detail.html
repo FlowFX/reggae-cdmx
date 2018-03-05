@@ -2,30 +2,25 @@
 
 {% block content %}
 
-
-<a class="btn btn-green" href="{% url 'index' %}">Regresar</a>
+<a class="" href="{% url 'index' %}"><< todos eventos</a>
 {% if user.is_staff %}
-<a class="btn btn-blue" href="{% url 'events:update' event.slug %}">Editar</a>
-<a class="btn btn-red" href="{% url 'events:delete' event.slug %}">Borrar</a>
+<a class="" href="{% url 'events:update' event.slug %}">Editar</a>
+<a class="" href="{% url 'events:delete' event.slug %}">Borrar</a>
 {% endif %}
 
 <h1>{{ event.title }}</h1>
-<h2>{{ event.date|date:"d/m" }}</h2>
-<p>{{ event.description|linebreaks }}</p>
-
+<p>{{ event.date|date:"l d/m" }}<p></p>
 {% if event.venue %}
-<h2>¿Dónde?</h2>
 <p>
   {% if event.venue.url %}
     <a href="{{ event.venue.url }}">{{ event.venue.name }}</a>
   {% else %}
-    {{ event.venue.name }}
-  {% endif %}
-</p>
-<p>
-    {{ event.venue.address }}
+    {{ event.venue.name }}{% endif %}
+  {% if event.venue.address %}, {{ event.venue.address }}{% endif %}
 </p>
 {% endif %}
+
+<p>{{ event.description|linebreaks }}</p>
 
 {% if event.flyer_image %}
   <img src="{{ event.flyer_image.url }}" class="img-responsive" />
