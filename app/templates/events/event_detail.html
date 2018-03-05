@@ -19,6 +19,11 @@
   {% if event.venue.address %}, {{ event.venue.address }}{% endif %}
 </p>
 {% endif %}
+{% if event.fb_event_url %}
+<p>
+  <a href="{{ event.fb_event_url }}">{{ event.fb_event_url }}</a>
+</p>
+{% endif %}
 
 <p>{{ event.description|linebreaks }}</p>
 
