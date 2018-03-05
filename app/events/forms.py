@@ -14,6 +14,6 @@ class EventForm(forms.ModelForm):
             'date',
             'venue',
             'description',
-            'fb_event_url',
+            'url',
             'flyer_image',
         )

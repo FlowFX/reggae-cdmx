@@ -19,9 +19,9 @@
   {% if event.venue.address %}, {{ event.venue.address }}{% endif %}
 </p>
 {% endif %}
-{% if event.fb_event_url %}
+{% if event.url %}
 <p>
-  <a href="{{ event.fb_event_url }}">{{ event.fb_event_url }}</a>
+  <a href="{{ event.url }}">{{ event.url }}</a>
 </p>
 {% endif %}
 

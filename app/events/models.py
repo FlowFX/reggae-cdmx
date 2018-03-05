@@ -26,7 +26,7 @@ class Event(models.Model):
         related_name='events',
     )
     description = models.TextField(blank=True)
-    fb_event_url = models.URLField(blank=True)
+    url = models.URLField(blank=True)
     flyer_image = models.ImageField(
         upload_to='event_flyers',
         blank=True,
