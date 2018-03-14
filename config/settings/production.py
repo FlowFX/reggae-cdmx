@@ -35,18 +35,6 @@ DATABASES = {
     },
 }
 
-# Caching
-CACHES = {
-    'default': {  # Redislabs
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': get_secret('REDIS_LOCATION'),
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            'PASSWORD': get_secret('REDIS_PASSWORD'),
-        }
-    }
-}
-
 
 # Rollbar Error Tracking https://rollbar.com/flowfx/Reggae-CDMX/
 MIDDLEWARE += ['rollbar.contrib.django.middleware.RollbarNotifierMiddleware']
