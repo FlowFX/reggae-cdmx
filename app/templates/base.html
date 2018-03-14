@@ -54,14 +54,6 @@
       {% block breadcrumbs %}
       {% endblock breadcrumbs %}
 
-      {% if user.is_authenticated %}
-      <a class="btn btn-green" id="add_event" href="{% url 'events:create' %}">Nuevo evento</a>
-      <a class="btn btn-blue" id="list_events" href="{% url 'events:list' %}">Todos eventos</a>
-      <a class="btn btn-green" id="add_venue" href="{% url 'venues:create' %}">Nuevo locación</a>
-      <a class="btn btn-blue" id="list_venues" href="{% url 'venues:list' %}">Todos locaciones</a>
-      {% endif %}
-
-
       {% include '_messages.html' %}
     </header>
 
