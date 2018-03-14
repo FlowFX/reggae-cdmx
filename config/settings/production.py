@@ -15,6 +15,10 @@ CSRF_COOKIE_SECURE = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_SSL_REDIRECT = True  # Force HTTPS
 
+# HSTS
+# https://docs.djangoproject.com/en/dev/ref/middleware/#http-strict-transport-security
+SECURE_HSTS_SECONDS = 3600
+
 
 # Static files
 STATIC_URL = '/static/'
