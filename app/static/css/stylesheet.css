@@ -68,6 +68,19 @@ a:hover {
     margin-bottom: 5px;
 }
 
+
+/* STAFF */
+section.staff {
+    background-color: lightgrey;
+    padding: 10px 20px;
+}
+.blue {
+    color: blue;
+}
+.red {
+    color: red;
+}
+
 .img-responsive {
     max-width: 100%;
 }

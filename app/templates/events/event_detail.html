@@ -11,13 +11,17 @@
 
 {% block content %}
 
-<a class="" href="{% url 'index' %}"><< todos eventos</a>
+<h1>{{ event.title }}</h1>
+
 {% if user.is_staff %}
-<a class="" href="{% url 'events:update' event.slug %}">Editar</a>
-<a class="" href="{% url 'events:delete' event.slug %}">Borrar</a>
+<section class="staff">
+  <p>
+    <a class="blue" href="{% url 'events:update' event.slug %}">Editar</a>
+    <a class="red" href="{% url 'events:delete' event.slug %}">Borrar</a>
+  </p>
+</section>
 {% endif %}
 
-<h1>{{ event.title }}</h1>
 <p>{{ event.date|date:"l d/m" }}<p></p>
 {% if event.venue %}
 <p>
