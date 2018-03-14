@@ -50,6 +50,10 @@
   <div class="container">
 
     <header class="header">
+
+      {% block breadcrumbs %}
+      {% endblock breadcrumbs %}
+
       {% if user.is_authenticated %}
       <a class="btn btn-green" id="add_event" href="{% url 'events:create' %}">Nuevo evento</a>
       <a class="btn btn-blue" id="list_events" href="{% url 'events:list' %}">Todos eventos</a>

@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 
+{% block breadcrumbs %}
+  <nav>
+    <p>
+     <a href="/" rel="index up">calendario</a> >
+     <a>{{ event.title }}</a>
+    </p>
+   </nav>
+{% endblock breadcrumbs %}
+
 {% block content %}
 
 <a class="" href="{% url 'index' %}"><< todos eventos</a>
