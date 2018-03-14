@@ -1,8 +1,25 @@
 {% extends 'base.html' %}
 
+{% block breadcrumbs %}
+  <nav>
+    <p>
+     <a href="/" rel="index up">calendario</a> >
+     <a>todas locaciónes</a>
+    </p>
+   </nav>
+{% endblock breadcrumbs %}
+
 {% block content %}
 
-<h2>Venues</h2>
+<h1>Venues</h1>
+
+{% if user.is_staff %}
+<section class="staff">
+  <p>
+    <a href="{% url 'venues:create' %}">Agregar locación</a>
+  </p>
+</section>
+{% endif %}
 
 <table id="venues" class="table table-responsive">
   <tbody>

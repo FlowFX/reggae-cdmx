@@ -73,12 +73,13 @@ a:hover {
 section.staff {
     background-color: lightgrey;
     padding: 10px 20px;
+    color: black;
 }
-.blue {
+section.staff a {
     color: blue;
 }
 .red {
-    color: red;
+    color: red !important;
 }
 
 .img-responsive {
