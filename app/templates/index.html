@@ -6,6 +6,16 @@
 
   <h2>Proxmios eventos</h2>
 
+  {% if user.is_staff %}
+  <section class="staff">
+    <p>
+      <a href="{% url 'events:create' %}">Agregar evento</a> |
+      <a href="{% url 'events:list' %}">todos eventos</a> |
+      <a href="{% url 'venues:list' %}">todas locaciónes</a>
+    </p>
+  </section>
+  {% endif %}
+
   {% for key, year in calendar.items %}
     {% if not forloop.first %}
       <h2>Year: {{ year.year }}</h2>

@@ -7,7 +7,19 @@
   <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
 {% endblock stylesheets %}
 
+{% block breadcrumbs %}
+  <nav>
+    <p>
+     <a href="/" rel="index up">calendario</a> >
+     <a href="{% url 'events:list' %}" rel="up up">todos eventos</a> >
+     <a>agregar evento</a>
+    </p>
+   </nav>
+{% endblock breadcrumbs %}
+
 {% block content %}
+
+<h1>Agregar evento</h1>
 
 <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
